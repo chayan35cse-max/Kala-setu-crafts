@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "home": "Home",
+    "map": "Craft Map",
+    "archive": "Cultural Archive",
+    "3dViewer": "3D Craft Models",
+    "artisans": "Artisans & Guilds",
+    "sellerPortal": "Artisan Registration",
+    "searchPlaceholder": "Search crafts, materials, states, techniques...",
+    "giCertified": "GI Certified"
+  },
+  "hero": {
+    "tagline": "Cultural Archive & Artisan Marketplace of India",
+    "title": "Preserving Timeless Heritage, Empowering Living Masters",
+    "subtitle": "Explore India's rich artisanal heritage across all states through interactive geographic mapping, 3D craft models, verified direct artisan studios, and multimedia archives.",
+    "exploreMap": "Explore Interactive Map",
+    "viewArchive": "Cultural Archive & Tutorials",
+    "registerArtisan": "Register as Artisan"
+  },
+  "map": {
+    "title": "Interactive Craft Map of India",
+    "subtitle": "Click any cultural marker across India to discover regional craft traditions, artisan clusters, and verified makers.",
+    "filterState": "Filter by State",
+    "filterCategory": "Filter Category",
+    "filterMaterial": "Filter Material",
+    "allStates": "All Indian States",
+    "allCategories": "All Craft Categories",
+    "allMaterials": "All Materials",
+    "giOnly": "GI Tagged Only",
+    "activeMarkers": "Active Craft Traditions",
+    "seeDetails": "See More Details",
+    "viewOnMap": "View Region on Map"
+  },
+  "craftDetail": {
+    "overview": "Overview & History",
+    "materials": "Materials & Ingredients",
+    "makingProcess": "Traditional Technique & Process",
+    "model3D": "Interactive 3D Model",
+    "multimedia": "Video Tutorial & Stories",
+    "sellers": "Verified Offline Studios & Stores",
+    "onlineStores": "Buy Online (Verified)",
+    "relatedCrafts": "AI Cultural Connections",
+    "audioStory": "Listen to Folk Story",
+    "giVerified": "Geographical Indication (GI) Protected",
+    "era": "Historical Era"
+  },
+  "sellerPortal": {
+    "title": "Artisan Registration & Verification Portal",
+    "subtitle": "Join India's verified cultural registry. Upload documents for government/NGO cross-validation and connect directly with conscious buyers.",
+    "artisanName": "Master Artisan / Leader Name",
+    "businessName": "Studio / Cooperative Name",
+    "craft": "Traditional Craft Specialty",
+    "state": "State / Region",
+    "phone": "Phone / WhatsApp",
+    "email": "Email Address",
+    "address": "Workshop Physical Address",
+    "pehchanCard": "Artisan Pehchan Card Number",
+    "aadhaar": "Aadhaar Number (Last 4 digits)",
+    "documents": "Verification Documents (Pehchan Card, GI Certificate, NGO Endorsement)",
+    "submit": "Submit for Verification",
+    "trustWorkflow": "4-Tier Trust & Verification Workflow"
+  },
+  "archive": {
+    "title": "Cultural Archive & Educational Tutorials",
+    "subtitle": "Step-by-step masterclasses, preservation projects, and anthropological documentation of ancient Indian arts."
+  }
+}
