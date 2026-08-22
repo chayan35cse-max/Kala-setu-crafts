@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon, Polyline, Tooltip, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { Award, ArrowRight, Compass, Users, Sparkles, MapPin, Layers, ShieldCheck, ZoomIn, ZoomOut } from 'lucide-react';
+import { Award, ArrowRight, Compass, Users, Sparkles, MapPin, Layers, ShieldCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { OFFICIAL_INDIA_POLYGON, INDIAN_STATES_DATA, INDIA_BOUNDS, INDIA_CENTER } from '../../data/indiaGeoData';
+import { indiaStatesGeoJson } from '../../data/india_states_optimized';
+import { INDIAN_STATES_DATA, INDIA_BOUNDS, INDIA_CENTER } from '../../data/indiaGeoData';
 
 // Fix for default Leaflet icon assets
 delete L.Icon.Default.prototype._getIconUrl;
@@ -30,6 +31,50 @@ const CATEGORY_COLORS = {
   'Folk Painting & Engraving': '#2563eb',
   'Eco-Bamboo & Cane': '#0d9488',
 };
+
+// Pastel State Palette matching official Survey of India political map
+const STATE_PALETTE = {
+  'Jammu and Kashmir': '#fee2e2', // Soft Rose Pink
+  'Ladakh': '#fef3c7',           // Warm Amber
+  'Himachal Pradesh': '#e0e7ff', // Soft Periwinkle
+  'Punjab': '#f3e8ff',           // Soft Lavender
+  'Uttarakhand': '#ccfbf1',      // Soft Teal
+  'Haryana': '#dcfce7',          // Mint
+  'Delhi': '#fef08a',            // Gold
+  'Rajasthan': '#ffedd5',        // Desert Peach
+  'Uttar Pradesh': '#fef9c3',    // Pale Yellow
+  'Bihar': '#dcfce7',            // Soft Green
+  'Gujarat': '#fef08a',          // Sunny Yellow
+  'Madhya Pradesh': '#e0e7ff',   // Classic Blue
+  'Jharkhand': '#f3e8ff',        // Violet
+  'West Bengal': '#fef3c7',      // Warm Cream
+  'Odisha': '#dbeafe',           // Sky Blue
+  'Chhattisgarh': '#ffe4e6',     // Coral Pink
+  'Maharashtra': '#e0e7ff',      // Lavender Blue
+  'Telangana': '#dcfce7',        // Light Green
+  'Andhra Pradesh': '#e0f2fe',   // Ocean Cyan
+  'Goa': '#fed7aa',              // Orange
+  'Karnataka': '#dcfce7',        // Lime Green
+  'Kerala': '#fef08a',           // Golden Yellow
+  'Tamil Nadu': '#fed7aa',       // Temple Peach
+  'Assam': '#fef3c7',            // Cream
+  'Arunachal Pradesh': '#fed7aa',// Warm Peach
+  'Meghalaya': '#ccfbf1',        // Teal
+  'Nagaland': '#e0e7ff',         // Periwinkle
+  'Manipur': '#fce7f3',          // Pink
+  'Tripura': '#fef9c3',          // Pale Yellow
+  'Mizoram': '#dcfce7',          // Light Green
+  'Sikkim': '#e0e7ff'            // Periwinkle
+};
+
+function getStateFillColor(name = '') {
+  for (const [key, color] of Object.entries(STATE_PALETTE)) {
+    if (name.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(name.toLowerCase())) {
+      return color;
+    }
+  }
+  return '#fef3c7';
+}
 
 // Create a custom Indian cultural pin marker for Leaflet
 function createCraftMarkerIcon(craft, isSelected) {
@@ -63,7 +108,7 @@ function createCraftMarkerIcon(craft, isSelected) {
 function createStateLabelIcon(stateName, isUT = false) {
   return L.divIcon({
     className: 'state-label-icon',
-    html: `<div style="font-size:${isUT ? '10px' : '11px'}; font-weight:800; color:${isUT ? '#991b1b' : '#1e3a8a'}; background:rgba(255,255,255,0.85); backdrop-filter:blur(4px); padding:2px 6px; border-radius:6px; border:1px solid ${isUT ? 'rgba(220,38,38,0.4)' : 'rgba(30,58,138,0.3)'}; pointer-events:none; white-space:nowrap; box-shadow:0 2px 4px rgba(0,0,0,0.1);">${stateName}</div>`,
+    html: `<div style="font-size:${isUT ? '10px' : '11px'}; font-weight:800; color:${isUT ? '#991b1b' : '#1e3a8a'}; background:rgba(255,255,255,0.88); backdrop-filter:blur(4px); padding:2px 6px; border-radius:6px; border:1px solid ${isUT ? 'rgba(220,38,38,0.4)' : 'rgba(30,58,138,0.3)'}; pointer-events:none; white-space:nowrap; box-shadow:0 2px 4px rgba(0,0,0,0.1);">${stateName}</div>`,
     iconSize: [60, 20],
     iconAnchor: [30, 10]
   });
@@ -104,28 +149,45 @@ export default function IndiaCraftMap({
 }) {
   const { t } = useTranslation();
   const mapRef = useRef(null);
-  const [mapTileStyle, setMapTileStyle] = useState('osm'); // 'osm' | 'voyager' | 'light'
 
-  // OpenStreetMap Tile Layers
-  const tileLayers = {
-    osm: {
-      name: 'OpenStreetMap Standard',
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors • KalaSetu Sovereign India'
-    },
-    voyager: {
-      name: 'CartoDB Voyager',
-      url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
-      attribution: '&copy; <a href="https://carto.com/">CARTO</a> &amp; OpenStreetMap'
-    },
-    light: {
-      name: 'CartoDB Light',
-      url: 'https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png',
-      attribution: '&copy; <a href="https://carto.com/">CARTO</a> &amp; OpenStreetMap'
-    }
+  // GeoJSON style handler for each official Indian State polygon
+  const geoJsonStyle = (feature) => {
+    const stateName = feature?.properties?.name || '';
+    const fillColor = getStateFillColor(stateName);
+    const isSpecialUT = stateName.toLowerCase().includes('kashmir') || stateName.toLowerCase().includes('ladakh');
+
+    return {
+      fillColor: fillColor,
+      weight: isSpecialUT ? 2.5 : 1.5,
+      opacity: 1,
+      color: isSpecialUT ? '#b91c1c' : '#78350f',
+      dashArray: 'none',
+      fillOpacity: 0.45
+    };
   };
 
-  const currentTile = tileLayers[mapTileStyle] || tileLayers.osm;
+  const onEachFeature = (feature, layer) => {
+    const stateName = feature?.properties?.name || 'Indian State';
+    layer.bindTooltip(
+      `<div style="font-weight:bold; font-size:12px; color:#78350f;">${stateName}</div>`,
+      { sticky: true, className: 'state-tooltip' }
+    );
+
+    layer.on({
+      mouseover: (e) => {
+        const l = e.target;
+        l.setStyle({
+          weight: 3,
+          color: '#ea580c',
+          fillOpacity: 0.7
+        });
+      },
+      mouseout: (e) => {
+        const l = e.target;
+        l.setStyle(geoJsonStyle(feature));
+      }
+    });
+  };
 
   return (
     <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-300 bg-stone-50">
@@ -159,24 +221,11 @@ export default function IndiaCraftMap({
           ))}
         </div>
 
-        {/* Map Layer Switcher & Sovereign Badge */}
+        {/* Official Sovereign Territorial Badge */}
         <div className="flex items-center space-x-2 pointer-events-auto">
-          <div className="hidden lg:flex items-center space-x-1.5 bg-amber-50/95 text-amber-950 border border-amber-300 px-3 py-1.5 rounded-xl text-xs font-bold shadow-md backdrop-blur-md">
+          <div className="flex items-center space-x-1.5 bg-amber-50/95 text-amber-950 border border-amber-300 px-3 py-1.5 rounded-xl text-xs font-bold shadow-md backdrop-blur-md">
             <ShieldCheck className="w-4 h-4 text-amber-700" />
-            <span>Undivided Jammu, Kashmir & Ladakh Sovereign Border</span>
-          </div>
-
-          <div className="bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-lg border border-stone-200 flex items-center space-x-1 text-xs">
-            <Layers className="w-3.5 h-3.5 text-stone-600 ml-1.5" />
-            <select
-              value={mapTileStyle}
-              onChange={(e) => setMapTileStyle(e.target.value)}
-              className="bg-transparent text-stone-800 font-semibold px-2 py-1 focus:outline-none cursor-pointer"
-            >
-              <option value="osm">OpenStreetMap</option>
-              <option value="voyager">Warm Tone</option>
-              <option value="light">Clean Light</option>
-            </select>
+            <span>Official Government-Compliant GeoJSON • Complete J&K & Ladakh</span>
           </div>
         </div>
       </div>
@@ -196,35 +245,15 @@ export default function IndiaCraftMap({
         >
           {/* OpenStreetMap Tile Layer */}
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors • Survey of India Alignment'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* Official Sovereign Indian Territory Highlight Boundary (Complete Undivided J&K, Ladakh, Siachen & Aksai Chin) */}
-          <Polygon
-            positions={OFFICIAL_INDIA_POLYGON}
-            pathOptions={{
-              color: '#d97706',
-              weight: 4,
-              opacity: 0.95,
-              fillColor: '#ea580c',
-              fillOpacity: 0.05,
-              dashArray: 'none'
-            }}
-          >
-            <Tooltip sticky className="custom-india-tooltip">
-              <span className="font-bold text-amber-950 font-serif">Republic of India (Sovereign Territory)</span>
-            </Tooltip>
-          </Polygon>
-
-          {/* Golden Outer Aura Line for Northern Frontier */}
-          <Polyline
-            positions={OFFICIAL_INDIA_POLYGON.slice(0, 15)}
-            pathOptions={{
-              color: '#dc2626',
-              weight: 5,
-              opacity: 0.8
-            }}
+          {/* Official Government-Compliant GeoJSON Layer (State-by-State with Full J&K and Ladakh) */}
+          <GeoJSON
+            data={indiaStatesGeoJson}
+            style={geoJsonStyle}
+            onEachFeature={onEachFeature}
           />
 
           <MapViewUpdater
@@ -326,28 +355,24 @@ export default function IndiaCraftMap({
       {/* Bottom Map Legend Bar */}
       <div className="p-3 bg-stone-950 text-stone-300 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-amber-900/30">
         <div className="flex flex-wrap items-center gap-4">
-          <span className="font-semibold text-amber-400">Leaflet.js + OpenStreetMap:</span>
+          <span className="font-semibold text-amber-400">Official Administrative Map:</span>
+          <span className="flex items-center space-x-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+            <span>Jammu & Kashmir</span>
+          </span>
+          <span className="flex items-center space-x-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            <span>Ladakh (Undivided)</span>
+          </span>
           <span className="flex items-center space-x-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-            <span>Pottery</span>
-          </span>
-          <span className="flex items-center space-x-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-pink-600"></span>
-            <span>Textiles</span>
-          </span>
-          <span className="flex items-center space-x-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
-            <span>Metal Casting</span>
-          </span>
-          <span className="flex items-center space-x-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-green-600"></span>
-            <span>Woodcraft</span>
+            <span>All 28 States & 8 UTs</span>
           </span>
         </div>
 
         <div className="flex items-center space-x-2 text-stone-400">
           <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>Official Sovereign India Boundary • Undivided Jammu, Kashmir & Ladakh</span>
+          <span>Government-Compliant Boundary Polygons • DataMeet & Survey of India</span>
         </div>
       </div>
     </div>
