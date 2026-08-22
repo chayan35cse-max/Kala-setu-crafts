@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import React, { useEffect, useRef, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Polygon, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { Award, ArrowRight, Compass, Users, Sparkles, MapPin } from 'lucide-react';
+import { Award, ArrowRight, Compass, Users, Sparkles, MapPin, Layers, ShieldCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { OFFICIAL_INDIA_POLYGON, INDIAN_STATES_DATA, INDIA_BOUNDS, INDIA_CENTER } from '../../data/indiaGeoData';
 
 // Fix for default Leaflet icon assets
 delete L.Icon.Default.prototype._getIconUrl;
@@ -58,23 +59,33 @@ function createCraftMarkerIcon(craft, isSelected) {
   });
 }
 
+// Custom State label icon (Clean Indian State Labels)
+function createStateLabelIcon(stateName) {
+  return L.divIcon({
+    className: 'state-label-icon',
+    html: `<div style="font-size:11px; font-weight:700; color:#78350f; background:rgba(255,255,255,0.75); backdrop-filter:blur(4px); padding:2px 6px; border-radius:6px; border:1px solid rgba(217,119,6,0.3); pointer-events:none; white-space:nowrap; text-shadow:0 1px 2px rgba(255,255,255,0.8);">${stateName}</div>`,
+    iconSize: [60, 20],
+    iconAnchor: [30, 10]
+  });
+}
+
 // Helper to pan & zoom map when region or selected craft changes
-function MapViewUpdater({ crafts, selectedCraft, targetRegion }) {
+function MapViewUpdater({ selectedCraft, targetRegion }) {
   const map = useMap();
 
   useEffect(() => {
     if (selectedCraft && selectedCraft.coordinates) {
-      map.flyTo([selectedCraft.coordinates.lat, selectedCraft.coordinates.lng], 9, {
+      map.flyTo([selectedCraft.coordinates.lat, selectedCraft.coordinates.lng], 8.5, {
         duration: 1.5
       });
     } else if (targetRegion) {
       const regionCoords = {
-        north: { center: [30.5, 76.5], zoom: 6 },
+        north: { center: [32.0, 76.5], zoom: 6 },
         south: { center: [13.0, 78.0], zoom: 6 },
         east: { center: [23.5, 86.5], zoom: 6 },
         west: { center: [23.0, 72.5], zoom: 6 },
         northeast: { center: [26.2, 92.5], zoom: 6 },
-        all: { center: [22.5937, 78.9629], zoom: 5 }
+        all: { center: INDIA_CENTER, zoom: 5 }
       };
       const reg = regionCoords[targetRegion] || regionCoords.all;
       map.flyTo(reg.center, reg.zoom, { duration: 1.2 });
@@ -93,61 +104,121 @@ export default function IndiaCraftMap({
 }) {
   const { t } = useTranslation();
   const mapRef = useRef(null);
+  const [mapStyle, setMapStyle] = useState('clean'); // 'clean' | 'warm' | 'satellite'
+  const [showStateLabels, setShowStateLabels] = useState(true);
 
-  const indiaCenter = [22.5937, 78.9629];
+  // Clean basemaps with NO foreign / disputed city labels
+  const tileUrls = {
+    // Clean CartoDB light with zero foreign labels (no Islamabad / disputed borders)
+    clean: 'https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png',
+    // Warm tone clean basemap
+    warm: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
+    // Clean OpenStreetMap style
+    terrain: 'https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png'
+  };
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-stone-200 bg-stone-50">
-      {/* Regional Quick Jump Controls */}
-      <div className="absolute top-4 left-14 z-[400] flex flex-wrap gap-1.5 bg-white/90 backdrop-blur-md p-1.5 rounded-xl shadow-md border border-stone-200 text-xs">
-        <div className="flex items-center px-2 text-stone-500 font-semibold space-x-1">
-          <Compass className="w-3.5 h-3.5 text-amber-600" />
-          <span className="hidden sm:inline">Regions:</span>
+    <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border border-amber-900/20 bg-stone-50">
+      {/* Top Header Controls Bar */}
+      <div className="absolute top-4 left-4 right-4 z-[400] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+        {/* Regional Quick Jump Controls */}
+        <div className="flex flex-wrap gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl shadow-lg border border-amber-900/10 text-xs pointer-events-auto">
+          <div className="flex items-center px-2 text-stone-600 font-bold space-x-1">
+            <Compass className="w-3.5 h-3.5 text-amber-600" />
+            <span className="hidden sm:inline">Regions:</span>
+          </div>
+          {[
+            { id: 'all', label: 'All India' },
+            { id: 'north', label: 'North (J&K / Ladakh / Punjab)' },
+            { id: 'south', label: 'South' },
+            { id: 'east', label: 'East' },
+            { id: 'west', label: 'West' },
+            { id: 'northeast', label: 'North-East' }
+          ].map(r => (
+            <button
+              key={r.id}
+              onClick={() => onRegionChange && onRegionChange(r.id)}
+              className={`px-3 py-1.5 rounded-xl font-semibold transition-all cursor-pointer ${
+                targetRegion === r.id
+                  ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30'
+                  : 'text-stone-700 hover:bg-stone-100'
+              }`}
+            >
+              {r.label}
+            </button>
+          ))}
         </div>
-        {[
-          { id: 'all', label: 'All India' },
-          { id: 'north', label: 'North' },
-          { id: 'south', label: 'South' },
-          { id: 'east', label: 'East' },
-          { id: 'west', label: 'West' },
-          { id: 'northeast', label: 'North-East' }
-        ].map(r => (
-          <button
-            key={r.id}
-            onClick={() => onRegionChange && onRegionChange(r.id)}
-            className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-              targetRegion === r.id
-                ? 'bg-amber-600 text-white shadow-sm'
-                : 'text-stone-700 hover:bg-stone-100'
-            }`}
-          >
-            {r.label}
-          </button>
-        ))}
+
+        {/* Map Style & Official Territory Badge */}
+        <div className="flex items-center space-x-2 pointer-events-auto">
+          <div className="hidden md:flex items-center space-x-1.5 bg-amber-50/95 text-amber-900 border border-amber-300/80 px-3 py-1.5 rounded-xl text-xs font-bold shadow-md backdrop-blur-md">
+            <ShieldCheck className="w-4 h-4 text-amber-700" />
+            <span>Official Sovereign Boundary of India</span>
+          </div>
+
+          <div className="bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-lg border border-stone-200 flex items-center space-x-1 text-xs">
+            <button
+              onClick={() => setMapStyle(mapStyle === 'clean' ? 'warm' : 'clean')}
+              className="px-2.5 py-1 rounded-lg text-stone-700 font-medium hover:bg-stone-100 transition-colors"
+            >
+              {mapStyle === 'clean' ? 'Warm Map' : 'Clean Map'}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Map Container */}
-      <div className="h-[620px] w-full">
+      <div className="h-[650px] w-full">
         <MapContainer
-          center={indiaCenter}
+          center={INDIA_CENTER}
           zoom={5}
-          minZoom={4}
-          maxZoom={14}
+          minZoom={4.5}
+          maxZoom={12}
+          maxBounds={INDIA_BOUNDS}
+          maxBoundsViscosity={0.9}
           scrollWheelZoom={true}
           className="w-full h-full"
           ref={mapRef}
         >
+          {/* Clean basemap tiles with ZERO foreign labels */}
           <TileLayer
-            attribution='&copy; <a href="https://carto.com/">CARTO</a> &amp; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://carto.com/">CARTO</a> &amp; KalaSetu Sovereign India Atlas'
+            url={tileUrls[mapStyle] || tileUrls.clean}
           />
 
+          {/* Official Sovereign Indian Territory Highlight Boundary */}
+          <Polygon
+            positions={OFFICIAL_INDIA_POLYGON}
+            pathOptions={{
+              color: '#d97706',
+              weight: 3,
+              opacity: 0.9,
+              fillColor: '#ea580c',
+              fillOpacity: 0.04,
+              dashArray: 'none'
+            }}
+          >
+            <Tooltip sticky className="custom-india-tooltip">
+              <span className="font-bold text-amber-950 font-serif">Republic of India</span>
+            </Tooltip>
+          </Polygon>
+
           <MapViewUpdater
-            crafts={crafts}
             selectedCraft={selectedCraft}
             targetRegion={targetRegion}
           />
 
+          {/* State Territorial Name Indicators (Clean Indian States) */}
+          {showStateLabels && INDIAN_STATES_DATA.map((st) => (
+            <Marker
+              key={st.id}
+              position={st.center}
+              icon={createStateLabelIcon(st.name)}
+              interactive={false}
+            />
+          ))}
+
+          {/* Craft Pin Markers across India */}
           {crafts.map(craft => {
             if (!craft.coordinates || !craft.coordinates.lat || !craft.coordinates.lng) return null;
             const isSelected = selectedCraft && selectedCraft.id === craft.id;
@@ -177,7 +248,7 @@ export default function IndiaCraftMap({
                           <span>GI Tag {craft.giYear || ''}</span>
                         </div>
                       )}
-                      <div className="absolute bottom-2 left-2 bg-stone-950/70 backdrop-blur-md text-white text-[11px] font-medium px-2 py-0.5 rounded-md">
+                      <div className="absolute bottom-2 left-2 bg-stone-950/80 backdrop-blur-md text-white text-[11px] font-medium px-2 py-0.5 rounded-md">
                         {craft.state}
                       </div>
                     </div>
@@ -229,7 +300,7 @@ export default function IndiaCraftMap({
       </div>
 
       {/* Bottom Map Legend */}
-      <div className="p-3 bg-stone-900 text-stone-300 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-stone-800">
+      <div className="p-3 bg-stone-950 text-stone-300 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-amber-900/30">
         <div className="flex flex-wrap items-center gap-4">
           <span className="font-semibold text-amber-400">Craft Disciplines:</span>
           <span className="flex items-center space-x-1.5">
@@ -246,7 +317,7 @@ export default function IndiaCraftMap({
           </span>
           <span className="flex items-center space-x-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
-            <span>Folk & Temple Art</span>
+            <span>Folk & Sacred Art</span>
           </span>
           <span className="flex items-center space-x-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-green-600"></span>
@@ -256,7 +327,7 @@ export default function IndiaCraftMap({
 
         <div className="flex items-center space-x-2 text-stone-400">
           <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>Click any marker to open preview popup</span>
+          <span>India Sovereign Cultural Map • All J&K, Ladakh & States Unified</span>
         </div>
       </div>
     </div>
