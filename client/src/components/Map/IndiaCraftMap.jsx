@@ -196,8 +196,8 @@ export default function IndiaCraftMap({
         >
           {/* OpenStreetMap Tile Layer */}
           <TileLayer
-            attribution={currentTile.attribution}
-            url={currentTile.url}
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
           {/* Official Sovereign Indian Territory Highlight Boundary (Complete Undivided J&K, Ladakh, Siachen & Aksai Chin) */}
