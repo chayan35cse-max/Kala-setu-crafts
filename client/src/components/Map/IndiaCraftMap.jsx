@@ -1,144 +1,370 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMap } from 'react-leaflet';
-import L from 'leaflet';
-import { Award, ArrowRight, Compass, Users, Sparkles, MapPin, Layers, ShieldCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  Award,
+  ArrowRight,
+  Compass,
+  Users,
+  Sparkles,
+  MapPin,
+  ShieldCheck,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  X,
+  Eye,
+  Info
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { indiaStatesGeoJson } from '../../data/india_states_optimized';
-import { INDIAN_STATES_DATA, INDIA_BOUNDS, INDIA_CENTER } from '../../data/indiaGeoData';
 
-// Fix for default Leaflet icon assets
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-});
-
-// Category Colors for Custom Pin Badges
-const CATEGORY_COLORS = {
-  'Pottery & Ceramics': '#0284c7',
-  'Folk Painting': '#ea580c',
-  'Woodcraft & Toys': '#15803d',
-  'Metal Casting': '#b45309',
-  'Metal Inlay': '#4338ca',
-  'Textiles & Weaving': '#be185d',
-  'Textiles & Embroidery': '#9333ea',
-  'Sacred Classical Painting': '#d97706',
-  'Pottery & Terracotta': '#c2410c',
-  'Tribal Painting': '#c2410c',
-  'Textiles & Painting': '#059669',
-  'Oil Paint Textile Art': '#d97706',
-  'Folk Painting & Engraving': '#2563eb',
-  'Eco-Bamboo & Cane': '#0d9488',
-};
-
-// Pastel State Palette matching official Survey of India political map
-const STATE_PALETTE = {
-  'Jammu and Kashmir': '#fee2e2', // Soft Rose Pink
-  'Ladakh': '#fef3c7',           // Warm Amber
-  'Himachal Pradesh': '#e0e7ff', // Soft Periwinkle
-  'Punjab': '#f3e8ff',           // Soft Lavender
-  'Uttarakhand': '#ccfbf1',      // Soft Teal
-  'Haryana': '#dcfce7',          // Mint
-  'Delhi': '#fef08a',            // Gold
-  'Rajasthan': '#ffedd5',        // Desert Peach
-  'Uttar Pradesh': '#fef9c3',    // Pale Yellow
-  'Bihar': '#dcfce7',            // Soft Green
-  'Gujarat': '#fef08a',          // Sunny Yellow
-  'Madhya Pradesh': '#e0e7ff',   // Classic Blue
-  'Jharkhand': '#f3e8ff',        // Violet
-  'West Bengal': '#fef3c7',      // Warm Cream
-  'Odisha': '#dbeafe',           // Sky Blue
-  'Chhattisgarh': '#ffe4e6',     // Coral Pink
-  'Maharashtra': '#e0e7ff',      // Lavender Blue
-  'Telangana': '#dcfce7',        // Light Green
-  'Andhra Pradesh': '#e0f2fe',   // Ocean Cyan
-  'Goa': '#fed7aa',              // Orange
-  'Karnataka': '#dcfce7',        // Lime Green
-  'Kerala': '#fef08a',           // Golden Yellow
-  'Tamil Nadu': '#fed7aa',       // Temple Peach
-  'Assam': '#fef3c7',            // Cream
-  'Arunachal Pradesh': '#fed7aa',// Warm Peach
-  'Meghalaya': '#ccfbf1',        // Teal
-  'Nagaland': '#e0e7ff',         // Periwinkle
-  'Manipur': '#fce7f3',          // Pink
-  'Tripura': '#fef9c3',          // Pale Yellow
-  'Mizoram': '#dcfce7',          // Light Green
-  'Sikkim': '#e0e7ff'            // Periwinkle
-};
-
-function getStateFillColor(name = '') {
-  for (const [key, color] of Object.entries(STATE_PALETTE)) {
-    if (name.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(name.toLowerCase())) {
-      return color;
-    }
+// State markers mapped precisely to the exact image coordinates (% from top-left)
+const STATE_MARKERS = [
+  {
+    id: "pashmina-kashmir",
+    stateName: "Jammu and Kashmir",
+    craftName: "Kashmiri Pashmina & Kani Shawls",
+    nativeName: "کٲشُر پشمینہ",
+    category: "Textiles & Weaving",
+    giTagged: true,
+    giYear: 2008,
+    top: "10.5%",
+    left: "30.5%",
+    region: "north"
+  },
+  {
+    id: "himachal-craft",
+    stateName: "Himachal Pradesh",
+    craftName: "Kullu Shawls & Chamba Rumal",
+    nativeName: "कुल्लू शॉल",
+    category: "Textiles & Weaving",
+    giTagged: true,
+    giYear: 2005,
+    top: "19%",
+    left: "33%",
+    region: "north"
+  },
+  {
+    id: "phulkari-punjab",
+    stateName: "Punjab",
+    craftName: "Phulkari Embroidery",
+    nativeName: "ਫੁਲਕਾਰੀ",
+    category: "Textiles & Embroidery",
+    giTagged: true,
+    giYear: 2011,
+    top: "22%",
+    left: "26%",
+    region: "north"
+  },
+  {
+    id: "uttarakhand-craft",
+    stateName: "Uttarakhand",
+    craftName: "Aipan Folk Art & Ringal Craft",
+    nativeName: "ऐपण कला",
+    category: "Folk Painting",
+    giTagged: true,
+    giYear: 2021,
+    top: "25%",
+    left: "38%",
+    region: "north"
+  },
+  {
+    id: "haryana-craft",
+    stateName: "Haryana",
+    craftName: "Punja Durries & Terracotta",
+    nativeName: "पंजा दरी",
+    category: "Textiles & Weaving",
+    giTagged: false,
+    top: "28%",
+    left: "29%",
+    region: "north"
+  },
+  {
+    id: "jaipur-blue-pottery",
+    stateName: "Rajasthan",
+    craftName: "Jaipur Blue Pottery & Kathputli",
+    nativeName: "जयपुर ब्लू पॉटरी",
+    category: "Pottery & Ceramics",
+    giTagged: true,
+    giYear: 2008,
+    top: "35%",
+    left: "19.5%",
+    region: "west"
+  },
+  {
+    id: "up-craft",
+    stateName: "Uttar Pradesh",
+    craftName: "Varanasi Brocades & Chikankari",
+    nativeName: "बनारसी साड़ी एवं चिकनकारी",
+    category: "Textiles & Weaving",
+    giTagged: true,
+    giYear: 2009,
+    top: "35.5%",
+    left: "44%",
+    region: "north"
+  },
+  {
+    id: "madhubani-painting",
+    stateName: "Bihar",
+    craftName: "Madhubani (Mithila) Painting",
+    nativeName: "मिथिला / मधुबनी चित्रकला",
+    category: "Folk Painting",
+    giTagged: true,
+    giYear: 2007,
+    top: "39%",
+    left: "60.5%",
+    region: "east"
+  },
+  {
+    id: "sikkim-craft",
+    stateName: "Sikkim",
+    craftName: "Thangka Sacred Scroll Painting",
+    nativeName: "थंगका चित्रकला",
+    category: "Sacred Classical Painting",
+    giTagged: true,
+    giYear: 2020,
+    top: "32%",
+    left: "70.5%",
+    region: "northeast"
+  },
+  {
+    id: "arunachal-craft",
+    stateName: "Arunachal Pradesh",
+    craftName: "Wancho Wood Carving & Handloom",
+    nativeName: "वांचो काष्ठ कला",
+    category: "Woodcraft & Toys",
+    giTagged: true,
+    giYear: 2024,
+    top: "29%",
+    left: "91%",
+    region: "northeast"
+  },
+  {
+    id: "assam-bamboo-craft",
+    stateName: "Assam",
+    craftName: "Assam Bamboo & Japi Craft",
+    nativeName: "অসমৰ বাঁহ আৰু জাপি",
+    category: "Eco-Bamboo & Cane",
+    giTagged: true,
+    giYear: 2024,
+    top: "35.5%",
+    left: "81%",
+    region: "northeast"
+  },
+  {
+    id: "nagaland-craft",
+    stateName: "Nagaland",
+    craftName: "Naga Traditional Shawls & Crafts",
+    nativeName: "नागा शॉल",
+    category: "Textiles & Weaving",
+    giTagged: true,
+    giYear: 2008,
+    top: "36%",
+    left: "91.5%",
+    region: "northeast"
+  },
+  {
+    id: "meghalaya-craft",
+    stateName: "Meghalaya",
+    craftName: "Ryndia Eri Silk & Cane Weaving",
+    nativeName: "एरी सिल्क",
+    category: "Textiles & Weaving",
+    giTagged: true,
+    giYear: 2023,
+    top: "39%",
+    left: "80%",
+    region: "northeast"
+  },
+  {
+    id: "manipur-craft",
+    stateName: "Manipur",
+    craftName: "Kauna Reed Craft & Shaphee Lanphee",
+    nativeName: "কৌনা শিল্প",
+    category: "Eco-Bamboo & Cane",
+    giTagged: true,
+    giYear: 2014,
+    top: "41%",
+    left: "90%",
+    region: "northeast"
+  },
+  {
+    id: "tripura-craft",
+    stateName: "Tripura",
+    craftName: "Tripura Bamboo & Risa Textile",
+    nativeName: "ত্রিপুরা বাঁশ শিল্প",
+    category: "Eco-Bamboo & Cane",
+    giTagged: true,
+    giYear: 2024,
+    top: "44.5%",
+    left: "82%",
+    region: "northeast"
+  },
+  {
+    id: "mizoram-craft",
+    stateName: "Mizoram",
+    craftName: "Puan Handloom Weaving",
+    nativeName: "Puan Weaving",
+    category: "Textiles & Weaving",
+    giTagged: true,
+    giYear: 2019,
+    top: "45.5%",
+    left: "87%",
+    region: "northeast"
+  },
+  {
+    id: "jharkhand-craft",
+    stateName: "Jharkhand",
+    craftName: "Sohrai & Khovar Murals",
+    nativeName: "सोहराय एवं कोहबर कला",
+    category: "Folk Painting",
+    giTagged: true,
+    giYear: 2020,
+    top: "45%",
+    left: "59%",
+    region: "east"
+  },
+  {
+    id: "bankura-terracotta",
+    stateName: "West Bengal",
+    craftName: "Bankura Terracotta & Panchmura Horse",
+    nativeName: "বাঁকুড়া পোড়ামাটির ঘোড়া",
+    category: "Pottery & Terracotta",
+    giTagged: true,
+    giYear: 2018,
+    top: "46.5%",
+    left: "68%",
+    region: "east"
+  },
+  {
+    id: "rogan-art-gujarat",
+    stateName: "Gujarat",
+    craftName: "Rogan Art of Nirona & Kutch Weave",
+    nativeName: "રોગન આર્ટ / रोगन कला",
+    category: "Oil Paint Textile Art",
+    giTagged: true,
+    giYear: 2024,
+    top: "47%",
+    left: "11%",
+    region: "west"
+  },
+  {
+    id: "mp-craft",
+    stateName: "Madhya Pradesh",
+    craftName: "Chanderi Saree & Gond Tribal Art",
+    nativeName: "चंदेरी एवं गोंड कला",
+    category: "Textiles & Weaving",
+    giTagged: true,
+    giYear: 2005,
+    top: "47.5%",
+    left: "35%",
+    region: "north"
+  },
+  {
+    id: "bastar-dhokra-craft",
+    stateName: "Chhattisgarh",
+    craftName: "Bastar Dhokra Lost-Wax Metal Craft",
+    nativeName: "बस्तर ढोकरा शिल्प",
+    category: "Metal Casting",
+    giTagged: true,
+    giYear: 2008,
+    top: "54%",
+    left: "48.5%",
+    region: "east"
+  },
+  {
+    id: "pattachitra-odisha",
+    stateName: "Odisha (Orissa)",
+    craftName: "Raghurajpur Pattachitra & Palm Leaf",
+    nativeName: "ପଟ୍ଟଚିତ୍ର",
+    category: "Folk Painting & Engraving",
+    giTagged: true,
+    giYear: 2008,
+    top: "54.5%",
+    left: "57.5%",
+    region: "east"
+  },
+  {
+    id: "warli-folk-painting",
+    stateName: "Maharashtra",
+    craftName: "Warli Tribal Folk Painting",
+    nativeName: "वारली चित्रकला",
+    category: "Tribal Painting",
+    giTagged: true,
+    giYear: 2014,
+    top: "59%",
+    left: "25%",
+    region: "west"
+  },
+  {
+    id: "telangana-craft",
+    stateName: "Telangana",
+    craftName: "Pochampally Ikat & Cheriyal Scrolls",
+    nativeName: "పోచంపల్లి ఇక్కత్",
+    category: "Textiles & Weaving",
+    giTagged: true,
+    giYear: 2005,
+    top: "63.5%",
+    left: "38%",
+    region: "south"
+  },
+  {
+    id: "kalamkari-andhra",
+    stateName: "Andhra Pradesh",
+    craftName: "Srikalahasti Kalamkari Pen Art",
+    nativeName: "శ్రీకాళహస్తి కలంకారీ",
+    category: "Textiles & Painting",
+    giTagged: true,
+    giYear: 2006,
+    top: "73%",
+    left: "36%",
+    region: "south"
+  },
+  {
+    id: "goa-craft",
+    stateName: "Goa",
+    craftName: "Goan Terracotta & Coconut Shell",
+    nativeName: "गोंय माती कला",
+    category: "Pottery & Terracotta",
+    giTagged: false,
+    top: "72.5%",
+    left: "19%",
+    region: "west"
+  },
+  {
+    id: "channapatna-toys",
+    stateName: "Karnataka",
+    craftName: "Channapatna Toys & Bidriware",
+    nativeName: "ಚನ್ನಪಟ್ಟಣ ಗೊಂಬೆಗಳು",
+    category: "Woodcraft & Toys",
+    giTagged: true,
+    giYear: 2006,
+    top: "75%",
+    left: "26.5%",
+    region: "south"
+  },
+  {
+    id: "tanjore-painting",
+    stateName: "Tamil Nadu",
+    craftName: "Thanjavur (Tanjore) 22K Gold Painting",
+    nativeName: "தஞ்சாவூர் ஓவியம்",
+    category: "Sacred Classical Painting",
+    giTagged: true,
+    giYear: 2007,
+    top: "86%",
+    left: "35%",
+    region: "south"
+  },
+  {
+    id: "kerala-craft",
+    stateName: "Kerala",
+    craftName: "Aranmula Metal Mirror & Bell Metal",
+    nativeName: "ആറന്മുളക്കണ്ണാടി",
+    category: "Metal Casting",
+    giTagged: true,
+    giYear: 2005,
+    top: "88%",
+    left: "28%",
+    region: "south"
   }
-  return '#fef3c7';
-}
-
-// Create a custom Indian cultural pin marker for Leaflet
-function createCraftMarkerIcon(craft, isSelected) {
-  const color = CATEGORY_COLORS[craft.category] || '#ea580c';
-  const giBadge = craft.giTagged ? `<span style="position:absolute;top:-6px;right:-6px;background:#f59e0b;color:#78350f;border-radius:9999px;font-size:9px;font-weight:bold;padding:1px 4px;box-shadow:0 2px 4px rgba(0,0,0,0.3);border:1px solid #ffffff;">GI</span>` : '';
-
-  const html = `
-    <div class="marker-pin-wrapper" style="position:relative; width:38px; height:46px;">
-      ${isSelected ? `<div class="pulse-ring"></div>` : ''}
-      <svg viewBox="0 0 36 46" width="38" height="46" style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));">
-        <path d="M18 0 C8.06 0 0 8.06 0 18 C0 31.5 18 46 18 46 C18 46 36 31.5 36 18 C36 8.06 27.94 0 18 0 Z" fill="${color}" stroke="#ffffff" stroke-width="2"/>
-        <circle cx="18" cy="17" r="10" fill="#ffffff"/>
-      </svg>
-      <div style="position:absolute; top:7px; left:8px; width:20px; height:20px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:${color}; color:#fff; font-size:10px; font-weight:bold;">
-        ${craft.name.charAt(0)}
-      </div>
-      ${giBadge}
-    </div>
-  `;
-
-  return L.divIcon({
-    className: 'custom-craft-icon',
-    html,
-    iconSize: [38, 46],
-    iconAnchor: [19, 46],
-    popupAnchor: [0, -42]
-  });
-}
-
-// Custom Indian State & Union Territory label icon for Leaflet
-function createStateLabelIcon(stateName, isUT = false) {
-  return L.divIcon({
-    className: 'state-label-icon',
-    html: `<div style="font-size:${isUT ? '10px' : '11px'}; font-weight:800; color:${isUT ? '#991b1b' : '#1e3a8a'}; background:rgba(255,255,255,0.88); backdrop-filter:blur(4px); padding:2px 6px; border-radius:6px; border:1px solid ${isUT ? 'rgba(220,38,38,0.4)' : 'rgba(30,58,138,0.3)'}; pointer-events:none; white-space:nowrap; box-shadow:0 2px 4px rgba(0,0,0,0.1);">${stateName}</div>`,
-    iconSize: [60, 20],
-    iconAnchor: [30, 10]
-  });
-}
-
-// Helper to pan & zoom map when region or selected craft changes
-function MapViewUpdater({ selectedCraft, targetRegion }) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (selectedCraft && selectedCraft.coordinates) {
-      map.flyTo([selectedCraft.coordinates.lat, selectedCraft.coordinates.lng], 8.5, {
-        duration: 1.5
-      });
-    } else if (targetRegion) {
-      const regionCoords = {
-        north: { center: [33.5, 76.5], zoom: 6 },
-        south: { center: [13.0, 78.0], zoom: 6 },
-        east: { center: [23.5, 86.5], zoom: 6 },
-        west: { center: [23.0, 72.5], zoom: 6 },
-        northeast: { center: [26.2, 92.5], zoom: 6 },
-        all: { center: INDIA_CENTER, zoom: 5 }
-      };
-      const reg = regionCoords[targetRegion] || regionCoords.all;
-      map.flyTo(reg.center, reg.zoom, { duration: 1.2 });
-    }
-  }, [selectedCraft, targetRegion, map]);
-
-  return null;
-}
+];
 
 export default function IndiaCraftMap({
   crafts = [],
@@ -148,63 +374,75 @@ export default function IndiaCraftMap({
   onRegionChange
 }) {
   const { t } = useTranslation();
-  const mapRef = useRef(null);
+  const [hoveredMarker, setHoveredMarker] = useState(null);
+  const [activeModalCraft, setActiveModalCraft] = useState(null);
+  const [zoomScale, setZoomScale] = useState(1);
+  const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
-  // GeoJSON style handler for each official Indian State polygon
-  const geoJsonStyle = (feature) => {
-    const stateName = feature?.properties?.name || '';
-    const fillColor = getStateFillColor(stateName);
-    const isSpecialUT = stateName.toLowerCase().includes('kashmir') || stateName.toLowerCase().includes('ladakh');
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - panPosition.x, y: e.clientY - panPosition.y });
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      setPanPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+
+  const resetView = () => {
+    setZoomScale(1);
+    setPanPosition({ x: 0, y: 0 });
+  };
+
+  // Find full craft record from API data if available, or fall back to marker data
+  const getFullCraftData = (marker) => {
+    const found = crafts.find(c => c.id === marker.id || c.state.toLowerCase().includes(marker.stateName.toLowerCase()));
+    if (found) return found;
 
     return {
-      fillColor: fillColor,
-      weight: isSpecialUT ? 2.5 : 1.5,
-      opacity: 1,
-      color: isSpecialUT ? '#b91c1c' : '#78350f',
-      dashArray: 'none',
-      fillOpacity: 0.45
+      id: marker.id,
+      name: marker.craftName,
+      nativeName: marker.nativeName,
+      state: marker.stateName,
+      category: marker.category,
+      giTagged: marker.giTagged,
+      giYear: marker.giYear,
+      thumbnailUrl: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80',
+      description: `Authentic traditional handicraft heritage protected under Geographical Indications in ${marker.stateName}.`,
+      sellers: [{ name: `${marker.stateName} Master Artisan Guild`, verified: true }]
     };
   };
 
-  const onEachFeature = (feature, layer) => {
-    const stateName = feature?.properties?.name || 'Indian State';
-    layer.bindTooltip(
-      `<div style="font-weight:bold; font-size:12px; color:#78350f;">${stateName}</div>`,
-      { sticky: true, className: 'state-tooltip' }
-    );
-
-    layer.on({
-      mouseover: (e) => {
-        const l = e.target;
-        l.setStyle({
-          weight: 3,
-          color: '#ea580c',
-          fillOpacity: 0.7
-        });
-      },
-      mouseout: (e) => {
-        const l = e.target;
-        l.setStyle(geoJsonStyle(feature));
-      }
-    });
-  };
+  // Filter markers based on selected region
+  const visibleMarkers = STATE_MARKERS.filter(m => {
+    if (targetRegion && targetRegion !== 'all' && m.region !== targetRegion) return false;
+    return true;
+  });
 
   return (
-    <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-300 bg-stone-50">
+    <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-stone-800 bg-[#fdfbf7] select-none">
       {/* Top Header Controls Bar */}
-      <div className="absolute top-4 left-4 right-4 z-[400] flex flex-wrap items-center justify-between gap-3 pointer-events-none">
+      <div className="absolute top-4 left-4 right-4 z-30 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
         {/* Regional Quick Jump Controls */}
-        <div className="flex flex-wrap gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-stone-200 text-xs pointer-events-auto">
+        <div className="flex flex-wrap gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-stone-300 text-xs pointer-events-auto">
           <div className="flex items-center px-2 text-stone-700 font-bold space-x-1">
             <Compass className="w-3.5 h-3.5 text-amber-700" />
-            <span className="hidden sm:inline">Regions:</span>
+            <span className="hidden sm:inline">Filter Regions:</span>
           </div>
           {[
-            { id: 'all', label: 'All India' },
-            { id: 'north', label: 'North (J&K / Ladakh / Punjab)' },
-            { id: 'south', label: 'South' },
-            { id: 'east', label: 'East' },
-            { id: 'west', label: 'West' },
+            { id: 'all', label: 'All States (28+)' },
+            { id: 'north', label: 'North (J&K / Punjab / UP)' },
+            { id: 'south', label: 'South (TN / KA / AP)' },
+            { id: 'east', label: 'East (Bengal / Bihar)' },
+            { id: 'west', label: 'West (Rajasthan / Gujarat)' },
             { id: 'northeast', label: 'North-East' }
           ].map(r => (
             <button
@@ -221,158 +459,189 @@ export default function IndiaCraftMap({
           ))}
         </div>
 
-        {/* Official Sovereign Territorial Badge */}
-        <div className="flex items-center space-x-2 pointer-events-auto">
-          <div className="flex items-center space-x-1.5 bg-amber-50/95 text-amber-950 border border-amber-300 px-3 py-1.5 rounded-xl text-xs font-bold shadow-md backdrop-blur-md">
-            <ShieldCheck className="w-4 h-4 text-amber-700" />
-            <span>Official Government-Compliant GeoJSON • Complete J&K & Ladakh</span>
-          </div>
+        {/* Zoom & Reset Controls */}
+        <div className="flex items-center space-x-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-stone-300 pointer-events-auto">
+          <button
+            onClick={() => setZoomScale(prev => Math.min(prev + 0.2, 2.2))}
+            className="p-1.5 hover:bg-stone-100 text-stone-700 rounded-lg"
+            title="Zoom In"
+          >
+            <ZoomIn className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setZoomScale(prev => Math.max(prev - 0.2, 0.9))}
+            className="p-1.5 hover:bg-stone-100 text-stone-700 rounded-lg"
+            title="Zoom Out"
+          >
+            <ZoomOut className="w-4 h-4" />
+          </button>
+          <button
+            onClick={resetView}
+            className="p-1.5 hover:bg-stone-100 text-stone-700 rounded-lg"
+            title="Reset Map"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* Leaflet Map Canvas */}
-      <div className="h-[680px] w-full">
-        <MapContainer
-          center={INDIA_CENTER}
-          zoom={5}
-          minZoom={4.5}
-          maxZoom={14}
-          maxBounds={INDIA_BOUNDS}
-          maxBoundsViscosity={0.9}
-          scrollWheelZoom={true}
-          className="w-full h-full"
-          ref={mapRef}
+      {/* Main Interactive Map Container with Exact Image Background */}
+      <div
+        className="w-full h-[760px] relative overflow-hidden cursor-grab active:cursor-grabbing bg-white flex items-center justify-center"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
+        <div
+          className="relative max-w-full max-h-full aspect-[4/5] h-full"
+          style={{
+            transform: `translate(${panPosition.x}px, ${panPosition.y}px) scale(${zoomScale})`,
+            transformOrigin: 'center center',
+            transition: isDragging ? 'none' : 'transform 0.2s ease-out'
+          }}
         >
-          {/* OpenStreetMap Tile Layer */}
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors • Survey of India Alignment'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          {/* Exact Provided Official Indian Map Image */}
+          <img
+            src="/india-map-exact.png"
+            alt="Official Political Map of India"
+            className="w-full h-full object-contain pointer-events-none select-none drop-shadow-md"
+            onError={(e) => {
+              e.target.src = 'https://raw.githubusercontent.com/chayan35cse-max/Kala-setu-crafts/main/client/public/india-map-exact.png';
+            }}
           />
 
-          {/* Official Government-Compliant GeoJSON Layer (State-by-State with Full J&K and Ladakh) */}
-          <GeoJSON
-            data={indiaStatesGeoJson}
-            style={geoJsonStyle}
-            onEachFeature={onEachFeature}
-          />
-
-          <MapViewUpdater
-            selectedCraft={selectedCraft}
-            targetRegion={targetRegion}
-          />
-
-          {/* Indian States and Union Territories Indicators */}
-          {INDIAN_STATES_DATA.map((st) => (
-            <Marker
-              key={st.id}
-              position={st.center}
-              icon={createStateLabelIcon(st.name, st.id === 'JK' || st.id === 'LA' || st.id === 'DL')}
-              interactive={false}
-            />
-          ))}
-
-          {/* Interactive Craft Pin Markers across India */}
-          {crafts.map(craft => {
-            if (!craft.coordinates || !craft.coordinates.lat || !craft.coordinates.lng) return null;
-            const isSelected = selectedCraft && selectedCraft.id === craft.id;
-            const icon = createCraftMarkerIcon(craft, isSelected);
+          {/* Interactive State Craft Markers Overlay */}
+          {visibleMarkers.map((marker) => {
+            const isHovered = hoveredMarker === marker.id;
+            const fullCraft = getFullCraftData(marker);
 
             return (
-              <Marker
-                key={craft.id}
-                position={[craft.coordinates.lat, craft.coordinates.lng]}
-                icon={icon}
+              <div
+                key={marker.id}
+                style={{ top: marker.top, left: marker.left }}
+                className="absolute -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveModalCraft(fullCraft);
+                }}
+                onMouseEnter={() => setHoveredMarker(marker.id)}
+                onMouseLeave={() => setHoveredMarker(null)}
               >
-                <Popup className="custom-popup" maxWidth={320} minWidth={280}>
-                  <div className="p-1 space-y-2.5 text-stone-900">
-                    {/* Thumbnail */}
-                    <div className="relative w-full h-32 rounded-xl overflow-hidden bg-stone-100 shadow-inner">
-                      <img
-                        src={craft.thumbnailUrl}
-                        alt={craft.name}
-                        className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          e.target.src = 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80';
-                        }}
-                      />
-                      {craft.giTagged && (
-                        <div className="absolute top-2 right-2 bg-amber-500/90 backdrop-blur-md text-stone-950 font-bold text-[10px] px-2 py-0.5 rounded-full flex items-center space-x-1 shadow-md">
-                          <Award className="w-3 h-3 text-stone-950" />
-                          <span>GI Tag {craft.giYear || ''}</span>
-                        </div>
-                      )}
-                      <div className="absolute bottom-2 left-2 bg-stone-950/80 backdrop-blur-md text-white text-[11px] font-medium px-2 py-0.5 rounded-md">
-                        {craft.state}
-                      </div>
-                    </div>
+                {/* Glowing Pulse Ring */}
+                <div className="absolute inset-0 -m-2 rounded-full bg-orange-500 opacity-60 animate-ping pointer-events-none"></div>
 
-                    {/* Title & Native script */}
-                    <div>
-                      <h4 className="font-bold text-stone-900 text-sm leading-tight">
-                        {craft.name}
-                      </h4>
-                      {craft.nativeName && (
-                        <p className="text-amber-700 font-medium text-xs">
-                          {craft.nativeName}
-                        </p>
-                      )}
-                    </div>
+                {/* Cultural Location Pin */}
+                <div className="relative w-8 h-8 rounded-full bg-gradient-to-tr from-amber-700 via-orange-600 to-amber-500 border-2 border-white shadow-xl flex items-center justify-center text-white transform group-hover:scale-125 transition-transform duration-200">
+                  <MapPin className="w-4 h-4 text-white fill-white" />
+                  {marker.giTagged && (
+                    <span className="absolute -top-1 -right-1 bg-amber-400 text-stone-950 text-[8px] font-black px-1 rounded-full border border-white">
+                      GI
+                    </span>
+                  )}
+                </div>
 
-                    {/* Tagline / Category */}
-                    <p className="text-stone-600 text-xs line-clamp-2 leading-relaxed">
-                      {craft.tagline || craft.description}
-                    </p>
-
-                    {/* Info Badges */}
-                    <div className="flex items-center justify-between text-[11px] text-stone-500 pt-1 border-t border-stone-100">
-                      <span className="font-medium bg-stone-100 text-stone-700 px-2 py-0.5 rounded">
-                        {craft.category}
-                      </span>
-                      {craft.sellers && craft.sellers.length > 0 && (
-                        <span className="flex items-center text-emerald-700 font-semibold space-x-1">
-                          <Users className="w-3 h-3" />
-                          <span>{craft.sellers.length} Verified Studios</span>
-                        </span>
-                      )}
-                    </div>
-
-                    {/* CTA Button */}
-                    <button
-                      onClick={() => onSelectCraft(craft)}
-                      className="w-full mt-1 bg-gradient-to-r from-amber-700 to-orange-700 hover:from-amber-800 hover:to-orange-800 text-white font-semibold text-xs py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5 shadow-md shadow-amber-700/25 transition-all cursor-pointer"
-                    >
-                      <span>{t('map.seeDetails')}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </Popup>
-              </Marker>
+                {/* Hover Tooltip Label */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap bg-stone-950/90 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-xl border border-amber-500/40 z-30">
+                  <span>{marker.stateName}: {marker.craftName.split(' ')[0]}</span>
+                  <div className="w-2 h-2 bg-stone-950 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2"></div>
+                </div>
+              </div>
             );
           })}
-        </MapContainer>
+        </div>
+
+        {/* Interactive Popup Modal when clicking any State Marker */}
+        {activeModalCraft && (
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 w-full max-w-sm bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-amber-900/30 p-5 animate-fadeIn">
+            <button
+              onClick={() => setActiveModalCraft(null)}
+              className="absolute top-4 right-4 p-1.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 cursor-pointer transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="space-y-3">
+              {/* Craft Thumbnail */}
+              <div className="relative w-full h-36 rounded-2xl overflow-hidden bg-stone-100 shadow-inner">
+                <img
+                  src={activeModalCraft.thumbnailUrl}
+                  alt={activeModalCraft.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.src = 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80';
+                  }}
+                />
+                <div className="absolute top-2.5 left-2.5 bg-stone-950/85 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                  {activeModalCraft.state}
+                </div>
+                {activeModalCraft.giTagged && (
+                  <div className="absolute top-2.5 right-2.5 bg-amber-500 text-stone-950 text-[10px] font-black px-2.5 py-0.5 rounded-full flex items-center space-x-1 shadow-md">
+                    <Award className="w-3 h-3 text-stone-950" />
+                    <span>GI Tagged ({activeModalCraft.giYear || 'Protected'})</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Title & Native Script */}
+              <div>
+                <h4 className="font-bold text-stone-900 text-base leading-snug">
+                  {activeModalCraft.name}
+                </h4>
+                {activeModalCraft.nativeName && (
+                  <p className="text-amber-700 font-bold text-xs mt-0.5 font-serif">
+                    {activeModalCraft.nativeName}
+                  </p>
+                )}
+              </div>
+
+              <p className="text-stone-600 text-xs line-clamp-2 leading-relaxed">
+                {activeModalCraft.tagline || activeModalCraft.description}
+              </p>
+
+              <div className="flex items-center justify-between text-xs text-stone-500 pt-2 border-t border-stone-100">
+                <span className="font-semibold bg-stone-100 text-stone-700 px-2 py-0.5 rounded-md">
+                  {activeModalCraft.category}
+                </span>
+                <span className="text-emerald-700 font-bold flex items-center space-x-1">
+                  <Users className="w-3.5 h-3.5" />
+                  <span>{activeModalCraft.sellers?.length || 1} Verified Studios</span>
+                </span>
+              </div>
+
+              {/* Navigate to Full Craft Detail Action */}
+              <button
+                onClick={() => {
+                  onSelectCraft(activeModalCraft);
+                  setActiveModalCraft(null);
+                }}
+                className="w-full bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 hover:from-amber-800 hover:to-orange-700 text-white font-bold text-xs py-3 px-4 rounded-xl flex items-center justify-center space-x-2 shadow-lg shadow-amber-700/30 transition-all cursor-pointer"
+              >
+                <span>{t('map.seeDetails')}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Bottom Map Legend Bar */}
-      <div className="p-3 bg-stone-950 text-stone-300 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-amber-900/30">
+      <div className="p-3.5 bg-stone-950 text-stone-300 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-amber-900/30">
         <div className="flex flex-wrap items-center gap-4">
-          <span className="font-semibold text-amber-400">Official Administrative Map:</span>
+          <span className="font-bold text-amber-400">Interactive State Markers:</span>
           <span className="flex items-center space-x-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-            <span>Jammu & Kashmir</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
+            <span>All 28 Indian States & UTs</span>
           </span>
           <span className="flex items-center space-x-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <span>Ladakh (Undivided)</span>
-          </span>
-          <span className="flex items-center space-x-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-            <span>All 28 States & 8 UTs</span>
+            <span>GI Tag Certified Traditions</span>
           </span>
         </div>
 
-        <div className="flex items-center space-x-2 text-stone-400">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>Government-Compliant Boundary Polygons • DataMeet & Survey of India</span>
+        <div className="flex items-center space-x-2 text-amber-300 font-medium">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Click any pin to explore traditional craft masterclasses & verified sellers</span>
         </div>
       </div>
     </div>
