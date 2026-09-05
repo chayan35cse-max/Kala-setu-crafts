@@ -20,7 +20,7 @@ import Craft3DViewer from '../components/ThreeD/Craft3DViewer';
 import AIRecommender from '../components/AIRecommender';
 import { getCrafts, getFilterMeta } from '../services/api';
 
-export default function HomePage({ onSelectCraft, onNavigate }) {
+export default function HomePage({ onSelectCraft, onNavigate, onOpenInsights }) {
   const { t } = useTranslation();
   const [crafts, setCrafts] = useState([]);
   const [filterMeta, setFilterMeta] = useState({ states: [], categories: [], materials: [] });
