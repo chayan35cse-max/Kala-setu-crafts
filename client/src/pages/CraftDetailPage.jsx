@@ -31,6 +31,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import Craft3DViewer from '../components/ThreeD/Craft3DViewer';
 import CraftInsightsModal from '../components/CraftInsightsModal';
+import ProvenanceCertificateModal from '../components/ProvenanceCertificateModal';
+import ARViewModal from '../components/ARViewModal';
 import { getCraftById, createOrder, submitReview } from '../services/api';
 import confetti from 'canvas-confetti';
 
@@ -41,6 +43,8 @@ export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavi
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'technique' | '3d' | 'sellers' | 'reviews' | 'video'
   const [showInsightsModal, setShowInsightsModal] = useState(false);
+  const [showCertificateModal, setShowCertificateModal] = useState(false);
+  const [showARModal, setShowARModal] = useState(false);
   
   // Direct Buy / Order Modal State
   const [showOrderModal, setShowOrderModal] = useState(false);
@@ -211,29 +215,47 @@ export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavi
           {/* AI Know More Insights Button */}
           <button
             onClick={() => setShowInsightsModal(true)}
-            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold shadow-md bg-gradient-to-r from-purple-800 to-indigo-800 hover:from-purple-900 hover:to-indigo-900 text-white transition-all cursor-pointer"
+            className="flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold shadow-md bg-gradient-to-r from-purple-800 to-indigo-800 hover:from-purple-900 hover:to-indigo-900 text-white transition-all cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-amber-300 animate-spin-slow" />
-            <span>✨ Know More (AI Insights)</span>
+            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin-slow" />
+            <span>✨ AI Insights</span>
+          </button>
+
+          {/* AR View in Room Button */}
+          <button
+            onClick={() => setShowARModal(true)}
+            className="flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-stone-900 hover:bg-black text-amber-300 border border-stone-800 transition-all cursor-pointer shadow-md"
+          >
+            <Box className="w-3.5 h-3.5" />
+            <span>View in AR</span>
+          </button>
+
+          {/* Certificate of Authenticity Button */}
+          <button
+            onClick={() => setShowCertificateModal(true)}
+            className="flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 transition-all cursor-pointer shadow-sm"
+          >
+            <Award className="w-3.5 h-3.5 text-amber-700" />
+            <span>Provenance Certificate</span>
           </button>
 
           {/* Voice Folk Story Player */}
           <button
             onClick={playAudioStory}
-            className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer ${
               isPlayingAudio
                 ? 'bg-amber-600 text-white animate-pulse'
-                : 'bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100'
+                : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
             }`}
           >
-            <Volume2 className="w-4 h-4 text-amber-600" />
-            <span>{isPlayingAudio ? 'Playing Oral Story...' : 'Listen to Folk Story'}</span>
+            <Volume2 className="w-3.5 h-3.5 text-amber-600" />
+            <span>{isPlayingAudio ? 'Oral Story...' : 'Folk Story'}</span>
           </button>
 
           {/* Buy Direct Button */}
           <button
             onClick={() => setShowOrderModal(true)}
-            className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs font-bold shadow-lg bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 hover:from-amber-800 hover:to-orange-700 text-white transition-all cursor-pointer"
+            className="flex items-center space-x-2 px-4.5 py-2.5 rounded-xl text-xs font-bold shadow-lg bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 hover:from-amber-800 hover:to-orange-700 text-white transition-all cursor-pointer"
           >
             <ShoppingBag className="w-4 h-4" />
             <span>Buy Authentic (₹{craft.priceEstimate?.toLocaleString('en-IN') || '2,450'})</span>
@@ -491,13 +513,26 @@ export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavi
                     )}
                   </div>
 
-                  <div className="pt-3 border-t border-stone-100 flex items-center justify-between">
-                    <button
-                      onClick={() => setShowOrderModal(true)}
-                      className="bg-amber-700 hover:bg-amber-800 text-white font-bold text-xs py-2 px-4 rounded-xl transition-all cursor-pointer"
-                    >
-                      Buy Direct from Studio
-                    </button>
+                  <div className="pt-3 border-t border-stone-100 flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setShowOrderModal(true)}
+                        className="bg-amber-700 hover:bg-amber-800 text-white font-bold text-xs py-2 px-4 rounded-xl transition-all cursor-pointer shadow-sm"
+                      >
+                        Buy Direct from Studio
+                      </button>
+
+                      <a
+                        href={`https://wa.me/${(seller.phone || '919829012345').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Namaste! Inquiring about ${craft.name} on KalaSetu.`)}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-3 rounded-xl transition-all flex items-center space-x-1.5 cursor-pointer shadow-sm"
+                        title="Chat with Artisan on WhatsApp"
+                      >
+                        <MessageSquare className="w-3.5 h-3.5" />
+                        <span>WhatsApp</span>
+                      </a>
+                    </div>
 
                     {seller.onlineStoreUrl && (
                       <a
@@ -665,6 +700,22 @@ export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavi
         <CraftInsightsModal
           craft={craft}
           onClose={() => setShowInsightsModal(false)}
+        />
+      )}
+
+      {/* Provenance Authenticity Certificate Modal */}
+      {showCertificateModal && (
+        <ProvenanceCertificateModal
+          craft={craft}
+          onClose={() => setShowCertificateModal(false)}
+        />
+      )}
+
+      {/* 1:1 Scale AR Preview Modal */}
+      {showARModal && (
+        <ARViewModal
+          craft={craft}
+          onClose={() => setShowARModal(false)}
         />
       )}
 

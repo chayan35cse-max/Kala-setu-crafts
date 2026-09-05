@@ -1,8 +1,33 @@
 import React, { useState } from 'react';
-import { Sparkles, Globe, Map, BookOpen, Box, Users, ShieldCheck, Search, Menu, X, Feather, Truck, PlusCircle } from 'lucide-react';
+import {
+  Sparkles,
+  Globe,
+  Map,
+  BookOpen,
+  Box,
+  Users,
+  ShieldCheck,
+  Search,
+  Menu,
+  X,
+  Feather,
+  Truck,
+  PlusCircle,
+  Camera,
+  Award,
+  Heart,
+  Gift
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export default function Navbar({ activePage, setActivePage, onSearchSelect }) {
+export default function Navbar({
+  activePage,
+  setActivePage,
+  onSearchSelect,
+  onOpenCraftSnap,
+  onOpenQuiz,
+  onOpenPassport
+}) {
   const { t, i18n } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
@@ -25,7 +50,8 @@ export default function Navbar({ activePage, setActivePage, onSearchSelect }) {
     { id: 'archive', label: t('nav.archive'), icon: BookOpen },
     { id: 'artisans', label: t('nav.artisans'), icon: Users },
     { id: 'orders', label: 'Orders & Tracking', icon: Truck },
-    { id: 'researcher-portal', label: '+ Contribute Research', icon: PlusCircle },
+    { id: 'corporate-gifting', label: 'Corporate Gifting', icon: Gift },
+    { id: 'researcher-portal', label: '+ Contribute', icon: PlusCircle },
     { id: 'seller-portal', label: t('nav.sellerPortal'), icon: ShieldCheck, highlight: true }
   ];
 
@@ -57,7 +83,7 @@ export default function Navbar({ activePage, setActivePage, onSearchSelect }) {
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="hidden xl:flex items-center space-x-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activePage === item.id;
@@ -65,7 +91,7 @@ export default function Navbar({ activePage, setActivePage, onSearchSelect }) {
                 <button
                   key={item.id}
                   onClick={() => setActivePage(item.id)}
-                  className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                  className={`flex items-center space-x-1 px-2.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     item.highlight
                       ? isActive
                         ? 'bg-amber-500 text-stone-950 font-bold shadow-lg shadow-amber-500/30'
@@ -82,22 +108,49 @@ export default function Navbar({ activePage, setActivePage, onSearchSelect }) {
             })}
           </nav>
 
-          {/* Right Side: Language Selector & CTA */}
-          <div className="flex items-center space-x-3">
-            {/* Quick Orders Button on Tablet/Mobile */}
-            <button
-              onClick={() => setActivePage('orders')}
-              className="lg:hidden p-2 rounded-xl bg-stone-900 border border-stone-800 text-amber-400 hover:text-white"
-              title="Track Orders"
-            >
-              <Truck className="w-5 h-5" />
-            </button>
+          {/* Right Side: Quick Action Suite + Language Selector */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Quick Action: CraftSnap AI Visual Identifier */}
+            {onOpenCraftSnap && (
+              <button
+                onClick={onOpenCraftSnap}
+                className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-purple-950/60 border border-purple-500/40 hover:bg-purple-900 text-purple-200 text-xs font-bold transition-all cursor-pointer shadow-sm"
+                title="CraftSnap • Identify Craft by Photo"
+              >
+                <Camera className="w-3.5 h-3.5 text-purple-300" />
+                <span className="hidden sm:inline">CraftSnap</span>
+              </button>
+            )}
+
+            {/* Quick Action: Heritage Soulmate Quiz */}
+            {onOpenQuiz && (
+              <button
+                onClick={onOpenQuiz}
+                className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-rose-950/60 border border-rose-500/40 hover:bg-rose-900 text-rose-200 text-xs font-bold transition-all cursor-pointer shadow-sm"
+                title="Discover Your Craft Soulmate"
+              >
+                <Heart className="w-3.5 h-3.5 text-rose-300 fill-rose-300" />
+                <span className="hidden md:inline">Soulmate</span>
+              </button>
+            )}
+
+            {/* Quick Action: Heritage Passport */}
+            {onOpenPassport && (
+              <button
+                onClick={onOpenPassport}
+                className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-amber-950/60 border border-amber-500/40 hover:bg-amber-900 text-amber-200 text-xs font-bold transition-all cursor-pointer shadow-sm"
+                title="View Heritage Stamp Passport"
+              >
+                <Award className="w-3.5 h-3.5 text-amber-300" />
+                <span className="hidden md:inline">Passport</span>
+              </button>
+            )}
 
             {/* Language Switcher */}
             <div className="relative">
               <button
                 onClick={() => setLangMenuOpen(!langMenuOpen)}
-                className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 hover:border-amber-700 text-stone-200 text-xs font-medium transition-all cursor-pointer"
+                className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-stone-900 border border-stone-800 hover:border-amber-700 text-stone-200 text-xs font-medium transition-all cursor-pointer"
               >
                 <Globe className="w-3.5 h-3.5 text-amber-500" />
                 <span className="uppercase font-semibold">{i18n.language || 'EN'}</span>
@@ -124,7 +177,7 @@ export default function Navbar({ activePage, setActivePage, onSearchSelect }) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl bg-stone-900 text-stone-300 hover:text-white cursor-pointer"
+              className="xl:hidden p-2 rounded-xl bg-stone-900 text-stone-300 hover:text-white cursor-pointer"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -134,7 +187,7 @@ export default function Navbar({ activePage, setActivePage, onSearchSelect }) {
 
       {/* Mobile Nav Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-stone-950 border-b border-stone-800 px-4 pt-2 pb-6 space-y-2">
+        <div className="xl:hidden bg-stone-950 border-b border-stone-800 px-4 pt-2 pb-6 space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activePage === item.id;

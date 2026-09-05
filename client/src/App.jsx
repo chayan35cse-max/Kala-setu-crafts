@@ -8,14 +8,24 @@ import SellerPortalPage from './pages/SellerPortalPage';
 import ArtisansDirectoryPage from './pages/ArtisansDirectoryPage';
 import OrdersTrackingPage from './pages/OrdersTrackingPage';
 import ResearcherSubmissionPage from './pages/ResearcherSubmissionPage';
+import CorporateGiftingPage from './pages/CorporateGiftingPage';
 import Craft3DViewer from './components/ThreeD/Craft3DViewer';
 import CraftInsightsModal from './components/CraftInsightsModal';
+import CraftSnapModal from './components/CraftSnapModal';
+import HeritageQuizModal from './components/HeritageQuizModal';
+import HeritagePassportDrawer from './components/HeritagePassportDrawer';
+import KalaMitraVoiceAssistant from './components/KalaMitraVoiceAssistant';
 import './i18n';
 
 export default function App() {
-  const [activePage, setActivePage] = useState('home'); // 'home' | 'map' | 'detail' | '3d' | 'archive' | 'artisans' | 'seller-portal' | 'orders' | 'researcher-portal'
+  const [activePage, setActivePage] = useState('home'); // 'home' | 'map' | 'detail' | '3d' | 'archive' | 'artisans' | 'seller-portal' | 'orders' | 'researcher-portal' | 'corporate-gifting'
   const [selectedCraftId, setSelectedCraftId] = useState('jaipur-blue-pottery');
   const [insightsModalCraft, setInsightsModalCraft] = useState(null);
+  
+  // Modals & Drawers
+  const [showCraftSnap, setShowCraftSnap] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [showPassport, setShowPassport] = useState(false);
 
   const handleSelectCraft = (craft) => {
     if (craft && craft.id) {
@@ -43,6 +53,9 @@ export default function App() {
         activePage={activePage}
         setActivePage={setActivePage}
         onSearchSelect={handleSelectCraft}
+        onOpenCraftSnap={() => setShowCraftSnap(true)}
+        onOpenQuiz={() => setShowQuiz(true)}
+        onOpenPassport={() => setShowPassport(true)}
       />
 
       {/* Main Dynamic Content Area */}
@@ -52,6 +65,9 @@ export default function App() {
             onSelectCraft={handleSelectCraft}
             onNavigate={handleNavigate}
             onOpenInsights={(craft) => setInsightsModalCraft(craft)}
+            onOpenCraftSnap={() => setShowCraftSnap(true)}
+            onOpenQuiz={() => setShowQuiz(true)}
+            onOpenPassport={() => setShowPassport(true)}
           />
         )}
 
@@ -69,6 +85,9 @@ export default function App() {
               onSelectCraft={handleSelectCraft}
               onNavigate={handleNavigate}
               onOpenInsights={(craft) => setInsightsModalCraft(craft)}
+              onOpenCraftSnap={() => setShowCraftSnap(true)}
+              onOpenQuiz={() => setShowQuiz(true)}
+              onOpenPassport={() => setShowPassport(true)}
             />
           </div>
         )}
@@ -94,6 +113,10 @@ export default function App() {
               setSelectedCraftId(craft.id);
             }}
           />
+        )}
+
+        {activePage === 'corporate-gifting' && (
+          <CorporateGiftingPage />
         )}
 
         {activePage === '3d' && (
@@ -140,6 +163,38 @@ export default function App() {
           onClose={() => setInsightsModalCraft(null)}
         />
       )}
+
+      {/* CraftSnap AI Visual Recognition Modal */}
+      {showCraftSnap && (
+        <CraftSnapModal
+          onClose={() => setShowCraftSnap(false)}
+          onSelectCraftById={handleSelectCraftById}
+        />
+      )}
+
+      {/* Cultural Heritage Soulmate Quiz Modal */}
+      {showQuiz && (
+        <HeritageQuizModal
+          onClose={() => setShowQuiz(false)}
+          onSelectCraftById={handleSelectCraftById}
+        />
+      )}
+
+      {/* Virtual Heritage Passport Drawer */}
+      {showPassport && (
+        <HeritagePassportDrawer
+          onClose={() => setShowPassport(false)}
+          onSelectCraftState={() => {
+            setActivePage('map');
+            setShowPassport(false);
+          }}
+        />
+      )}
+
+      {/* Multilingual Voice AI Assistant (KalaMitra) */}
+      <KalaMitraVoiceAssistant
+        onSelectCraftById={handleSelectCraftById}
+      />
 
       {/* Footer */}
       <Footer onNavigate={handleNavigate} />

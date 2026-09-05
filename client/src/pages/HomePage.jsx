@@ -11,7 +11,10 @@ import {
   Layers,
   BookOpen,
   Users,
-  CheckCircle2
+  CheckCircle2,
+  Camera,
+  Heart,
+  Gift
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import IndiaCraftMap from '../components/Map/IndiaCraftMap';
@@ -20,7 +23,14 @@ import Craft3DViewer from '../components/ThreeD/Craft3DViewer';
 import AIRecommender from '../components/AIRecommender';
 import { getCrafts, getFilterMeta } from '../services/api';
 
-export default function HomePage({ onSelectCraft, onNavigate, onOpenInsights }) {
+export default function HomePage({
+  onSelectCraft,
+  onNavigate,
+  onOpenInsights,
+  onOpenCraftSnap,
+  onOpenQuiz,
+  onOpenPassport
+}) {
   const { t } = useTranslation();
   const [crafts, setCrafts] = useState([]);
   const [filterMeta, setFilterMeta] = useState({ states: [], categories: [], materials: [] });
@@ -152,6 +162,81 @@ export default function HomePage({ onSelectCraft, onNavigate, onOpenInsights }) 
               </div>
             );
           })}
+        </div>
+
+        {/* Cultural Suite Feature Hub Cards */}
+        <div className="max-w-6xl mx-auto mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+          {/* CraftSnap Card */}
+          <div
+            onClick={onOpenCraftSnap}
+            className="bg-gradient-to-br from-purple-950/70 to-stone-900/80 hover:from-purple-900/80 hover:to-stone-900 border border-purple-500/40 hover:border-purple-400 rounded-2xl p-5 cursor-pointer transition-all duration-300 group shadow-lg"
+          >
+            <div className="w-10 h-10 rounded-xl bg-purple-600/30 text-purple-300 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <Camera className="w-5 h-5 text-purple-300" />
+            </div>
+            <h4 className="font-serif font-bold text-white text-base">CraftSnap Visual AI</h4>
+            <p className="text-xs text-purple-200/80 mt-1 leading-relaxed">
+              Snap or upload any craft photo to identify its GI style, state origin & value.
+            </p>
+            <div className="mt-3 text-xs font-bold text-amber-400 flex items-center space-x-1">
+              <span>Scan Photo</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Soulmate Quiz Card */}
+          <div
+            onClick={onOpenQuiz}
+            className="bg-gradient-to-br from-rose-950/70 to-stone-900/80 hover:from-rose-900/80 hover:to-stone-900 border border-rose-500/40 hover:border-rose-400 rounded-2xl p-5 cursor-pointer transition-all duration-300 group shadow-lg"
+          >
+            <div className="w-10 h-10 rounded-xl bg-rose-600/30 text-rose-300 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <Heart className="w-5 h-5 text-rose-300 fill-rose-300/40" />
+            </div>
+            <h4 className="font-serif font-bold text-white text-base">Craft Soulmate Quiz</h4>
+            <p className="text-xs text-rose-200/80 mt-1 leading-relaxed">
+              Answer 3 quick aesthetic questions to find the Indian craft destined for you.
+            </p>
+            <div className="mt-3 text-xs font-bold text-amber-400 flex items-center space-x-1">
+              <span>Take Quiz</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Heritage Passport Card */}
+          <div
+            onClick={onOpenPassport}
+            className="bg-gradient-to-br from-amber-950/70 to-stone-900/80 hover:from-amber-900/80 hover:to-stone-900 border border-amber-500/40 hover:border-amber-400 rounded-2xl p-5 cursor-pointer transition-all duration-300 group shadow-lg"
+          >
+            <div className="w-10 h-10 rounded-xl bg-amber-600/30 text-amber-300 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <Award className="w-5 h-5 text-amber-300" />
+            </div>
+            <h4 className="font-serif font-bold text-white text-base">Heritage Passport</h4>
+            <p className="text-xs text-amber-200/80 mt-1 leading-relaxed">
+              Collect virtual state stamps as you explore craft traditions across India.
+            </p>
+            <div className="mt-3 text-xs font-bold text-amber-400 flex items-center space-x-1">
+              <span>Open Passport</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Corporate Gifting Card */}
+          <div
+            onClick={() => onNavigate('corporate-gifting')}
+            className="bg-gradient-to-br from-emerald-950/70 to-stone-900/80 hover:from-emerald-900/80 hover:to-stone-900 border border-emerald-500/40 hover:border-emerald-400 rounded-2xl p-5 cursor-pointer transition-all duration-300 group shadow-lg"
+          >
+            <div className="w-10 h-10 rounded-xl bg-emerald-600/30 text-emerald-300 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <Gift className="w-5 h-5 text-emerald-300" />
+            </div>
+            <h4 className="font-serif font-bold text-white text-base">Corporate Gifting</h4>
+            <p className="text-xs text-emerald-200/80 mt-1 leading-relaxed">
+              Sustainable artisan hampers with custom logo engraving and ESG impact.
+            </p>
+            <div className="mt-3 text-xs font-bold text-amber-400 flex items-center space-x-1">
+              <span>Explore Hampers</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
         </div>
       </section>
 
