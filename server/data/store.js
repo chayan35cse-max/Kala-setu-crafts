@@ -50,15 +50,15 @@ export const getStoreStatus = () => ({
   orderCount: memOrders.length
 });
 
-// Seed data to MongoDB if connected
+// Seed and Sync data to MongoDB if connected
 export const seedDatabaseIfEmpty = async () => {
   if (!isMongoConnected) return;
   try {
-    const craftCount = await Craft.countDocuments();
-    if (craftCount === 0) {
-      console.log('Seeding initial crafts to MongoDB...');
-      await Craft.insertMany(initialCrafts);
+    for (const craft of initialCrafts) {
+      await Craft.findOneAndUpdate({ id: craft.id }, craft, { upsert: true, new: true });
     }
+    console.log(`Synced ${initialCrafts.length} authentic crafts (GI & Non-GI) to MongoDB.`);
+
     const sellerCount = await Seller.countDocuments();
     if (sellerCount === 0 && memSellers.length > 0) {
       console.log('Seeding initial sellers to MongoDB...');
