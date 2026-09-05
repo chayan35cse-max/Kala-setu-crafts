@@ -7,7 +7,9 @@ import mongoose from 'mongoose';
 import craftRoutes from './routes/craftRoutes.js';
 import sellerRoutes from './routes/sellerRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
-import { setMongoStatus, seedMongoIfEmpty } from './data/store.js';
+import orderRoutes from './routes/orderRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
+import { setMongoConnected, seedDatabaseIfEmpty } from './data/store.js';
 
 dotenv.config();
 
@@ -21,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve uploaded documents
 const uploadsDir = path.resolve('uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 app.use('/uploads', express.static(uploadsDir));
 
 // Connect to MongoDB if available, otherwise use resilient memory fallback
@@ -30,17 +33,19 @@ mongoose.connect(MONGODB_URI, {
   serverSelectionTimeoutMS: 2000
 }).then(() => {
   console.log('✅ Connected to MongoDB at:', MONGODB_URI);
-  setMongoStatus(true);
-  seedMongoIfEmpty();
+  setMongoConnected(true);
+  seedDatabaseIfEmpty();
 }).catch((err) => {
   console.log('ℹ️ MongoDB not connected (running in high-performance embedded mode with pre-seeded crafts).');
-  setMongoStatus(false);
+  setMongoConnected(false);
 });
 
 // API Routes
 app.use('/api/crafts', craftRoutes);
 app.use('/api/sellers', sellerRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

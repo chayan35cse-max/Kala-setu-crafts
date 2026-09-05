@@ -6,12 +6,16 @@ import CraftDetailPage from './pages/CraftDetailPage';
 import CulturalArchivePage from './pages/CulturalArchivePage';
 import SellerPortalPage from './pages/SellerPortalPage';
 import ArtisansDirectoryPage from './pages/ArtisansDirectoryPage';
+import OrdersTrackingPage from './pages/OrdersTrackingPage';
+import ResearcherSubmissionPage from './pages/ResearcherSubmissionPage';
 import Craft3DViewer from './components/ThreeD/Craft3DViewer';
+import CraftInsightsModal from './components/CraftInsightsModal';
 import './i18n';
 
 export default function App() {
-  const [activePage, setActivePage] = useState('home'); // 'home' | 'map' | 'detail' | '3d' | 'archive' | 'artisans' | 'seller-portal'
+  const [activePage, setActivePage] = useState('home'); // 'home' | 'map' | 'detail' | '3d' | 'archive' | 'artisans' | 'seller-portal' | 'orders' | 'researcher-portal'
   const [selectedCraftId, setSelectedCraftId] = useState('jaipur-blue-pottery');
+  const [insightsModalCraft, setInsightsModalCraft] = useState(null);
 
   const handleSelectCraft = (craft) => {
     if (craft && craft.id) {
@@ -47,6 +51,7 @@ export default function App() {
           <HomePage
             onSelectCraft={handleSelectCraft}
             onNavigate={handleNavigate}
+            onOpenInsights={(craft) => setInsightsModalCraft(craft)}
           />
         )}
 
@@ -54,15 +59,16 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
             <div className="text-center max-w-2xl mx-auto space-y-2">
               <h1 className="text-3xl sm:text-4xl font-black font-serif text-stone-900">
-                Interactive Craft Map of India
+                Interactive Sovereign Map of India
               </h1>
               <p className="text-xs sm:text-sm text-stone-600">
-                Explore geographic distributions of India's cultural GI traditions. Click any pin to view details.
+                Explore official distributions of India's GI & Researched Non-GI traditions. 🟢 Green: GI, 🔴 Red: Non-GI Endangered, 🔵 Blue: Non-GI Active.
               </p>
             </div>
             <HomePage
               onSelectCraft={handleSelectCraft}
               onNavigate={handleNavigate}
+              onOpenInsights={(craft) => setInsightsModalCraft(craft)}
             />
           </div>
         )}
@@ -72,6 +78,21 @@ export default function App() {
             craftId={selectedCraftId}
             onBack={() => setActivePage('home')}
             onSelectCraft={handleSelectCraft}
+            onNavigateToOrders={() => setActivePage('orders')}
+          />
+        )}
+
+        {activePage === 'orders' && (
+          <OrdersTrackingPage
+            onNavigateToCraft={handleSelectCraftById}
+          />
+        )}
+
+        {activePage === 'researcher-portal' && (
+          <ResearcherSubmissionPage
+            onCraftCreated={(craft) => {
+              setSelectedCraftId(craft.id);
+            }}
           />
         )}
 
@@ -111,6 +132,14 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Global AI Insights Modal */}
+      {insightsModalCraft && (
+        <CraftInsightsModal
+          craft={insightsModalCraft}
+          onClose={() => setInsightsModalCraft(null)}
+        />
+      )}
 
       {/* Footer */}
       <Footer onNavigate={handleNavigate} />

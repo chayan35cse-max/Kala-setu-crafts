@@ -186,12 +186,13 @@ export default function HomePage({ onSelectCraft, onNavigate }) {
           totalMatching={filteredCrafts.length}
         />
 
-        {/* Leaflet Map */}
+        {/* Interactive Map */}
         <IndiaCraftMap
           crafts={filteredCrafts}
           onSelectCraft={onSelectCraft}
           targetRegion={targetRegion}
           onRegionChange={setTargetRegion}
+          onOpenInsights={onOpenInsights}
         />
       </section>
 
