@@ -419,3 +419,7 @@ export const updateSellerVerification = async (id, status, badge) => {
   }
   return s;
 };
+
+// Aliases for route compatibility
+export const createSeller = registerSeller;
+export const updateSellerStatus = updateSellerVerification;
