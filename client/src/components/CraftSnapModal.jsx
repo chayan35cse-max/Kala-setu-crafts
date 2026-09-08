@@ -5,19 +5,24 @@ import confetti from 'canvas-confetti';
 
 const SAMPLE_PRESETS = [
   {
+    name: 'Bengal Jamdani Muslin Saree',
+    tag: 'jamdani muslin sheer saree bengal kandul discontinuous weft',
+    url: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80'
+  },
+  {
     name: 'Jaipur Blue Pottery Surahi',
     tag: 'blue floral vase quartz glaze',
     url: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80'
   },
   {
+    name: 'Bankura Terracotta Horse',
+    tag: 'terracotta horse bankura panchmura clay',
+    url: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=600&q=80'
+  },
+  {
     name: 'Madhubani Mithila Folk Canvas',
     tag: 'mithila fish double line painting',
     url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80'
-  },
-  {
-    name: 'Bastar Lost-Wax Dhokra Bronze',
-    tag: 'tribal bronze lost wax elephant figurine',
-    url: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=600&q=80'
   },
   {
     name: 'Rogan Art Castor Oil Thread',

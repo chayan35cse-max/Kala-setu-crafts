@@ -58,6 +58,18 @@ const CRAFT_VISUAL_PATTERNS = [
     craftId: 'assam-bamboo-craft',
     confidenceRange: [94, 98],
     matchDetails: 'Concentric woven Tokou palm leaf and seasoned bamboo slats with ceremonial red and black felt appliqués.'
+  },
+  {
+    keywords: ['jamdani', 'muslin', 'sheer', 'saree', 'bengal', 'phulia', 'shantipur', 'weft', 'kandul', 'discontinuous'],
+    craftId: 'bengal-jamdani-weaving',
+    confidenceRange: [96, 99],
+    matchDetails: 'UNESCO-recognized Bengal Jamdani sheer muslin handwoven with discontinuous supplementary weft lifted with buffalo-horn kandul tool.'
+  },
+  {
+    keywords: ['terracotta', 'horse', 'bankura', 'panchmura', 'clay', 'ear', 'bengal', 'hollow'],
+    craftId: 'bankura-terracotta-horse',
+    confidenceRange: [95, 99],
+    matchDetails: 'Panchmura Bankura Terracotta Horse featuring modular hollow wheel-thrown neck, erect pointed ears, and warm natural kiln patina.'
   }
 ];
 
@@ -133,6 +145,9 @@ router.post('/voice-query', async (req, res) => {
     if (q.includes('endangered') || q.includes('extinct') || q.includes('khatre')) {
       matchingCrafts = allCrafts.filter(c => c.status === 'endangered');
       spokenResponse = `India has several critically endangered crafts needing urgent preservation, including Rogan Art of Nirona in Gujarat, Toda tribal embroidery in the Nilgiris, and Sikki golden grass weaving in Bihar.`;
+    } else if (q.includes('bengal') || q.includes('jamdani') || q.includes('phulia') || q.includes('bankura')) {
+      matchingCrafts = allCrafts.filter(c => c.state.toLowerCase().includes('bengal'));
+      spokenResponse = `West Bengal is celebrated for 700-year-old UNESCO-recognized Bengal Jamdani weaving made with the buffalo-horn kandul tool, Bankura Panchmura terracotta horses, Baluchari silk sarees, and Purulia Chhau masks.`;
     } else if (q.includes('rajasthan') || q.includes('blue pottery') || q.includes('jaipur')) {
       matchingCrafts = allCrafts.filter(c => c.state.toLowerCase().includes('rajasthan'));
       spokenResponse = `Rajasthan is world-renowned for Jaipur Blue Pottery, an ancient Egyptian faience craft made from quartz crystals without clay, and sacred Pichwai paintings.`;

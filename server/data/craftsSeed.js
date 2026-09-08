@@ -347,6 +347,327 @@ export const initialCrafts = [
     ],
     tags: ["Tanjore", "GI Tagged", "Tamil Nadu", "Gold Painting", "Sacred", "22K Gold"]
   },
+  {
+    id: "bengal-jamdani-weaving",
+    name: "Bengal Jamdani Weaving",
+    nativeName: "বাংলার ঐতিহ্যবাহী জামদানি বয়ন",
+    state: "West Bengal",
+    district: "Nadia (Phulia & Shantipur) / Purba Bardhaman (Kalna) / Hooghly (Dhaniakhali)",
+    region: "East",
+    coordinates: { lat: 23.2393, lng: 88.5034 },
+    category: "Handloom & Muslin Weaving",
+    materials: [
+      "Fine Unbleached Muslin-Grade Cotton (100s-200s Count)",
+      "Supplementary Weft Cotton & Zari Threads",
+      "Traditional Horn Kandul Tool",
+      "Traditional Pit Loom"
+    ],
+    technique: "Discontinuous Supplementary Weft Technique with Buffalo Horn 'Kandul' Needle",
+    GI_tagged: true,
+    giTagged: true,
+    giYear: 2013,
+    status: "active",
+    preservationStatus: "active",
+    verification_source: "UNESCO Intangible Cultural Heritage of Humanity (Inscribed 2013) & GI Registry of India (GI Application #582)",
+    verification_status: "verified",
+    era: "700+ Years (14th Century Bengal Delta & Mughal Golden Era under Emperor Jahangir)",
+    tagline: "UNESCO World Intangible Heritage: Sheer muslin woven with discontinuous weft and the traditional horn 'Kandul'",
+    description: "Jamdani weaving from the Bengal delta is one of the most intricate and labor-intensive handloom traditions in the world. Dating back over 700 years to early muslin guilds, it reached its zenith of royal patronage under Mughal Emperor Jahangir (1605–1627). In 2013, UNESCO recognized Jamdani as an Intangible Cultural Heritage of Humanity. Today in West Bengal, the craft thrives along the Hooghly river in Phulia and Shantipur (Nadia district), Kalna (Purba Bardhaman district), and Dhaniakhali (Hooghly), where generational master weavers create feather-light translucent sarees with non-structural supplementary motifs.",
+    history: "Jamdani has a documented history of at least 700 years, synthesizing indigenous Bengal weaving with 14th-century muslin production. Under Emperor Jahangir, plain muslin was transformed with elaborate floral motifs, and Jahangir himself wore Jamdani swatches. Though British colonial tariffs and machine-made imports caused historic weaving hubs like Madhurapur and Jangalbadi to decline, master weavers migrated after the 1947 Partition to Nadia and Burdwan, reviving the living tradition on Indian soil.",
+    culturalSignificance: "Regarded as the pinnacle of Indian textile alchemy, a genuine Jamdani saree is completely non-mechanized. Each motif is woven directly into the cloth by eye and hand without any pre-printed stencil, making every piece an irreplaceable work of wearable art.",
+    regionalVariants: "Shantipur Jamdani (fine texture, striped motifs closely resembling classical Tangail styles) & Dhaniakhali Jamdani (tighter weave, bold contrasting border lines).",
+    makingProcess: [
+      { step: 1, title: "Base Muslin Fabric Setup", description: "The weaver sets up the pit loom with ultra-fine, unbleached cotton threads to create a sheer, transparent, feather-light background fabric." },
+      { step: 2, title: "Discontinuous Weft Technique", description: "Unlike standard weaving where the weft runs edge-to-edge, here a separate supplementary weft thread is inserted only where a motif appears and then cut off, leaving the base sheer." },
+      { step: 3, title: "Hand Tool (Kandul) Lifting", description: "Weavers use a delicate small hand tool carved from buffalo horn, called a 'kandul', to individually lift specific warp threads to introduce supplementary motifs without any printing or machine aids." },
+      { step: 4, title: "Synchronous Motif Building", description: "Because each motif thread is placed by eye and hand, the design and the base cloth are engineered simultaneously on the loom." },
+      { step: 5, title: "Time & Labor Investment", description: "Due to this mathematical precision, a single authentic Jamdani saree requires between 3 months to nearly 1 full year to weave." }
+    ],
+    model3DType: "pottery",
+    priceEstimate: 14500,
+    sellerContact: "+91 94340 56789 (Phulia Weavers Cooperative)",
+    onlineStoreLink: "https://bengalcrafts.example.com/jamdani",
+    thumbnailUrl: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80"
+    ],
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    audioStory: "For seven hundred years across the Bengal delta, master weavers have whispered stories through sheer muslin threads, lifting warp fibers with a horn kandul to trap floral Mughal dreams in transparent cotton.",
+    artisanGroup: "Phulia & Shantipur Master Weavers Guild",
+    rating: 5.0,
+    reviewCount: 42,
+    reviews: [
+      { id: "r-jam-1", buyerName: "Dr. Sharmistha Banerjee", rating: 5, comment: "The feather-light sheer drape and exquisite kandul-lifted motifs are breathtaking. True Bengal heritage!", verifiedPurchase: true, createdAt: new Date("2026-08-20") },
+      { id: "r-jam-2", buyerName: "Kavita Krishnamurthy", rating: 5, comment: "Purchased a Dhaniakhali Jamdani. The craftsmanship and discontinuous weft detail is museum-grade.", verifiedPurchase: true, createdAt: new Date("2026-08-25") }
+    ],
+    sellers: [
+      {
+        id: "s-wb-1",
+        name: "Phulia Tangail & Jamdani Weavers Cooperative Society",
+        artisanName: "Master Weaver Biren Basak (Padma Shri Awardee)",
+        phone: "+91 94340 56789",
+        email: "phulia.jamdani@bengalcrafts.org",
+        address: "Weavers Colony, Phulia Gram Panchayat, Santipur Block",
+        location: "Nadia, West Bengal",
+        coordinates: { lat: 23.2393, lng: 88.5034 },
+        verified: true,
+        badge: "UNESCO & GI Certified Master Guild",
+        rating: 5.0,
+        reviewCount: 48,
+        onlineStoreUrl: "https://bengalhandloom.gov.in"
+      },
+      {
+        id: "s-wb-2",
+        name: "Kalna Hooghly Heritage Handloom Union",
+        artisanName: "Subhas Paul",
+        phone: "+91 98321 44556",
+        email: "kalna.jamdani@gmail.com",
+        address: "Dhatrigram Weavers Market, Kalna",
+        location: "Purba Bardhaman, West Bengal",
+        coordinates: { lat: 23.2205, lng: 88.3697 },
+        verified: true,
+        badge: "State Awarded Master Weaver",
+        rating: 4.9,
+        reviewCount: 31
+      }
+    ],
+    tags: ["Jamdani", "West Bengal", "Nadia", "Phulia", "Kalna", "GI Tagged", "UNESCO Heritage", "Muslin", "Handloom"]
+  },
+  {
+    id: "bankura-terracotta-horse",
+    name: "Bankura Panchmura Terracotta Horse",
+    nativeName: "বাঁকুড়া টেরাকোটা ঘোড়া",
+    state: "West Bengal",
+    district: "Bankura (Panchmura, Rajagram, Sonamukhi)",
+    region: "East",
+    coordinates: { lat: 22.9667, lng: 87.0333 },
+    category: "Terracotta & Clay Craft",
+    materials: ["Alluvial River Clay", "Fine Silt (Kasli Clay)", "Natural Wood Kiln"],
+    technique: "Hollow Symmetrical Wheel-Thrown Modular Assembly & Wood Firing",
+    GI_tagged: true,
+    giTagged: true,
+    giYear: 2018,
+    status: "active",
+    preservationStatus: "active",
+    verification_source: "Geographical Indications Registry of India (GI Application #584)",
+    verification_status: "verified",
+    era: "Malla Dynasty Royal Era (16th Century)",
+    tagline: "The official National Handicraft Emblem of India with distinctive erect ears and long neck",
+    description: "The Panchmura Terracotta Horse of Bankura is one of the most iconic symbols of Indian folk art, recognized globally as the National Handicraft Logo of India. Originating in Panchmura village, Bankura, potters throw separate modular hollow parts on the potter's wheel—ears, neck, snout, and legs—before assembling them into majestic, poised equine sculptures offered to local folk deities like Dharmathakur.",
+    makingProcess: [
+      { step: 1, title: "Clay Sourcing & Tempering", description: "Mixing local alluvial riverbed clay with Kasli silt and sand to prevent cracking during firing." },
+      { step: 2, title: "Wheel Turning Hollow Parts", description: "Master Kumbhakar potters throw the neck, cylindrical torso, flared ears, and legs as separate hollow components on the wheel." },
+      { step: 3, title: "Modular Hand Assembly", description: "Joining components using clay slip, then applying decorative clay appliqués (leaf motifs, ridged mane, and ornamental saddle)." },
+      { step: 4, title: "Open Kiln Firing (Bhatti)", description: "Slow sun-drying for 6 days followed by firing in wood-fueled trenches yielding its characteristic warm terracotta-orange or lustrous black color." }
+    ],
+    model3DType: "pottery",
+    priceEstimate: 1850,
+    sellerContact: "+91 97321 88990 (Panchmura Kumbhakar Guild)",
+    onlineStoreLink: "https://bankuracrafts.example.com/horse",
+    thumbnailUrl: "https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=600&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=800&q=80"
+    ],
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    artisanGroup: "Panchmura Terracotta Artisans Guild",
+    rating: 4.9,
+    reviewCount: 36,
+    reviews: [
+      { id: "r-ban-1", buyerName: "Debabrata Roy", rating: 5, comment: "Authentic Panchmura terracotta horse with elegant proportion and vibrant burnt-clay patina.", verifiedPurchase: true, createdAt: new Date("2026-08-18") }
+    ],
+    sellers: [
+      {
+        id: "s-wb-3",
+        name: "Panchmura Terracotta Sculptors Cooperative",
+        artisanName: "Rashbehari Kumbhakar",
+        phone: "+91 97321 88990",
+        address: "Kumbhakar Para, Panchmura",
+        location: "Bankura, West Bengal",
+        coordinates: { lat: 22.9667, lng: 87.0333 },
+        verified: true,
+        badge: "National Awardee Kumbhakar Guild",
+        rating: 4.9,
+        reviewCount: 39
+      }
+    ],
+    tags: ["Bankura", "West Bengal", "Terracotta", "Panchmura", "GI Tagged", "Horse", "Clay"]
+  },
+  {
+    id: "baluchari-saree-bengal",
+    name: "Baluchari Silk Saree",
+    nativeName: "বালুচরী সিল্ক শাড়ি",
+    state: "West Bengal",
+    district: "Bankura (Bishnupur) / Murshidabad (Jiaganj)",
+    region: "East",
+    coordinates: { lat: 23.075, lng: 87.3167 },
+    category: "Handloom Silk & Jacquard",
+    materials: ["Pure Murshidabad Mulberry Silk", "Untwisted Silk Floss", "Natural Dyes"],
+    technique: "Narrative Jacquard Weaving with Mahabharata & Ramayana Pallu Scenes",
+    GI_tagged: true,
+    giTagged: true,
+    giYear: 2011,
+    status: "active",
+    preservationStatus: "active",
+    verification_source: "Geographical Indications Registry of India (GI Application #173)",
+    verification_status: "verified",
+    era: "Nawab Murshid Quli Khan Royal Patronage (18th Century Bishnupur)",
+    tagline: "Mythological mythological tapestries woven into pure Bishnupur mulberry silk",
+    description: "Baluchari sarees are famed for their elaborate pallus depicting narrative scenes from the Ramayana, Mahabharata, and court durbars of Bengal Nawabs. Originally nurtured in Baluchar village, Murshidabad, and preserved in Bishnupur under Malla royal patronage, master weavers use complex jacquard harnesses to illustrate equestrian noblemen, floral paisleys, and mythological epics.",
+    makingProcess: [
+      { step: 1, title: "Silk Reeling & Dyeing", description: "Extracting fine Mulberry silk from Murshidabad sericulture farms, followed by boiling in natural vegetable dyes." },
+      { step: 2, title: "Jacquard Graph Designing", description: "Master artists hand-draw mythological battle scenes and court durbars onto graph grids (Naksha)." },
+      { step: 3, title: "Punch Card Jacquard Looms", description: "Translating graph designs into thousands of punched jacquard cards that manipulate extra-weft silk threads during weaving." }
+    ],
+    model3DType: "pottery",
+    priceEstimate: 16800,
+    sellerContact: "+91 94341 22334 (Bishnupur Silk Guild)",
+    onlineStoreLink: "https://bishnupursilk.example.com",
+    thumbnailUrl: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80"
+    ],
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    artisanGroup: "Bishnupur Baluchari Weavers Cooperative",
+    rating: 4.9,
+    reviewCount: 29,
+    reviews: [
+      { id: "r-bal-1", buyerName: "Swati Sengupta", rating: 5, comment: "The intricate depiction of Arjuna's chariot on the pallu is breathtaking. Museum-level silk.", verifiedPurchase: true, createdAt: new Date("2026-08-22") }
+    ],
+    sellers: [
+      {
+        id: "s-wb-4",
+        name: "Bishnupur Heritage Silk Emporium",
+        artisanName: "Amal Das",
+        phone: "+91 94341 22334",
+        address: "Shankari Bazar, Bishnupur",
+        location: "Bankura, West Bengal",
+        coordinates: { lat: 23.075, lng: 87.3167 },
+        verified: true,
+        badge: "GI Registered Silk Master",
+        rating: 4.9,
+        reviewCount: 33
+      }
+    ],
+    tags: ["Baluchari", "West Bengal", "Bishnupur", "Silk", "GI Tagged", "Handloom", "Textiles"]
+  },
+  {
+    id: "purulia-chhau-mask",
+    name: "Purulia Chhau Mask",
+    nativeName: "পুরুলিয়া ছৌ মুখোশ",
+    state: "West Bengal",
+    district: "Purulia (Charida Village, Baghmundi)",
+    region: "East",
+    coordinates: { lat: 23.1873, lng: 86.0331 },
+    category: "Folk Mask & Ritual Art",
+    materials: ["Soft Alluvial Clay (Entel Mati)", "Recycled Paper & Cloth", "Mica (Chumki)", "Feathers & Natural Dyes"],
+    technique: "Layered Papier-Mâché Clay Moulding with Painted Mythological Features",
+    GI_tagged: true,
+    giTagged: true,
+    giYear: 2018,
+    status: "active",
+    preservationStatus: "active",
+    verification_source: "Geographical Indications Registry of India (GI Application #585)",
+    verification_status: "verified",
+    era: "18th Century Martial Folk Tradition under Baghmundi Rajas",
+    tagline: "Vibrant theatrical masks worn during acrobatic martial Chhau dance of Purulia",
+    description: "In the artisan village of Charida in Purulia, the entire community of Sutradhar craftsmen creates dramatic, vibrant masks for Chhau acrobatic martial dance. Depicting gods like Durga, Shiva, and Kartikeya alongside fierce demons (Asuras) and jungle predators, these masks are crafted using paper pulp, mud, and fabric over clay moulds, embellished with sparkling mica, tinsel, and peacock feathers.",
+    makingProcess: [
+      { step: 1, title: "Clay Matrix Sculpting", description: "Sculpting facial features of gods and demons in wet alluvial clay." },
+      { step: 2, title: "Paper & Cloth Lamination", description: "Applying 8-10 layers of recycled paper soaked in flour glue, topped with a muslin cloth coat." },
+      { step: 3, title: "Fine Feature Detailing", description: "Polishing with wooden spatulas and applying a layer of fine river clay slip (Khori mati)." },
+      { step: 4, title: "Vibrant Painting & Ornamentation", description: "Hand-painting bold expressive eyes, moustaches, and adorning crowns with beads, tinsel, and feathers." }
+    ],
+    model3DType: "pottery",
+    priceEstimate: 3200,
+    sellerContact: "+91 97322 11445 (Charida Chhau Artists Guild)",
+    onlineStoreLink: "https://puruliacrafts.example.com",
+    thumbnailUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80"
+    ],
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    artisanGroup: "Charida Chhau Mask Makers Society",
+    rating: 4.8,
+    reviewCount: 22,
+    reviews: [
+      { id: "r-chh-1", buyerName: "Amitava Ghosh", rating: 5, comment: "The Goddess Durga mask is stunningly theatrical and vibrant. Perfect wall accent!", verifiedPurchase: true, createdAt: new Date("2026-08-27") }
+    ],
+    sellers: [
+      {
+        id: "s-wb-5",
+        name: "Charida Chhau Craft Studio",
+        artisanName: "Gambhir Singh Mura Guild",
+        phone: "+91 97322 11445",
+        address: "Mask Street, Charida Village, Baghmundi",
+        location: "Purulia, West Bengal",
+        coordinates: { lat: 23.1873, lng: 86.0331 },
+        verified: true,
+        badge: "GI Certified Folk Artist",
+        rating: 4.8,
+        reviewCount: 27
+      }
+    ],
+    tags: ["Chhau", "Purulia", "West Bengal", "Mask", "GI Tagged", "Folk Art", "Charida"]
+  },
+  {
+    id: "shantiniketan-leather-craft",
+    name: "Shantiniketan Embossed Leather Goods",
+    nativeName: "শান্তিনিকেতনী খোদাই করা চামড়ার শিল্প",
+    state: "West Bengal",
+    district: "Birbhum (Bolpur, Shantiniketan, Sriniketan)",
+    region: "East",
+    coordinates: { lat: 23.6708, lng: 87.6975 },
+    category: "Embossed Leather & Craft",
+    materials: ["Vegetable-Tanned Sheep & Goat Leather", "Natural Acid Dyes", "Brass Embossing Dies"],
+    technique: "Touch-Dyeing & Blind Pressure Heat-Embossing with Rabindrik Motifs",
+    GI_tagged: true,
+    giTagged: true,
+    giYear: 2008,
+    status: "active",
+    preservationStatus: "active",
+    verification_source: "Geographical Indications Registry of India (GI Application #69)",
+    verification_status: "verified",
+    era: "Tagore Visva-Bharati Sriniketan Movement (1920s)",
+    tagline: "Eco-friendly vegetable tanned leather embossed with traditional rural folk art",
+    description: "Developed under Rabindranath Tagore's rural reconstruction initiative at Visva-Bharati, Sriniketan in the 1920s, Shantiniketan Leather Craft utilizes vegetable-tanned goat and sheep pelts. Artisans create intricate geometric and floral patterns through blind brass die stamping and touch-dyeing with vibrant non-toxic pigments.",
+    makingProcess: [
+      { step: 1, title: "Vegetable Tanning", description: "Processing hides using natural tannin extracts from babool bark and myrobalan seeds." },
+      { step: 2, title: "Batik Touch-Dyeing", description: "Applying vibrant natural dyes with cotton pads onto damp leather to achieve signature multi-toned marbling." },
+      { step: 3, title: "Hand Embossing", description: "Hammering brass dies onto the grain side to produce tactile raised motifs of birds, alpona, and folk scenes." }
+    ],
+    model3DType: "pottery",
+    priceEstimate: 2100,
+    sellerContact: "+91 94342 99887 (Amar Kutir Craft Society)",
+    onlineStoreLink: "https://amarkutir.example.com",
+    thumbnailUrl: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=600&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=800&q=80"
+    ],
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    artisanGroup: "Amar Kutir Society for Rural Development",
+    rating: 4.9,
+    reviewCount: 31,
+    reviews: [
+      { id: "r-sn-1", buyerName: "Priyanka Sen", rating: 5, comment: "Durable, soft, and the embossed alpona art is classic Shantiniketan elegance.", verifiedPurchase: true, createdAt: new Date("2026-08-26") }
+    ],
+    sellers: [
+      {
+        id: "s-wb-6",
+        name: "Amar Kutir Leather Guild",
+        artisanName: "Sushobhan Ghosh",
+        phone: "+91 94342 99887",
+        address: "Amar Kutir Complex, Ballavpur",
+        location: "Bolpur, Shantiniketan, West Bengal",
+        coordinates: { lat: 23.6708, lng: 87.6975 },
+        verified: true,
+        badge: "Visva-Bharati Associated Artisan Guild",
+        rating: 4.9,
+        reviewCount: 34
+      }
+    ],
+    tags: ["Shantiniketan", "West Bengal", "Leather", "Birbhum", "GI Tagged", "Bolpur", "Tagore"]
+  },
 
   // ==========================================
   // 🔴 NON-GI ENDANGERED CRAFTS (RED MARKERS)
