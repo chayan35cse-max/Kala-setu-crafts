@@ -18,7 +18,10 @@ import {
   ArrowRight,
   Eye,
   CheckCircle2,
-  Filter
+  Filter,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -449,21 +452,28 @@ export default function StateCraftMap({
 
   // Get full craft payload from database or marker
   const getFullCraftData = (marker) => {
-    const found = allCrafts.find(c => c.id === marker.id || c.name.toLowerCase().includes(marker.craftName.toLowerCase()));
+    if (!marker) return {};
+    const craftsList = Array.isArray(allCrafts) ? allCrafts : [];
+    const found = craftsList.find(c => {
+      if (!c) return false;
+      if (c.id && marker.id && c.id === marker.id) return true;
+      if (c.name && marker.craftName && c.name.toLowerCase().includes(marker.craftName.toLowerCase())) return true;
+      return false;
+    });
     if (found) return found;
 
     return {
-      id: marker.id,
-      name: marker.craftName,
-      nativeName: marker.nativeName,
-      state: stateData.name,
-      district: marker.district,
-      category: marker.category,
-      GI_tagged: marker.GI_tagged,
-      giTagged: marker.giTagged,
-      giYear: marker.giYear,
-      status: marker.status,
-      verification_source: marker.verification_source,
+      id: marker.id || 'craft-detail',
+      name: marker.craftName || 'Traditional Craft',
+      nativeName: marker.nativeName || '',
+      state: stateData?.name || 'West Bengal',
+      district: marker.district || '',
+      category: marker.category || 'Handloom & Handicrafts',
+      GI_tagged: !!marker.GI_tagged,
+      giTagged: !!marker.giTagged,
+      giYear: marker.giYear || 2013,
+      status: marker.status || 'active',
+      verification_source: marker.verification_source || 'GI Registry of India',
       sellerContact: '+91 94340 56789 (District Master Artisan Cooperative)',
       onlineStoreLink: 'https://kala-setu.example.com',
       thumbnailUrl: marker.id === 'bengal-jamdani-weaving'
@@ -475,13 +485,14 @@ export default function StateCraftMap({
         : marker.id === 'purulia-chhau-mask'
         ? 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80'
         : 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80',
-      description: `${marker.craftName} is an authentic traditional heritage craft preserved in ${marker.district}, ${stateData.name}. ${marker.clusterNote || ''}`,
-      history: `${marker.craftName} has flourished for centuries under master artisan lineages in ${stateData.name}.`,
-      sellers: [{ name: `${marker.district} Master Artisan Cooperative`, verified: true }]
+      description: `${marker.craftName || 'Craft'} is an authentic traditional heritage craft preserved in ${marker.district || ''}, ${stateData?.name || 'India'}. ${marker.clusterNote || ''}`,
+      history: `${marker.craftName || 'This craft'} has flourished for centuries under master artisan lineages in ${stateData?.name || 'India'}.`,
+      sellers: [{ name: `${marker.district || 'District'} Master Artisan Cooperative`, verified: true }]
     };
   };
 
-  const visibleMarkers = stateData.craftMarkers.filter(m => {
+  const visibleMarkers = (stateData?.craftMarkers || []).filter(m => {
+    if (!m) return false;
     if (filterType === 'gi' && !m.GI_tagged) return false;
     if (filterType === 'non-gi' && m.GI_tagged) return false;
     return true;
@@ -803,7 +814,9 @@ export default function StateCraftMap({
 
                       <button
                         onClick={() => {
-                          onSelectCraft(craft);
+                          if (onSelectCraft) {
+                            onSelectCraft(craft);
+                          }
                           setActiveModalMarker(null);
                         }}
                         className={`bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 hover:from-amber-800 hover:to-orange-700 text-white font-bold text-xs py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5 shadow-lg shadow-amber-700/25 transition-all cursor-pointer ${
@@ -858,8 +871,19 @@ export default function StateCraftMap({
 
             <button
               onClick={() => {
-                const jamdani = getFullCraftData(stateData.craftMarkers[0]);
-                onSelectCraft(jamdani);
+                const marker = stateData?.craftMarkers?.[0];
+                const jamdani = getFullCraftData(marker || {
+                  id: 'bengal-jamdani-weaving',
+                  craftName: 'Bengal Jamdani Weaving',
+                  nativeName: 'বাংলার ঐতিহ্যবাহী জামদানি বয়ন',
+                  district: 'Nadia (Phulia & Shantipur) / Bardhaman (Kalna)',
+                  category: 'Handloom & Muslin Weaving',
+                  GI_tagged: true,
+                  giTagged: true
+                });
+                if (onSelectCraft) {
+                  onSelectCraft(jamdani);
+                }
               }}
               className="bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center space-x-1.5 shadow-md shadow-amber-700/20 cursor-pointer"
             >
