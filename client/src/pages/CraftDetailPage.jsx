@@ -36,7 +36,7 @@ import ARViewModal from '../components/ARViewModal';
 import { getCraftById, createOrder, submitReview } from '../services/api';
 import confetti from 'canvas-confetti';
 
-export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavigateToOrders }) {
+export default function CraftDetailPage({ craftId, onBack, previousPageName, onSelectCraft, onNavigateToOrders }) {
   const { t } = useTranslation();
   const [craft, setCraft] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -94,9 +94,9 @@ export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavi
         <h2 className="text-2xl font-bold text-stone-800">Craft Record Not Found</h2>
         <button
           onClick={onBack}
-          className="px-4 py-2 bg-amber-600 text-white rounded-xl font-medium cursor-pointer"
+          className="px-5 py-2.5 bg-amber-700 hover:bg-amber-800 text-white rounded-xl font-bold text-xs cursor-pointer shadow-md"
         >
-          Return to Map Explorer
+          ← Return to {previousPageName || 'Previous Page'}
         </button>
       </div>
     );
@@ -140,23 +140,20 @@ export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavi
       });
 
       if (res.success) {
-        confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+        confetti({ particleCount: 90, spread: 80, origin: { y: 0.6 } });
         setShowOrderModal(false);
-        if (onNavigateToOrders) {
-          onNavigateToOrders();
-        } else {
-          alert(`Order Placed! India Post Tracking ID: ${res.data.trackingId}`);
-        }
+        alert(`Order successfully placed! Order ID: ${res.data?.orderId || 'ORD-NEW'}. You can track delivery via India Post.`);
+        if (onNavigateToOrders) onNavigateToOrders();
       }
     } catch (err) {
-      alert('Error creating order');
+      alert('Error placing order: ' + err.message);
     } finally {
       setOrdering(false);
     }
   };
 
   // Handle Review Submission
-  const handleReviewSubmit = async (e) => {
+  const handleSubmitReview = async (e) => {
     e.preventDefault();
     if (!newReviewComment.trim()) return;
 
@@ -164,8 +161,7 @@ export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavi
     try {
       const res = await submitReview({
         craftId: craft.id,
-        sellerId: craft.sellers?.[0]?.id,
-        buyerName: newReviewAuthor || 'Art Patron',
+        buyerName: newReviewAuthor.trim() || 'Cultural Patron',
         rating: newReviewRating,
         comment: newReviewComment
       });
@@ -205,10 +201,11 @@ export default function CraftDetailPage({ craftId, onBack, onSelectCraft, onNavi
       <div className="flex flex-wrap items-center justify-between gap-3">
         <button
           onClick={onBack}
-          className="flex items-center space-x-2 text-sm font-semibold text-stone-600 hover:text-amber-700 transition-colors bg-white px-4 py-2.5 rounded-xl shadow-sm border border-stone-200 cursor-pointer"
+          className="flex items-center space-x-2 text-xs sm:text-sm font-bold text-stone-800 hover:text-amber-800 transition-all bg-white hover:bg-stone-50 px-4 py-2.5 rounded-2xl shadow-sm border border-stone-200 cursor-pointer group"
+          title={`Return to ${previousPageName || 'Previous Page'}`}
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Sovereign Map</span>
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-amber-700" />
+          <span>← Back to {previousPageName || 'Previous Page'}</span>
         </button>
 
         <div className="flex flex-wrap items-center gap-2">

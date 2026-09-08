@@ -11,12 +11,13 @@ import {
   Users,
   MapPin,
   ExternalLink,
-  Info
+  Info,
+  ArrowLeft
 } from 'lucide-react';
 import { submitResearchedCraft } from '../services/api';
 import confetti from 'canvas-confetti';
 
-export default function ResearcherSubmissionPage({ onCraftCreated }) {
+export default function ResearcherSubmissionPage({ onCraftCreated, onBack, previousPageName }) {
   const [formData, setFormData] = useState({
     name: '',
     nativeName: '',
@@ -100,13 +101,25 @@ export default function ResearcherSubmissionPage({ onCraftCreated }) {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 animate-fadeIn">
       {/* Hero Banner */}
-      <div className="bg-gradient-to-r from-blue-950 via-indigo-900 to-purple-950 text-white rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden">
-        <div className="relative z-10 max-w-2xl space-y-3">
+      <div className="bg-gradient-to-r from-blue-950 via-indigo-900 to-purple-950 text-white rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 relative z-10">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="flex items-center space-x-2 bg-stone-900/90 hover:bg-stone-800 text-amber-300 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>← Back to {previousPageName || 'Previous Page'}</span>
+            </button>
+          )}
+
           <div className="inline-flex items-center space-x-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 px-3.5 py-1 rounded-full text-xs font-bold">
             <BookOpen className="w-3.5 h-3.5" />
             <span>Academic & NGO Field Contribution Portal</span>
           </div>
+        </div>
 
+        <div className="space-y-3 relative z-10 max-w-3xl">
           <h1 className="text-3xl sm:text-4xl font-serif font-black tracking-tight">
             Contribute Non-GI Craft Research
           </h1>

@@ -11,11 +11,12 @@ import {
   Search,
   Filter,
   Sparkles,
-  Clock
+  Clock,
+  ArrowLeft
 } from 'lucide-react';
 import { getSellers, getCrafts } from '../services/api';
 
-export default function ArtisansDirectoryPage({ onSelectCraftById }) {
+export default function ArtisansDirectoryPage({ onSelectCraftById, onBack, previousPageName }) {
   const [sellers, setSellers] = useState([]);
   const [crafts, setCrafts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,10 +60,22 @@ export default function ArtisansDirectoryPage({ onSelectCraftById }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 animate-fadeIn">
       {/* Header */}
-      <div className="bg-stone-950 text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-stone-800 space-y-4">
-        <div className="inline-flex items-center space-x-2 bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold">
-          <Users className="w-4 h-4 text-amber-400" />
-          <span>National Master Craftsmen Registry</span>
+      <div className="bg-stone-950 text-white rounded-3xl p-6 sm:p-12 shadow-2xl border border-stone-800 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="flex items-center space-x-2 bg-stone-900 hover:bg-stone-800 text-amber-300 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>← Back to {previousPageName || 'Previous Page'}</span>
+            </button>
+          )}
+
+          <div className="inline-flex items-center space-x-2 bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold">
+            <Users className="w-4 h-4 text-amber-400" />
+            <span>National Master Craftsmen Registry</span>
+          </div>
         </div>
         <h1 className="text-3xl sm:text-5xl font-black font-serif tracking-tight">
           Living Masters & Artisan Cooperatives

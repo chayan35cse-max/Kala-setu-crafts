@@ -16,13 +16,16 @@ import {
   Camera,
   Award,
   Heart,
-  Gift
+  Gift,
+  ArrowLeft
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function Navbar({
   activePage,
   setActivePage,
+  onGoBack,
+  previousPageName,
   onSearchSelect,
   onOpenCraftSnap,
   onOpenQuiz,
@@ -59,26 +62,42 @@ export default function Navbar({
     <header className="sticky top-0 z-50 bg-stone-950/90 backdrop-blur-md border-b border-amber-900/30 text-stone-100 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Brand Logo */}
-          <div
-            onClick={() => setActivePage('home')}
-            className="flex items-center space-x-3 cursor-pointer group"
-          >
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-600/30 group-hover:scale-105 transition-transform">
-              <Feather className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-1.5">
-                <span className="text-2xl font-black tracking-tight text-white font-serif">
-                  Kala<span className="text-amber-500">Setu</span>
+          {/* Brand Logo & Back to Previous Button */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {onGoBack && activePage !== 'home' && (
+              <button
+                onClick={onGoBack}
+                className="flex items-center space-x-1.5 bg-stone-900/90 hover:bg-stone-800 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-xl text-xs font-bold border border-amber-500/30 shadow-md transition-all cursor-pointer group"
+                title={`Back to ${previousPageName || 'Previous Page'}`}
+              >
+                <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+                <span>Back</span>
+                <span className="hidden lg:inline text-[10px] text-amber-200/70 font-normal">
+                  ({previousPageName || 'Previous'})
                 </span>
-                <span className="text-[10px] bg-amber-500/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-500/40">
-                  INDIA
-                </span>
+              </button>
+            )}
+
+            <div
+              onClick={() => setActivePage('home')}
+              className="flex items-center space-x-3 cursor-pointer group"
+            >
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-600/30 group-hover:scale-105 transition-transform">
+                <Feather className="w-6 h-6 text-white" />
               </div>
-              <p className="text-[11px] text-amber-200/70 font-medium tracking-wide">
-                Cultural Archive & Marketplace
-              </p>
+              <div>
+                <div className="flex items-center space-x-1.5">
+                  <span className="text-2xl font-black tracking-tight text-white font-serif">
+                    Kala<span className="text-amber-500">Setu</span>
+                  </span>
+                  <span className="text-[10px] bg-amber-500/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-500/40">
+                    INDIA
+                  </span>
+                </div>
+                <p className="text-[11px] text-amber-200/70 font-medium tracking-wide">
+                  Cultural Archive & Marketplace
+                </p>
+              </div>
             </div>
           </div>
 

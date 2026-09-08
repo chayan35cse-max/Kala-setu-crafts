@@ -11,13 +11,14 @@ import {
   Sparkles,
   ArrowRight,
   UserCheck,
-  Lock
+  Lock,
+  ArrowLeft
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
 import { registerSeller, getSellers, verifySeller, getCrafts } from '../services/api';
 
-export default function SellerPortalPage({ onNavigateToCraft }) {
+export default function SellerPortalPage({ onNavigateToCraft, onBack, previousPageName }) {
   const { t } = useTranslation();
   const [craftsList, setCraftsList] = useState([]);
   const [sellersList, setSellersList] = useState([]);
@@ -122,12 +123,25 @@ export default function SellerPortalPage({ onNavigateToCraft }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12 animate-fadeIn">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950 text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-amber-500/30 relative overflow-hidden">
-        <div className="relative z-10 max-w-3xl space-y-4">
+      <div className="bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950 text-white rounded-3xl p-6 sm:p-12 shadow-2xl border border-amber-500/30 relative overflow-hidden space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 relative z-10">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="flex items-center space-x-2 bg-stone-900/90 hover:bg-stone-800 text-amber-300 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>← Back to {previousPageName || 'Previous Page'}</span>
+            </button>
+          )}
+
           <div className="inline-flex items-center space-x-2 bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold">
             <ShieldCheck className="w-4 h-4 text-amber-400" />
             <span>National Artisan Registry & Trust Shield</span>
           </div>
+        </div>
+
+        <div className="relative z-10 max-w-3xl space-y-3">
           <h1 className="text-3xl sm:text-5xl font-black font-serif tracking-tight">
             Artisan Verification & Seller Portal
           </h1>

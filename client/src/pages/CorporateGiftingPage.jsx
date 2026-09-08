@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Gift, ShieldCheck, Users, Send, CheckCircle2, Award, Heart, Sparkles, Building2, Download } from 'lucide-react';
+import { Gift, ShieldCheck, Users, Send, CheckCircle2, Award, Heart, Sparkles, Building2, Download, ArrowLeft } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const CORPORATE_HAMPERS = [
@@ -45,7 +45,7 @@ const CORPORATE_HAMPERS = [
   }
 ];
 
-export default function CorporateGiftingPage() {
+export default function CorporateGiftingPage({ onBack, previousPageName }) {
   const [selectedHamper, setSelectedHamper] = useState(CORPORATE_HAMPERS[0]);
   const [companyName, setCompanyName] = useState('');
   const [contactPerson, setContactPerson] = useState('');
@@ -69,13 +69,25 @@ export default function CorporateGiftingPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 animate-fadeIn">
       {/* Hero Banner */}
-      <div className="bg-gradient-to-r from-stone-900 via-stone-850 to-amber-950 text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-        <div className="relative z-10 max-w-2xl space-y-4">
+      <div className="bg-gradient-to-r from-stone-900 via-stone-850 to-amber-950 text-white rounded-3xl p-6 sm:p-12 shadow-2xl relative overflow-hidden space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 relative z-10">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="flex items-center space-x-2 bg-stone-900/90 hover:bg-stone-800 text-amber-300 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>← Back to {previousPageName || 'Previous Page'}</span>
+            </button>
+          )}
+
           <div className="inline-flex items-center space-x-2 bg-amber-500/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-xs font-bold">
             <Building2 className="w-4 h-4" />
             <span>B2B Institutional & Corporate Gifting</span>
           </div>
+        </div>
 
+        <div className="space-y-3 relative z-10 max-w-3xl">
           <h1 className="text-3xl sm:text-5xl font-serif font-black tracking-tight">
             Sustainable Artisan Gifting with Real Social Impact
           </h1>
