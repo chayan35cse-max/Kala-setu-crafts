@@ -30,112 +30,250 @@ export const STATE_CRAFT_DATA = {
   'west-bengal': {
     name: 'West Bengal',
     nativeName: 'পশ্চিমবঙ্গ',
-    tagline: 'Land of Bengal Jamdani, Terracotta Horses, Baluchari Silk & Chhau Masks',
+    tagline: 'Land of Bengal Jamdani, Terracotta Horses, Baluchari Silk, Chhau Masks & Patachitra',
     region: 'East',
     capital: 'Kolkata',
-    craftCount: 6,
+    craftCount: 14,
     accentColor: '#b45309',
-    svgViewBox: '0 0 500 700',
+    svgViewBox: '0 0 474 587',
     description: 'West Bengal is a legendary global cradle of handloom textiles, terracotta sculpture, folk masks, and lost-wax metallurgy, celebrated for UNESCO-recognized Bengal Jamdani weaving and the iconic Bankura Panchmura terracotta horse.',
     districts: [
       { id: 'nadia', name: 'Nadia (Phulia & Shantipur)', craft: 'Bengal Jamdani & Tangail Weaving' },
-      { id: 'bardhaman', name: 'Purba Bardhaman (Kalna)', craft: 'Jamdani Handloom Cluster & Dokra' },
+      { id: 'bardhaman', name: 'Purba Bardhaman (Kalna & Dariapur)', craft: 'Jamdani Handloom Cluster & Dokra' },
       { id: 'bankura', name: 'Bankura (Panchmura & Bishnupur)', craft: 'Terracotta Horse & Baluchari Silk' },
-      { id: 'purulia', name: 'Purulia (Charida)', craft: 'Purulia Chhau Martial Dance Masks' },
-      { id: 'birbhum', name: 'Birbhum (Bolpur & Shantiniketan)', craft: 'Shantiniketan Embossed Leather' },
-      { id: 'hooghly', name: 'Hooghly (Dhaniakhali)', craft: 'Dhaniakhali Jamdani Weaving' }
+      { id: 'purulia', name: 'Purulia (Charida Village)', craft: 'Purulia Martial Chhau Dance Masks' },
+      { id: 'birbhum', name: 'Birbhum (Bolpur & Shantiniketan)', craft: 'Shantiniketan Embossed Leather Goods' },
+      { id: 'hooghly', name: 'Hooghly (Dhaniakhali)', craft: 'Dhaniakhali Jamdani & Cotton Saree' },
+      { id: 'murshidabad', name: 'Murshidabad (Jiaganj & Islampur)', craft: 'Murshidabad Pure Mulberry Silk Saree' },
+      { id: 'paschim-medinipur', name: 'Paschim Medinipur (Pingla / Naya)', craft: 'Pingla Patachitra & Patter Gaan' },
+      { id: 'kolkata', name: 'Kolkata (Kumartuli Potter Quarter)', craft: 'Kumartuli Clay Idol Sculpture & Kalighat Art' },
+      { id: 'darjeeling', name: 'Darjeeling (Himalayan Ridge)', craft: 'Darjeeling Lepcha Woodcraft & Himalayan Heritage' },
+      { id: 'malda', name: 'Malda (English Bazar & Sujapur)', craft: 'Malda Raw Silk Sericulture & Mango Woodcraft' },
+      { id: 'south-24-parganas', name: 'South 24 Parganas (Sundarbans Delta)', craft: 'Sundarbans Wild Forest Honey & Mangrove Cane' }
     ],
     craftMarkers: [
       {
         id: 'bengal-jamdani-weaving',
         craftName: 'Bengal Jamdani Weaving',
         nativeName: 'বাংলার ঐতিহ্যবাহী জামদানি বয়ন',
-        district: 'Nadia (Phulia & Shantipur) / Bardhaman (Kalna)',
+        district: 'Nadia (Phulia & Shantipur)',
+        districtBadge: 'Nadia',
         category: 'Handloom & Muslin Weaving',
         GI_tagged: true,
         giTagged: true,
         giYear: 2013,
         status: 'active',
         verification_source: 'UNESCO Intangible Cultural Heritage & GI Registry (#582)',
-        top: '55%',
-        left: '68%',
+        top: '66.9%',
+        left: '65.1%',
         highlight: true,
-        clusterNote: 'Centres: Phulia, Shantipur, Kalna & Dhaniakhali along Hooghly river'
+        clusterNote: 'Centres: Phulia & Shantipur along Hooghly river. Sheer muslin base with discontinuous weft motifs lifted using horn kandul tool.'
+      },
+      {
+        id: 'kalna-jamdani-bardhaman',
+        craftName: 'Kalna Jamdani & Handloom Cluster',
+        nativeName: 'কালনা জামদানি ও তাঁত শিল্প',
+        district: 'Purba Bardhaman (Kalna)',
+        districtBadge: 'Bardhaman',
+        category: 'Handloom & Muslin Weaving',
+        GI_tagged: true,
+        giTagged: true,
+        giYear: 2018,
+        status: 'active',
+        verification_source: 'GI Registry of India (#583)',
+        top: '65.7%',
+        left: '52.2%',
+        clusterNote: 'Centuries-old Jamdani and Tangail handloom corridor producing fine cotton sarees and Dhatrigram weaves.'
       },
       {
         id: 'bankura-terracotta-horse',
         craftName: 'Bankura Panchmura Terracotta Horse',
         nativeName: 'বাঁকুড়া টেরাকোটা ঘোড়া',
         district: 'Bankura (Panchmura Village)',
+        districtBadge: 'Bankura',
         category: 'Terracotta & Clay Sculpture',
         GI_tagged: true,
         giTagged: true,
         giYear: 2018,
         status: 'active',
         verification_source: 'GI Registry of India (#584)',
-        top: '60%',
-        left: '42%',
-        clusterNote: 'National Handicraft Logo of India with modular hollow wheel-thrown parts'
+        top: '71.5%',
+        left: '33.1%',
+        clusterNote: 'Official National Handicraft Logo of India. Wheel-thrown modular hollow components assembled with erect ears.'
       },
       {
         id: 'baluchari-saree-bengal',
         craftName: 'Baluchari Silk Saree',
         nativeName: 'বালুচরী সিল্ক শাড়ি',
-        district: 'Bankura (Bishnupur Malla Dynasty Hub)',
+        district: 'Bankura (Bishnupur Malla Hub)',
+        districtBadge: 'Bishnupur',
         category: 'Handloom Silk & Jacquard',
         GI_tagged: true,
         giTagged: true,
         giYear: 2011,
         status: 'active',
         verification_source: 'GI Registry of India (#173)',
-        top: '56%',
-        left: '49%',
-        clusterNote: 'Pure mulberry silk with Ramayana & Mahabharata narrative woven pallus'
+        top: '73.0%',
+        left: '38.0%',
+        clusterNote: 'Pure mulberry silk with Ramayana and Mahabharata mythological narratives woven into elaborate pallus.'
       },
       {
         id: 'purulia-chhau-mask',
         craftName: 'Purulia Chhau Dance Mask',
         nativeName: 'পুরুলিয়া ছৌ মুখোশ',
         district: 'Purulia (Charida Village, Baghmundi)',
+        districtBadge: 'Purulia',
         category: 'Folk Mask & Ritual Art',
         GI_tagged: true,
         giTagged: true,
         giYear: 2018,
         status: 'active',
         verification_source: 'GI Registry of India (#585)',
-        top: '54%',
-        left: '26%',
-        clusterNote: 'Theatrical papier-mâché masks for acrobatic martial Chhau dance'
+        top: '68.3%',
+        left: '15.7%',
+        clusterNote: 'Theatrical papier-mâché and clay masks with peacock feathers for martial acrobatic Chhau dance.'
       },
       {
         id: 'shantiniketan-leather-craft',
         craftName: 'Shantiniketan Embossed Leather Goods',
         nativeName: 'শান্তিনিকেতনী খোদাই করা চামড়ার শিল্প',
         district: 'Birbhum (Bolpur & Shantiniketan)',
+        districtBadge: 'Birbhum',
         category: 'Embossed Leather Craft',
         GI_tagged: true,
         giTagged: true,
         giYear: 2008,
         status: 'active',
         verification_source: 'GI Registry of India (#69)',
-        top: '44%',
-        left: '55%',
-        clusterNote: 'Tagore Visva-Bharati rural reconstruction craft with touch-dyed embossed motifs'
+        top: '57.7%',
+        left: '42.1%',
+        clusterNote: 'Tagore Visva-Bharati rural revival craft using vegetable-tanned leather with touch-dyed embossed motifs.'
+      },
+      {
+        id: 'dhaniakhali-saree-hooghly',
+        craftName: 'Dhaniakhali Saree & Jamdani',
+        nativeName: 'ধনেখালি শাড়ি ও জামদানি',
+        district: 'Hooghly (Dhaniakhali)',
+        districtBadge: 'Hooghly',
+        category: 'Handloom Weaving',
+        GI_tagged: true,
+        giTagged: true,
+        giYear: 2011,
+        status: 'active',
+        verification_source: 'GI Registry of India (#172)',
+        top: '76.0%',
+        left: '52.5%',
+        clusterNote: 'Dhaniakhali Jamdani variant with dense weave, vibrant borders, and signature Khejur Chori patterns.'
+      },
+      {
+        id: 'murshidabad-silk-craft',
+        craftName: 'Murshidabad Pure Silk Saree',
+        nativeName: 'মুর্শিদাবাদ সিল্ক ও গরোড়',
+        district: 'Murshidabad (Jiaganj & Islampur)',
+        districtBadge: 'Murshidabad',
+        category: 'Handloom Silk & Mulberry',
+        GI_tagged: true,
+        giTagged: true,
+        giYear: 2018,
+        status: 'active',
+        verification_source: 'GI Registry of India (#587)',
+        top: '53.6%',
+        left: '59.7%',
+        clusterNote: 'Historic Nawabi silk center producing pure mulberry silk, Garad sarees, and printed silks.'
+      },
+      {
+        id: 'patachitra-pingla-medinipur',
+        craftName: 'Bengal Patachitra & Patter Gaan',
+        nativeName: 'পিংলার পটচিত্র ও পট গান',
+        district: 'Paschim Medinipur (Pingla / Naya Village)',
+        districtBadge: 'Paschim Medinipur',
+        category: 'Folk Painting & Storytelling',
+        GI_tagged: true,
+        giTagged: true,
+        giYear: 2018,
+        status: 'active',
+        verification_source: 'GI Registry of India (#588)',
+        top: '84.1%',
+        left: '34.4%',
+        clusterNote: 'Visual narrative scroll paintings painted with natural flower/mineral pigments by Patua balladeers.'
+      },
+      {
+        id: 'kumartuli-clay-kalighat',
+        craftName: 'Kumartuli Clay Idol & Kalighat Art',
+        nativeName: 'কুমারটুলির মৃৎশিল্প ও কালীঘাট পট',
+        district: 'Kolkata (Kumartuli Potter Quarter)',
+        districtBadge: 'Kolkata',
+        category: 'Clay Sculpture & Folk Art',
+        GI_tagged: false,
+        giTagged: false,
+        status: 'active',
+        verification_source: 'Centuries-Old Potter Guild (Chitpur & Hooghly Bank)',
+        top: '80.4%',
+        left: '69.9%',
+        clusterNote: 'World-famous sacred straw-bamboo-Ganga clay monumental sculpture tradition for Durga Puja.'
       },
       {
         id: 'bastar-dhokra-craft',
         craftName: 'Bengal Dokra Metal Casting',
         nativeName: 'বেঙ্গল ডোকরা শিল্প (বিকনা ও দরিয়াপুর)',
         district: 'Bankura (Bikna) & Purba Bardhaman (Dariapur)',
+        districtBadge: 'Dariapur/Bikna',
         category: 'Lost-Wax Metallurgy',
         GI_tagged: true,
         giTagged: true,
         giYear: 2018,
         status: 'active',
         verification_source: 'GI Registry of India (#586)',
-        top: '51%',
-        left: '46%',
-        clusterNote: '4,000-year-old cire perdue non-ferrous bronze casting by Dhokra Damar clans'
+        top: '68.0%',
+        left: '46.0%',
+        clusterNote: '4,000-year-old cire perdue non-ferrous bronze casting by Dhokra Damar clans.'
+      },
+      {
+        id: 'darjeeling-craft-heritage',
+        craftName: 'Darjeeling Lepcha Woodcraft & Tea',
+        nativeName: 'দার্জিলিং লেপচা কাঠের শিল্প',
+        district: 'Darjeeling (Himalayan Ridge)',
+        districtBadge: 'Darjeeling',
+        category: 'Himalayan Woodcraft',
+        GI_tagged: true,
+        giTagged: true,
+        giYear: 2004,
+        status: 'active',
+        verification_source: 'GI Registry of India (#1)',
+        top: '7.4%',
+        left: '63.2%',
+        clusterNote: 'High Himalayan carved woodwork and sacred Buddhist scroll thangkas.'
+      },
+      {
+        id: 'malda-sericulture-craft',
+        craftName: 'Malda Raw Silk & Mango Woodcraft',
+        nativeName: 'মালদা তুত রেশম ও কাঠের শিল্প',
+        district: 'Malda (English Bazar)',
+        districtBadge: 'Malda',
+        category: 'Raw Silk Sericulture & Woodcraft',
+        GI_tagged: false,
+        giTagged: false,
+        status: 'active',
+        verification_source: 'Central Silk Board & West Bengal Handicrafts',
+        top: '39.3%',
+        left: '56.0%',
+        clusterNote: 'Historic Gour sericulture basin providing base raw mulberry silk cocoons across Bengal.'
+      },
+      {
+        id: 'sundarbans-honey-cane',
+        craftName: 'Sundarbans Wild Honey & Mangrove Cane',
+        nativeName: 'সুন্দরবনের প্রাকৃতিক মৌমাছি মধু ও খাঁটি শিল্প',
+        district: 'South 24 Parganas (Sundarbans Delta)',
+        districtBadge: 'Sundarbans',
+        category: 'Eco-Forest Craft & Wild Honey',
+        GI_tagged: true,
+        giTagged: true,
+        giYear: 2024,
+        status: 'active',
+        verification_source: 'GI Registry of India (#841)',
+        top: '87.4%',
+        left: '64.8%',
+        clusterNote: 'Harvested by traditional Mouley collectors in the mangrove delta forest reserve.'
       }
     ]
   },
@@ -651,7 +789,7 @@ export default function StateCraftMap({
 
           {/* Scalable & Pannable Map Picture Container */}
           <div
-            className="relative max-w-full max-h-full aspect-[4/5] h-full flex items-center justify-center"
+            className="relative max-w-full max-h-full aspect-[474/587] h-full flex items-center justify-center select-none"
             style={{
               transform: `translate(${panPosition.x}px, ${panPosition.y}px) scale(${zoomScale})`,
               transformOrigin: 'center center',
@@ -663,7 +801,7 @@ export default function StateCraftMap({
               <img
                 src="/west-bengal-map.png"
                 alt="Official District Map of West Bengal"
-                className="w-full h-full object-contain pointer-events-none select-none drop-shadow-2xl"
+                className="w-full h-full object-fill block pointer-events-none select-none drop-shadow-2xl rounded-2xl"
                 onError={(e) => {
                   e.target.src = 'https://raw.githubusercontent.com/chayan35cse-max/Kala-setu-crafts/main/client/public/west-bengal-map.png';
                 }}
@@ -688,12 +826,13 @@ export default function StateCraftMap({
               const isGI = marker.GI_tagged;
               const isEndangered = marker.status === 'endangered';
               const isSelected = activeModalMarker?.id === marker.id;
+              const isJamdaniHighlight = marker.id === 'bengal-jamdani-weaving';
 
               return (
                 <div
                   key={marker.id}
                   style={{ top: marker.top, left: marker.left }}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group"
+                  className="absolute -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group flex flex-col items-center"
                   onClick={() => setActiveModalMarker(marker)}
                   onMouseEnter={() => setHoveredMarker(marker.id)}
                   onMouseLeave={() => setHoveredMarker(null)}
@@ -701,33 +840,48 @@ export default function StateCraftMap({
                   {/* Glowing Animation Ring */}
                   <div
                     className={`absolute inset-0 -m-2 rounded-full ${
-                      isGI ? 'bg-emerald-500' : isEndangered ? 'bg-red-500' : 'bg-blue-500'
-                    } opacity-75 animate-ping pointer-events-none`}
+                      isJamdaniHighlight
+                        ? 'bg-amber-400 opacity-90 animate-ping'
+                        : isGI
+                        ? 'bg-emerald-500 opacity-70 animate-ping'
+                        : isEndangered
+                        ? 'bg-red-500 opacity-70 animate-ping'
+                        : 'bg-blue-500 opacity-60 animate-ping'
+                    } pointer-events-none`}
                   />
 
-                  {/* Cultural Pin */}
+                  {/* Cultural Pin Icon */}
                   <div
-                    className={`relative w-9 h-9 rounded-full bg-gradient-to-tr ${
-                      isGI
+                    className={`relative ${
+                      isJamdaniHighlight ? 'w-10 h-10 ring-4 ring-amber-400 shadow-amber-500/50' : 'w-8 h-8'
+                    } rounded-full bg-gradient-to-tr ${
+                      isJamdaniHighlight
+                        ? 'from-amber-800 via-amber-600 to-yellow-500'
+                        : isGI
                         ? 'from-emerald-700 via-green-600 to-emerald-500'
                         : isEndangered
                         ? 'from-red-700 via-rose-600 to-red-500'
                         : 'from-blue-700 via-sky-600 to-blue-500'
                     } border-2 border-white shadow-2xl flex items-center justify-center text-white transform transition-transform duration-200 ${
-                      isSelected || hoveredMarker === marker.id ? 'scale-125 ring-4 ring-amber-400' : 'group-hover:scale-115'
+                      isSelected || hoveredMarker === marker.id ? 'scale-130 ring-4 ring-amber-400' : 'group-hover:scale-120'
                     }`}
                   >
-                    <MapPin className="w-4 h-4 text-white fill-white" />
+                    <MapPin className={`${isJamdaniHighlight ? 'w-5 h-5' : 'w-4 h-4'} text-white fill-white`} />
                     <span className="absolute -top-1 -right-1 bg-amber-400 text-stone-950 text-[8px] font-black px-1 py-0.2 rounded-full border border-white">
                       {isGI ? 'GI' : isEndangered ? '⚠️' : '✓'}
                     </span>
                   </div>
 
-                  {/* Pin Tooltip */}
-                  <div className="absolute left-1/2 -translate-x-1/2 -top-12 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap bg-stone-950/95 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-2xl border border-stone-700 z-30">
+                  {/* Mini District Badge under pin */}
+                  <div className="mt-0.5 bg-stone-950/85 backdrop-blur-md px-1.5 py-0.5 rounded-md border border-stone-700/80 shadow text-[9px] font-bold text-amber-300 pointer-events-none whitespace-nowrap leading-none">
+                    {marker.districtBadge || marker.district.split(' ')[0]}
+                  </div>
+
+                  {/* Hover Tooltip Card */}
+                  <div className="absolute left-1/2 -translate-x-1/2 -top-14 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap bg-stone-950/95 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-2xl border border-amber-600/40 z-30 space-y-0.5">
                     <div className="flex items-center space-x-1.5">
                       <span className={`w-2 h-2 rounded-full ${isGI ? 'bg-emerald-400' : isEndangered ? 'bg-red-400' : 'bg-sky-400'}`} />
-                      <span>{marker.craftName}</span>
+                      <span className="text-white">{marker.craftName}</span>
                     </div>
                     <span className="text-[9px] text-amber-300 block">{marker.district}</span>
                     <div className="w-2 h-2 bg-stone-950 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
