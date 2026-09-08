@@ -418,6 +418,31 @@ export default function StateCraftMap({
   const [hoveredMarker, setHoveredMarker] = useState(null);
   const [activeModalMarker, setActiveModalMarker] = useState(null);
   const [filterType, setFilterType] = useState('all'); // 'all' | 'gi' | 'non-gi'
+  const [zoomScale, setZoomScale] = useState(1);
+  const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - panPosition.x, y: e.clientY - panPosition.y });
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      setPanPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+
+  const resetView = () => {
+    setZoomScale(1);
+    setPanPosition({ x: 0, y: 0 });
+  };
 
   const stateData = STATE_CRAFT_DATA[currentKey] || STATE_CRAFT_DATA['west-bengal'];
   const isWestBengal = currentKey === 'west-bengal';
@@ -581,77 +606,60 @@ export default function StateCraftMap({
         </div>
 
         {/* State Map Graphic Canvas with District Pins */}
-        <div className="relative w-full h-[620px] bg-gradient-to-b from-stone-100 via-amber-50/40 to-stone-200 flex items-center justify-center p-4">
-          {/* Detailed Silhouette & District Vector for Selected State */}
-          <div className="relative w-full max-w-2xl h-full flex items-center justify-center">
+        <div
+          className="relative w-full h-[660px] bg-gradient-to-b from-stone-100 via-amber-50/40 to-stone-200 flex items-center justify-center p-4 overflow-hidden cursor-grab active:cursor-grabbing"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
+          {/* Zoom & Reset Controls */}
+          <div className="absolute bottom-4 right-4 z-30 flex items-center space-x-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-stone-300">
+            <button
+              onClick={() => setZoomScale(prev => Math.min(prev + 0.2, 2.2))}
+              className="p-1.5 hover:bg-stone-100 text-stone-700 rounded-lg cursor-pointer"
+              title="Zoom In"
+            >
+              <ZoomIn className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setZoomScale(prev => Math.max(prev - 0.2, 0.9))}
+              className="p-1.5 hover:bg-stone-100 text-stone-700 rounded-lg cursor-pointer"
+              title="Zoom Out"
+            >
+              <ZoomOut className="w-4 h-4" />
+            </button>
+            <button
+              onClick={resetView}
+              className="p-1.5 hover:bg-stone-100 text-stone-700 rounded-lg cursor-pointer"
+              title="Reset View"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Scalable & Pannable Map Picture Container */}
+          <div
+            className="relative max-w-full max-h-full aspect-[4/5] h-full flex items-center justify-center"
+            style={{
+              transform: `translate(${panPosition.x}px, ${panPosition.y}px) scale(${zoomScale})`,
+              transformOrigin: 'center center',
+              transition: isDragging ? 'none' : 'transform 0.2s ease-out'
+            }}
+          >
             {isWestBengal ? (
-              /* High Fidelity West Bengal State Silhouette with District Clusters */
-              <svg
-                viewBox="0 0 500 700"
-                className="w-full h-full max-h-[580px] drop-shadow-2xl select-none"
-              >
-                <defs>
-                  <linearGradient id="wbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#fef3c7" />
-                    <stop offset="50%" stopColor="#fde68a" />
-                    <stop offset="100%" stopColor="#fcd34d" />
-                  </linearGradient>
-                  <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-                    <feDropShadow dx="2" dy="4" stdDeviation="6" floodOpacity="0.25" />
-                  </filter>
-                </defs>
-
-                {/* West Bengal State Silhouette (North Darjeeling to South Sundarbans) */}
-                <path
-                  d="M 270 40 
-                     C 285 55, 305 75, 310 95 
-                     C 315 125, 290 145, 275 160 
-                     C 255 175, 245 195, 250 215 
-                     C 255 240, 280 260, 285 285 
-                     C 290 315, 270 335, 260 360 
-                     C 240 380, 220 395, 210 420 
-                     C 195 445, 175 460, 160 480 
-                     C 145 505, 165 530, 185 550 
-                     C 210 575, 240 590, 270 610 
-                     C 300 630, 340 645, 370 635 
-                     C 385 615, 395 585, 390 555 
-                     C 385 520, 360 495, 350 460 
-                     C 340 425, 355 390, 360 355 
-                     C 365 320, 340 290, 325 260 
-                     C 315 225, 325 185, 335 150 
-                     C 345 110, 330 75, 305 50 
-                     Z"
-                  fill="url(#wbGrad)"
-                  stroke="#b45309"
-                  strokeWidth="3.5"
-                  strokeLinejoin="round"
-                  filter="url(#shadow)"
-                />
-
-                {/* Hooghly & Ganges River Arteries */}
-                <path
-                  d="M 285 285 C 295 350, 280 430, 295 500 C 310 550, 330 600, 345 640"
-                  fill="none"
-                  stroke="#0284c7"
-                  strokeWidth="3.5"
-                  strokeDasharray="4 2"
-                  opacity="0.8"
-                />
-
-                {/* Regional District Boundary Annotations */}
-                <text x="270" y="80" fontSize="11" fontWeight="bold" fill="#78350f">Darjeeling & Hills</text>
-                <text x="280" y="240" fontSize="11" fontWeight="bold" fill="#78350f">Malda & Murshidabad</text>
-                <text x="250" y="380" fontSize="12" fontWeight="black" fill="#92400e">Birbhum (Bolpur / Shantiniketan)</text>
-                <text x="280" y="470" fontSize="12" fontWeight="black" fill="#9a3412">Nadia (Phulia & Shantipur)</text>
-                <text x="175" y="490" fontSize="12" fontWeight="black" fill="#78350f">Purba Bardhaman (Kalna)</text>
-                <text x="140" y="550" fontSize="12" fontWeight="black" fill="#78350f">Bankura (Panchmura & Bishnupur)</text>
-                <text x="90" y="520" fontSize="12" fontWeight="black" fill="#78350f">Purulia (Charida)</text>
-                <text x="290" y="580" fontSize="12" fontWeight="bold" fill="#78350f">Kolkata & Hooghly</text>
-                <text x="310" y="640" fontSize="11" fontWeight="bold" fill="#0369a1">Bay of Bengal / Sundarbans</text>
-              </svg>
+              /* Exact Uploaded District Political Map Picture of West Bengal */
+              <img
+                src="/west-bengal-map.png"
+                alt="Official District Map of West Bengal"
+                className="w-full h-full object-contain pointer-events-none select-none drop-shadow-2xl"
+                onError={(e) => {
+                  e.target.src = 'https://raw.githubusercontent.com/chayan35cse-max/Kala-setu-crafts/main/client/public/west-bengal-map.png';
+                }}
+              />
             ) : (
-              /* Generalized Elegant State Silhouette */
-              <div className="w-full h-full max-h-[500px] rounded-3xl bg-amber-100/70 border-4 border-amber-700/40 shadow-inner flex flex-col items-center justify-center p-8 text-center space-y-3">
+              /* Generalized State Silhouette */
+              <div className="w-full h-full max-h-[520px] rounded-3xl bg-amber-100/70 border-4 border-amber-700/40 shadow-inner flex flex-col items-center justify-center p-8 text-center space-y-3">
                 <div className="w-24 h-24 rounded-full bg-amber-600/20 text-amber-800 flex items-center justify-center text-4xl font-serif font-black">
                   {stateData.name[0]}
                 </div>
@@ -663,7 +671,7 @@ export default function StateCraftMap({
               </div>
             )}
 
-            {/* Interactive Location Markers Positioned over State Geometry */}
+            {/* Interactive Location Markers Positioned over District Coordinates */}
             {visibleMarkers.map((marker) => {
               const fullCraft = getFullCraftData(marker);
               const isGI = marker.GI_tagged;
