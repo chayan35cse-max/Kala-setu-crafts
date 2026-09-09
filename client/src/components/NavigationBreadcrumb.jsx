@@ -4,6 +4,7 @@ import { ArrowLeft, Home, ChevronRight, RotateCcw } from 'lucide-react';
 export const PAGE_TITLES = {
   'home': 'Home Explorer',
   'map': 'India Sovereign Map',
+  'state-map': 'State Craft Map',
   'detail': 'Craft Cultural Profile',
   '3d': '3D WebGL Studio',
   'archive': 'Cultural Masterclass Archive',

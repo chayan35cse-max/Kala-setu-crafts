@@ -29,7 +29,10 @@ export default function HomePage({
   onOpenInsights,
   onOpenCraftSnap,
   onOpenQuiz,
-  onOpenPassport
+  onOpenPassport,
+  selectedStateKey = null,
+  onSelectStateKey = null,
+  onBackToNationalMap = null
 }) {
   const { t } = useTranslation();
   const [crafts, setCrafts] = useState([]);
@@ -278,6 +281,9 @@ export default function HomePage({
           targetRegion={targetRegion}
           onRegionChange={setTargetRegion}
           onOpenInsights={onOpenInsights}
+          selectedStateKey={selectedStateKey}
+          onSelectStateKey={onSelectStateKey}
+          onBackToNationalMap={onBackToNationalMap}
         />
       </section>
 

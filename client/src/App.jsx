@@ -11,37 +11,60 @@ import OrdersTrackingPage from './pages/OrdersTrackingPage';
 import ResearcherSubmissionPage from './pages/ResearcherSubmissionPage';
 import CorporateGiftingPage from './pages/CorporateGiftingPage';
 import Craft3DViewer from './components/ThreeD/Craft3DViewer';
+import StateCraftMap, { STATE_CRAFT_DATA } from './components/Map/StateCraftMap';
 import CraftInsightsModal from './components/CraftInsightsModal';
 import CraftSnapModal from './components/CraftSnapModal';
 import HeritageQuizModal from './components/HeritageQuizModal';
 import HeritagePassportDrawer from './components/HeritagePassportDrawer';
 import KalaMitraVoiceAssistant from './components/KalaMitraVoiceAssistant';
+import { getCrafts } from './services/api';
 import { ArrowLeft } from 'lucide-react';
 import './i18n';
 
 export default function App() {
   const [history, setHistory] = useState([
-    { page: 'home', craftId: null, craftName: null, label: 'Home Explorer' }
+    { page: 'home', craftId: null, craftName: null, stateKey: null, label: 'Home Explorer' }
   ]);
-  const [activePage, setActivePage] = useState('home'); // 'home' | 'map' | 'detail' | '3d' | 'archive' | 'artisans' | 'seller-portal' | 'orders' | 'researcher-portal' | 'corporate-gifting'
+  const [activePage, setActivePage] = useState('home'); // 'home' | 'map' | 'state-map' | 'detail' | '3d' | 'archive' | 'artisans' | 'seller-portal' | 'orders' | 'researcher-portal' | 'corporate-gifting'
+  const [selectedStateKey, setSelectedStateKey] = useState(null);
   const [selectedCraftId, setSelectedCraftId] = useState('bengal-jamdani-weaving');
   const [selectedCraftName, setSelectedCraftName] = useState(null);
   const [insightsModalCraft, setInsightsModalCraft] = useState(null);
+  const [allCrafts, setAllCrafts] = useState([]);
   
   // Modals & Drawers
   const [showCraftSnap, setShowCraftSnap] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [showPassport, setShowPassport] = useState(false);
 
+  // Load all crafts for global state map reference
+  useEffect(() => {
+    getCrafts({}).then(res => {
+      if (res && res.data) setAllCrafts(res.data);
+    }).catch(err => console.error('Failed to load crafts:', err));
+  }, []);
+
   // Unified Navigate with History Stack Tracking
-  const navigateTo = (page, craftId = null, craftName = null) => {
+  const navigateTo = (page, craftId = null, craftName = null, stateKey = null, customLabel = null) => {
     setActivePage(page);
-    if (craftId) setSelectedCraftId(craftId);
-    if (craftName) setSelectedCraftName(craftName);
+    if (craftId !== undefined && craftId !== null) setSelectedCraftId(craftId);
+    if (craftName !== undefined) setSelectedCraftName(craftName);
+    if (stateKey !== undefined) setSelectedStateKey(stateKey);
+
+    const resolvedStateKey = stateKey !== undefined ? stateKey : (page === 'detail' ? selectedStateKey : null);
+    
+    let resolvedLabel = customLabel || craftName;
+    if (!resolvedLabel) {
+      if (page === 'state-map' && resolvedStateKey) {
+        resolvedLabel = `${STATE_CRAFT_DATA[resolvedStateKey]?.name || resolvedStateKey} Craft Map`;
+      } else {
+        resolvedLabel = PAGE_TITLES[page] || page;
+      }
+    }
 
     setHistory(prev => {
       const current = prev[prev.length - 1];
-      if (current && current.page === page && current.craftId === craftId) {
+      if (current && current.page === page && current.craftId === craftId && current.stateKey === resolvedStateKey) {
         return prev;
       }
       return [
@@ -50,13 +73,18 @@ export default function App() {
           page,
           craftId,
           craftName,
-          label: craftName || PAGE_TITLES[page] || page
+          stateKey: resolvedStateKey,
+          label: resolvedLabel
         }
       ];
     });
 
     try {
-      window.history.pushState({ page, craftId, craftName }, '', window.location.pathname);
+      window.history.pushState(
+        { page, craftId, craftName, stateKey: resolvedStateKey, label: resolvedLabel },
+        '',
+        window.location.pathname
+      );
     } catch (e) {
       // ignore
     }
@@ -66,15 +94,33 @@ export default function App() {
 
   const handleSelectCraft = (craft) => {
     if (craft && craft.id) {
-      navigateTo('detail', craft.id, craft.name);
+      navigateTo('detail', craft.id, craft.name, selectedStateKey, craft.name);
     }
   };
 
   const handleSelectCraftById = (craftId, craftName = null) => {
-    navigateTo('detail', craftId, craftName);
+    navigateTo('detail', craftId, craftName, selectedStateKey, craftName);
+  };
+
+  const handleSelectStateMap = (stateKey, stateName = null) => {
+    const name = stateName || STATE_CRAFT_DATA[stateKey]?.name || stateKey;
+    setSelectedStateKey(stateKey);
+    navigateTo('state-map', null, null, stateKey, `${name} Craft Map`);
+  };
+
+  const handleBackToNationalMap = () => {
+    setSelectedStateKey(null);
+    if (history.length > 1 && history[history.length - 2]?.page === 'home') {
+      handleGoBack();
+    } else {
+      navigateTo('home', null, null, null, 'Home Explorer');
+    }
   };
 
   const handleNavigate = (page) => {
+    if (page === 'home') {
+      setSelectedStateKey(null);
+    }
     navigateTo(page);
   };
 
@@ -92,16 +138,23 @@ export default function App() {
       if (prevEntry.craftName) {
         setSelectedCraftName(prevEntry.craftName);
       }
+      if (prevEntry.stateKey !== undefined) {
+        setSelectedStateKey(prevEntry.stateKey);
+      } else {
+        setSelectedStateKey(null);
+      }
       window.scrollTo(0, 0);
     } else {
       setActivePage('home');
-      setHistory([{ page: 'home', craftId: null, craftName: null, label: 'Home Explorer' }]);
+      setSelectedStateKey(null);
+      setHistory([{ page: 'home', craftId: null, craftName: null, stateKey: null, label: 'Home Explorer' }]);
       window.scrollTo(0, 0);
     }
   };
 
   const handleGoHome = () => {
-    navigateTo('home');
+    setSelectedStateKey(null);
+    navigateTo('home', null, null, null, 'Home Explorer');
   };
 
   // Synchronize with Browser Native Back/Forward Navigation
@@ -111,6 +164,7 @@ export default function App() {
         setActivePage(e.state.page);
         if (e.state.craftId) setSelectedCraftId(e.state.craftId);
         if (e.state.craftName) setSelectedCraftName(e.state.craftName);
+        if (e.state.stateKey !== undefined) setSelectedStateKey(e.state.stateKey);
       } else {
         handleGoBack();
       }
@@ -121,8 +175,12 @@ export default function App() {
 
   const previousEntry = history.length > 1 ? history[history.length - 2] : null;
   const previousPageName = previousEntry
-    ? (previousEntry.craftName || PAGE_TITLES[previousEntry.page] || previousEntry.page)
+    ? (previousEntry.label || previousEntry.craftName || (previousEntry.stateKey ? `${STATE_CRAFT_DATA[previousEntry.stateKey]?.name || previousEntry.stateKey} Craft Map` : null) || PAGE_TITLES[previousEntry.page] || previousEntry.page)
     : 'Home Explorer';
+
+  const currentCraftTitle = activePage === 'detail'
+    ? selectedCraftName
+    : (activePage === 'state-map' && selectedStateKey ? `${STATE_CRAFT_DATA[selectedStateKey]?.name || 'State'} Craft Map` : null);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#faf8f5] text-stone-900 selection:bg-amber-500 selection:text-white relative">
@@ -144,7 +202,7 @@ export default function App() {
         previousPageName={previousPageName}
         onGoBack={handleGoBack}
         onGoHome={handleGoHome}
-        craftTitle={activePage === 'detail' ? selectedCraftName : null}
+        craftTitle={currentCraftTitle}
       />
 
       {/* Main Dynamic Content Area */}
@@ -157,7 +215,22 @@ export default function App() {
             onOpenCraftSnap={() => setShowCraftSnap(true)}
             onOpenQuiz={() => setShowQuiz(true)}
             onOpenPassport={() => setShowPassport(true)}
+            selectedStateKey={selectedStateKey}
+            onSelectStateKey={handleSelectStateMap}
+            onBackToNationalMap={handleBackToNationalMap}
           />
+        )}
+
+        {activePage === 'state-map' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fadeIn">
+            <StateCraftMap
+              selectedStateKey={selectedStateKey || 'west-bengal'}
+              onBackToNationalMap={handleBackToNationalMap}
+              onSelectCraft={handleSelectCraft}
+              onOpenInsights={(craft) => setInsightsModalCraft(craft)}
+              allCrafts={allCrafts}
+            />
+          </div>
         )}
 
         {activePage === 'map' && (
@@ -188,6 +261,9 @@ export default function App() {
               onOpenCraftSnap={() => setShowCraftSnap(true)}
               onOpenQuiz={() => setShowQuiz(true)}
               onOpenPassport={() => setShowPassport(true)}
+              selectedStateKey={selectedStateKey}
+              onSelectStateKey={handleSelectStateMap}
+              onBackToNationalMap={handleBackToNationalMap}
             />
           </div>
         )}

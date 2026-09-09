@@ -144,15 +144,38 @@ export default function IndiaCraftMap({
   onSelectCraft,
   targetRegion = 'all',
   onRegionChange,
-  onOpenInsights = null
+  onOpenInsights = null,
+  selectedStateKey: externalSelectedStateKey,
+  onSelectStateKey = null,
+  onBackToNationalMap = null
 }) {
   const { t } = useTranslation();
-  const [selectedStateKey, setSelectedStateKey] = useState(null); // null = All India Map View, string = State Map View
+  const [internalSelectedStateKey, setInternalSelectedStateKey] = useState(null);
+  const selectedStateKey = externalSelectedStateKey !== undefined && externalSelectedStateKey !== null
+    ? externalSelectedStateKey
+    : internalSelectedStateKey;
+
   const [hoveredStateKey, setHoveredStateKey] = useState(null);
   const [zoomScale, setZoomScale] = useState(1);
   const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  const handleStateSelect = (stateKey, stateName) => {
+    if (onSelectStateKey) {
+      onSelectStateKey(stateKey, stateName);
+    } else {
+      setInternalSelectedStateKey(stateKey);
+    }
+  };
+
+  const handleBackToNational = () => {
+    if (onBackToNationalMap) {
+      onBackToNationalMap();
+    } else {
+      setInternalSelectedStateKey(null);
+    }
+  };
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -180,7 +203,7 @@ export default function IndiaCraftMap({
     return (
       <StateCraftMap
         selectedStateKey={selectedStateKey}
-        onBackToNationalMap={() => setSelectedStateKey(null)}
+        onBackToNationalMap={handleBackToNational}
         onSelectCraft={onSelectCraft}
         onOpenInsights={onOpenInsights}
         allCrafts={crafts}
@@ -214,7 +237,7 @@ export default function IndiaCraftMap({
 
           {/* West Bengal Highlight Button */}
           <button
-            onClick={() => setSelectedStateKey('west-bengal')}
+            onClick={() => handleStateSelect('west-bengal', 'West Bengal')}
             className="bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 hover:from-amber-800 hover:to-orange-700 text-white font-bold text-xs px-4 py-2.5 rounded-2xl shadow-lg shadow-amber-700/20 flex items-center space-x-2 transition-all cursor-pointer transform hover:scale-105"
           >
             <Sparkles className="w-4 h-4 text-amber-300 animate-spin-slow" />
@@ -228,7 +251,7 @@ export default function IndiaCraftMap({
           {INDIA_STATE_NODES.map((st) => (
             <button
               key={st.key}
-              onClick={() => setSelectedStateKey(st.key)}
+              onClick={() => handleStateSelect(st.key, st.name)}
               onMouseEnter={() => setHoveredStateKey(st.key)}
               onMouseLeave={() => setHoveredStateKey(null)}
               className={`p-3.5 rounded-2xl text-left border-2 transition-all cursor-pointer group flex flex-col justify-between space-y-2 ${
@@ -332,7 +355,7 @@ export default function IndiaCraftMap({
                   className="absolute -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedStateKey(stateNode.key);
+                    handleStateSelect(stateNode.key, stateNode.name);
                   }}
                   onMouseEnter={() => setHoveredStateKey(stateNode.key)}
                   onMouseLeave={() => setHoveredStateKey(null)}
@@ -382,7 +405,7 @@ export default function IndiaCraftMap({
           </div>
 
           <button
-            onClick={() => setSelectedStateKey('west-bengal')}
+            onClick={() => handleStateSelect('west-bengal', 'West Bengal')}
             className="text-amber-400 hover:text-amber-300 font-bold underline cursor-pointer"
           >
             Explore West Bengal Jamdani & Terracotta ➔
