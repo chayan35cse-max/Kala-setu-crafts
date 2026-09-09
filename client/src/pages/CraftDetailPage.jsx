@@ -578,14 +578,14 @@ export default function CraftDetailPage({ craftId, onBack, previousPageName, onS
           </div>
 
           {/* Write a Review Form */}
-          <form onSubmit={handleReviewSubmit} className="bg-stone-50 rounded-2xl p-6 border border-stone-200 space-y-4">
+          <form onSubmit={handleSubmitReview} className="bg-stone-50 rounded-2xl p-6 border border-stone-200 space-y-4">
             <h4 className="font-bold text-stone-900 text-sm flex items-center space-x-2">
               <MessageSquare className="w-4 h-4 text-amber-700" />
               <span>Leave a Verified Patron Review</span>
             </h4>
 
             {reviewSuccess ? (
-              <div className="bg-emerald-50 text-emerald-800 p-4 rounded-xl border border-emerald-200 text-xs font-bold">
+              <div className="bg-emerald-50 text-emerald-800 p-4 rounded-xl border border-emerald-200 text-xs font-bold animate-fadeIn">
                 Thank you! Your review has been added and aggregated into the craft's authentic rating score.
               </div>
             ) : (
@@ -648,25 +648,47 @@ export default function CraftDetailPage({ craftId, onBack, previousPageName, onS
           <div className="space-y-3">
             {craft.reviews && craft.reviews.length > 0 ? (
               craft.reviews.map((rev, idx) => (
-                <div key={idx} className="bg-white rounded-2xl p-4.5 border border-stone-200 space-y-1.5">
+                <div key={idx} className="bg-white rounded-2xl p-4.5 border border-stone-200 space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <span className="font-bold text-stone-900 text-xs">{rev.buyerName}</span>
-                      {rev.verifiedPurchase && (
-                        <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.2 rounded-full">
+                      <span className="font-bold text-stone-900 text-xs">{rev.buyerName || 'Verified Art Patron'}</span>
+                      {(rev.verifiedPurchase || rev.verifiedPurchase !== false) && (
+                        <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
                           Verified Art Patron
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center text-amber-500 text-xs">
-                      {'★'.repeat(rev.rating)}
+                    <div className="flex items-center space-x-0.5 text-amber-500">
+                      {[1, 2, 3, 4, 5].map((starVal) => (
+                        <Star
+                          key={starVal}
+                          className={`w-3.5 h-3.5 ${
+                            starVal <= (Number(rev.rating) || 5)
+                              ? 'fill-amber-400 text-amber-500'
+                              : 'text-stone-200'
+                          }`}
+                        />
+                      ))}
                     </div>
                   </div>
                   <p className="text-stone-600 text-xs leading-relaxed">{rev.comment}</p>
+                  {rev.date && (
+                    <p className="text-[10px] text-stone-400">
+                      {new Date(rev.date).toLocaleDateString('en-IN', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}
+                    </p>
+                  )}
                 </div>
               ))
             ) : (
-              <p className="text-stone-400 text-xs text-center py-4">Be the first art patron to review this craft!</p>
+              <div className="bg-stone-50 rounded-2xl p-6 text-center border border-dashed border-stone-200 space-y-1">
+                <Star className="w-8 h-8 text-amber-400/50 mx-auto" />
+                <p className="text-stone-600 text-xs font-semibold">No patron reviews submitted yet.</p>
+                <p className="text-stone-400 text-[11px]">Be the first art patron to review and rate this master craft!</p>
+              </div>
             )}
           </div>
         </div>
