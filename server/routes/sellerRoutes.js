@@ -77,10 +77,10 @@ router.post('/register', upload.array('documents', 5), async (req, res) => {
       onlineStoreUrl
     } = req.body;
 
-    if (!artisanName || !businessName || !phone || !email || !craftId) {
+    if (!artisanName) {
       return res.status(400).json({
         success: false,
-        message: 'Artisan Name, Studio Name, Phone, Email, and Craft are required.'
+        message: 'Artisan Name is required.'
       });
     }
 
@@ -102,29 +102,35 @@ router.post('/register', upload.array('documents', 5), async (req, res) => {
       }
     }
 
+    const defaultPhone = phone || '+91 98765 43210';
+    const defaultEmail = email || `${artisanName.toLowerCase().replace(/\s+/g, '')}@craftsguild.in`;
+    const defaultBusiness = businessName || `${artisanName}'s Craft Studio`;
+    const defaultCraftId = craftId || 'bengal-jamdani-weaving';
+
     const newSeller = await createSeller({
       artisanName,
-      businessName,
-      craftId,
-      craftName: craftName || craftId,
-      state: state || 'India',
+      businessName: defaultBusiness,
+      craftId: defaultCraftId,
+      craftName: craftName || defaultCraftId,
+      state: state || 'West Bengal',
       pehchanCardNo: pehchanCardNo || `PEH-${Math.floor(100000 + Math.random() * 900000)}`,
       aadhaarMasked: aadhaarMasked ? (aadhaarMasked.startsWith('XXXX') ? aadhaarMasked : `XXXX-XXXX-${aadhaarMasked.slice(-4)}`) : 'XXXX-XXXX-8921',
-      phone,
-      email,
-      address,
+      phone: defaultPhone,
+      email: defaultEmail,
+      address: address || 'Artisan Workshop Hub',
       ngoEndorsement: ngoEndorsement || 'Self-Sponsored Application',
-      experienceYears: Number(experienceYears) || 5,
+      experienceYears: Number(experienceYears) || 15,
       onlineStoreUrl: onlineStoreUrl || '',
       verificationDocuments: uploadedDocs
     });
 
     res.status(201).json({
       success: true,
-      message: 'Artisan seller application submitted successfully for review and permanently stored!',
+      message: 'Artisan application submitted successfully! Your credentials have been registered.',
       data: newSeller
     });
   } catch (error) {
+    console.error('Error registering seller:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 });
@@ -133,18 +139,15 @@ router.post('/register', upload.array('documents', 5), async (req, res) => {
 router.put('/:id/verify', async (req, res) => {
   try {
     const { status, badge } = req.body;
-    if (!['pending', 'under_review', 'verified', 'rejected'].includes(status)) {
-      return res.status(400).json({ success: false, message: 'Invalid verification status' });
-    }
-
-    const updated = await updateSellerStatus(req.params.id, status, badge);
+    const updated = await updateSellerStatus(req.params.id, status || 'verified', badge);
+    
     if (!updated) {
-      return res.status(404).json({ success: false, message: 'Seller not found' });
+      return res.status(404).json({ success: false, message: 'Artisan not found to verify' });
     }
 
     res.json({
       success: true,
-      message: `Seller status updated to ${status}`,
+      message: `Artisan verification updated to "${status || 'verified'}"`,
       data: updated
     });
   } catch (error) {
@@ -152,12 +155,12 @@ router.put('/:id/verify', async (req, res) => {
   }
 });
 
-// DELETE /api/sellers/:id - Remove registered artisan
+// DELETE /api/sellers/:id - Delete an artisan
 router.delete('/:id', async (req, res) => {
   try {
     const deleted = await deleteSeller(req.params.id);
     if (!deleted) {
-      return res.status(404).json({ success: false, message: 'Seller not found' });
+      return res.status(404).json({ success: false, message: 'Artisan not found to delete' });
     }
     res.json({
       success: true,
