@@ -1,0 +1,100 @@
+[
+  {
+    "orderId": "ORD-2026-9041",
+    "trackingId": "EB982341765IN",
+    "buyerName": "Chayan Sharma",
+    "buyerEmail": "chayan@example.com",
+    "buyerPhone": "+91 98765 43210",
+    "shippingAddress": "Flat 402, Heritage Residency, Indiranagar, Bengaluru - 560038",
+    "craftId": "jaipur-blue-pottery",
+    "craftName": "Jaipur Blue Pottery Flagon (Surahi)",
+    "craftImage": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80",
+    "artisanId": "s-1",
+    "artisanName": "Amer Heritage Blue Pottery Studio",
+    "amount": 2450,
+    "quantity": 1,
+    "courier": "India Post Speed Post",
+    "trackingStatus": "Delivered",
+    "orderDate": "2026-09-13T15:56:47.589Z",
+    "shippedDate": "2026-09-14T15:56:47.589Z",
+    "deliveryDate": "2026-09-15T15:56:47.589Z",
+    "returnDeadline": "2026-09-25T15:56:47.589Z",
+    "returnStatus": "none",
+    "buyerRating": 5,
+    "buyerReview": "Exquisite hand-painted turquoise glaze! Arrived well-cushioned in eco-packaging.",
+    "trackingTimeline": [
+      {
+        "status": "Order Confirmed",
+        "location": "Jaipur Artisan Studio",
+        "timestamp": "2026-09-13T15:56:47.589Z",
+        "description": "Order verified and packed by master artisan."
+      },
+      {
+        "status": "Shipped",
+        "location": "India Post Speed Post Hub, Jaipur",
+        "timestamp": "2026-09-14T15:56:47.589Z",
+        "description": "Consignment dispatched via Speed Post."
+      },
+      {
+        "status": "In Transit",
+        "location": "Northern Logistics Hub, New Delhi",
+        "timestamp": "2026-09-15T03:56:47.589Z",
+        "description": "Sorted for air cargo dispatch."
+      },
+      {
+        "status": "Out for Delivery",
+        "location": "HAL 2nd Stage Sub Post Office, Bengaluru",
+        "timestamp": "2026-09-15T13:56:47.589Z",
+        "description": "Assigned to postman for door-to-door delivery."
+      },
+      {
+        "status": "Delivered",
+        "location": "Bengaluru Recipient Address",
+        "timestamp": "2026-09-15T15:56:47.589Z",
+        "description": "Delivered and digitally acknowledged."
+      }
+    ]
+  },
+  {
+    "orderId": "ORD-2026-8819",
+    "trackingId": "EB912448392IN",
+    "buyerName": "Chayan Sharma",
+    "buyerEmail": "chayan@example.com",
+    "buyerPhone": "+91 98765 43210",
+    "shippingAddress": "Flat 402, Heritage Residency, Indiranagar, Bengaluru - 560038",
+    "craftId": "rogan-art-gujarat",
+    "craftName": "Rogan Art 'Tree of Life' Wall Hanging",
+    "craftImage": "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?auto=format&fit=crop&w=600&q=80",
+    "artisanId": "s-7",
+    "artisanName": "Rogan Art Heritage Studio",
+    "amount": 8500,
+    "quantity": 1,
+    "courier": "India Post Speed Post",
+    "trackingStatus": "In Transit",
+    "orderDate": "2026-09-15T15:56:47.589Z",
+    "shippedDate": "2026-09-16T03:56:47.589Z",
+    "deliveryDate": null,
+    "returnDeadline": null,
+    "returnStatus": "none",
+    "trackingTimeline": [
+      {
+        "status": "Order Confirmed",
+        "location": "Nirona Village Workshop, Kutch",
+        "timestamp": "2026-09-15T15:56:47.589Z",
+        "description": "Signed authentication certificate included."
+      },
+      {
+        "status": "Shipped",
+        "location": "Bhuj Head Post Office, Gujarat",
+        "timestamp": "2026-09-16T03:56:47.589Z",
+        "description": "Dispatched under tracking ID EB912448392IN."
+      },
+      {
+        "status": "In Transit",
+        "location": "Ahmedabad Sorting Hub",
+        "timestamp": "2026-09-16T11:56:47.589Z",
+        "description": "En route to southern transit hub."
+      }
+    ]
+  }
+]

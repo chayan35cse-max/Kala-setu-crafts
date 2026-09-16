@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllCrafts, getCraftById, createCraft, getCraftInsights } from '../data/store.js';
+import { getAllCrafts, getCraftById, createCraft, verifyCraft, getCraftInsights } from '../data/store.js';
 
 const router = express.Router();
 
@@ -136,6 +136,27 @@ router.post('/', async (req, res) => {
     });
   } catch (err) {
     console.error('Error creating craft:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// PUT /api/crafts/:id/verify - Update craft verification status (verified / pending_verification / rejected)
+router.put('/:id/verify', async (req, res) => {
+  try {
+    const { status } = req.body;
+    const verificationStatus = status || 'verified';
+    const updated = await verifyCraft(req.params.id, verificationStatus);
+    
+    if (!updated) {
+      return res.status(404).json({ success: false, error: 'Craft not found to verify.' });
+    }
+
+    res.json({
+      success: true,
+      message: `Craft verification status updated to "${verificationStatus}".`,
+      data: updated
+    });
+  } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });

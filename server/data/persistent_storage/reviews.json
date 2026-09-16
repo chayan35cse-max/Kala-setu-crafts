@@ -1,0 +1,236 @@
+[
+  {
+    "id": "r1",
+    "craftId": "jaipur-blue-pottery",
+    "buyerName": "Ananya Sharma",
+    "rating": 5,
+    "comment": "The cobalt glaze is mesmerizing in sunlight! Truly authentic handcrafted quality.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-10T00:00:00.000Z"
+  },
+  {
+    "id": "r2",
+    "craftId": "jaipur-blue-pottery",
+    "buyerName": "David Miller",
+    "rating": 5,
+    "comment": "Arrived safely in sturdy packaging via India Post Speed Post. Masterpiece!",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-14T00:00:00.000Z"
+  },
+  {
+    "id": "r3",
+    "craftId": "pashmina-kashmir",
+    "buyerName": "Kavita Singhania",
+    "rating": 5,
+    "comment": "Incredible softness and warmth. Passes the ring test with ease!",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-18T00:00:00.000Z"
+  },
+  {
+    "id": "r4",
+    "craftId": "madhubani-painting",
+    "buyerName": "Sunil Verma",
+    "rating": 5,
+    "comment": "The intricate Kohbar geometry is stunning. Authentic natural colors.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "r5",
+    "craftId": "channapatna-toys",
+    "buyerName": "Deepak Rao",
+    "rating": 5,
+    "comment": "Completely non-toxic and so smooth! My kids love these stacking rings.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-22T00:00:00.000Z"
+  },
+  {
+    "id": "r6",
+    "craftId": "bastar-dhokra-craft",
+    "buyerName": "Dr. Maya Swaminathan",
+    "rating": 5,
+    "comment": "The lost-wax brass texture is rustic and timeless. A true piece of history.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-25T00:00:00.000Z"
+  },
+  {
+    "id": "r7",
+    "craftId": "tanjore-painting",
+    "buyerName": "Venkatesh Iyer",
+    "rating": 5,
+    "comment": "Authentic 22K gold leaf certified by the artisan guild. The gesso relief is divine.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-26T00:00:00.000Z"
+  },
+  {
+    "id": "r-jam-1",
+    "craftId": "bengal-jamdani-weaving",
+    "buyerName": "Dr. Sharmistha Banerjee",
+    "rating": 5,
+    "comment": "The feather-light sheer drape and exquisite kandul-lifted motifs are breathtaking. True Bengal heritage!",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "r-jam-2",
+    "craftId": "bengal-jamdani-weaving",
+    "buyerName": "Kavita Krishnamurthy",
+    "rating": 5,
+    "comment": "Purchased a Dhaniakhali Jamdani. The craftsmanship and discontinuous weft detail is museum-grade.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-25T00:00:00.000Z"
+  },
+  {
+    "id": "r-ban-1",
+    "craftId": "bankura-terracotta-horse",
+    "buyerName": "Debabrata Roy",
+    "rating": 5,
+    "comment": "Authentic Panchmura terracotta horse with elegant proportion and vibrant burnt-clay patina.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-18T00:00:00.000Z"
+  },
+  {
+    "id": "r-bal-1",
+    "craftId": "baluchari-saree-bengal",
+    "buyerName": "Swati Sengupta",
+    "rating": 5,
+    "comment": "The intricate depiction of Arjuna's chariot on the pallu is breathtaking. Museum-level silk.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-22T00:00:00.000Z"
+  },
+  {
+    "id": "r-chh-1",
+    "craftId": "purulia-chhau-mask",
+    "buyerName": "Amitava Ghosh",
+    "rating": 5,
+    "comment": "The Goddess Durga mask is stunningly theatrical and vibrant. Perfect wall accent!",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-27T00:00:00.000Z"
+  },
+  {
+    "id": "r-sn-1",
+    "craftId": "shantiniketan-leather-craft",
+    "buyerName": "Priyanka Sen",
+    "rating": 5,
+    "comment": "Durable, soft, and the embossed alpona art is classic Shantiniketan elegance.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-26T00:00:00.000Z"
+  },
+  {
+    "id": "r-kal-1",
+    "craftId": "kalna-jamdani-bardhaman",
+    "buyerName": "Rupa Sen",
+    "rating": 5,
+    "comment": "Crisp cotton with exquisite floral Jamdani work. Perfect for festive celebrations.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "r-dha-1",
+    "craftId": "dhaniakhali-saree-hooghly",
+    "buyerName": "Moushumi Mukherjee",
+    "rating": 5,
+    "comment": "The authentic Dhaniakhali texture is unbeatable in Indian summers. Pristine craftsmanship.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": "r-mur-1",
+    "craftId": "murshidabad-silk-craft",
+    "buyerName": "Kasturi Datta",
+    "rating": 5,
+    "comment": "Effortlessly lightweight with regal sheen. Murshidabad silk is unmatched!",
+    "verifiedPurchase": true,
+    "createdAt": "2026-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "r-pat-1",
+    "craftId": "patachitra-pingla-medinipur",
+    "buyerName": "Somnath Roy",
+    "rating": 5,
+    "comment": "The scroll is a living masterpiece of organic colors. The ballad story card included made it unforgettable!",
+    "verifiedPurchase": true,
+    "createdAt": "2026-09-02T00:00:00.000Z"
+  },
+  {
+    "id": "r-kum-1",
+    "craftId": "kumartuli-clay-kalighat",
+    "buyerName": "Indrani Bose",
+    "rating": 5,
+    "comment": "The miniature terracotta clay sculpture from Kumartuli brought pure divine nostalgia.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-09-03T00:00:00.000Z"
+  },
+  {
+    "id": "r-dar-1",
+    "craftId": "darjeeling-craft-heritage",
+    "buyerName": "Tenzing Norbu",
+    "rating": 5,
+    "comment": "Exquisite carved Choktse table. Genuine Himalayan craftsmanship.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-09-04T00:00:00.000Z"
+  },
+  {
+    "id": "r-sun-1",
+    "craftId": "sundarbans-honey-cane",
+    "buyerName": "Anirban Bhattacharya",
+    "rating": 5,
+    "comment": "Pure, smoky, floral wild honey. You can taste the mangrove wilderness!",
+    "verifiedPurchase": true,
+    "createdAt": "2026-09-05T00:00:00.000Z"
+  },
+  {
+    "id": "r8",
+    "craftId": "rogan-art-gujarat",
+    "buyerName": "Rajesh Kothari",
+    "rating": 5,
+    "comment": "The Tree of Life detail is breathtaking. Knowing this is one of the last master families makes it priceless.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-28T00:00:00.000Z"
+  },
+  {
+    "id": "r9",
+    "craftId": "toda-embroidery-tn",
+    "buyerName": "Meenakshi Sundaram",
+    "rating": 5,
+    "comment": "Authentic reversible Toda shawl. The geometric precision is astonishing.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "r10",
+    "craftId": "sikki-grass-bihar",
+    "buyerName": "Pooja Mishra",
+    "rating": 5,
+    "comment": "Beautiful golden texture and completely natural. Smells like fresh autumn grass!",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": "r11",
+    "craftId": "aipan-art-uttarakhand",
+    "buyerName": "Aarav Joshi",
+    "rating": 5,
+    "comment": "Brought back fond memories of Kumaon festivals. Exquisite natural finish.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": "r12",
+    "craftId": "punja-durrie-haryana",
+    "buyerName": "Harpreet Singh",
+    "rating": 5,
+    "comment": "Super sturdy flatweave rug! Perfect for living room floors.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "r13",
+    "craftId": "assam-bamboo-craft",
+    "buyerName": "Pranab Barua",
+    "rating": 5,
+    "comment": "Authentic Bor Japi with rich red-and-black felt work. Proud symbol of Assam.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-09-02T00:00:00.000Z"
+  }
+]

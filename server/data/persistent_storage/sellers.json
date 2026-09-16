@@ -1,0 +1,722 @@
+[
+  {
+    "artisanName": "Biren Basak",
+    "businessName": "Basak Master Handloom Guild",
+    "craftId": "bengal-jamdani-weaving",
+    "craftName": "Bengal Jamdani Weaving",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-WB-889912",
+    "aadhaarMasked": "XXXX-XXXX-1234",
+    "phone": "+91 98301 23456",
+    "email": "biren@jamdaniweave.in",
+    "address": "Fulia, Nadia District, West Bengal",
+    "ngoEndorsement": "Nadia Handloom Weavers Cooperative",
+    "experienceYears": 35,
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Master Weaver",
+    "id": "s-1789574207597",
+    "onlineStoreUrl": "",
+    "rating": 5,
+    "reviewCount": 0,
+    "reviews": 0,
+    "verificationDocuments": [],
+    "createdAt": "2026-09-16T15:56:47.597Z",
+    "updatedAt": "2026-09-16T15:56:47.597Z"
+  },
+  {
+    "id": "s-1",
+    "artisanName": "Rameshwar Lal Prajapati",
+    "businessName": "Amer Heritage Blue Pottery Studio",
+    "craftId": "jaipur-blue-pottery",
+    "craftName": "Jaipur Blue Pottery",
+    "state": "Rajasthan",
+    "pehchanCardNo": "PEH-361769",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 98290 12345",
+    "email": "amer.pottery@gmail.com",
+    "address": "Plot 14, Potters Colony, Amer Road",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Master Artisan",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 42,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-2",
+    "artisanName": "Ghulam Hassan Mir",
+    "businessName": "Zaffer Pashmina Heritage Guild",
+    "craftId": "pashmina-kashmir",
+    "craftName": "Kashmiri Pashmina Shawls",
+    "state": "Jammu and Kashmir",
+    "pehchanCardNo": "PEH-754502",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94190 77123",
+    "email": "zaffer.pashmina@kashmir.in",
+    "address": "Zadibal Old City Craft Cluster",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Master Artisan",
+    "experienceYears": 15,
+    "rating": 5,
+    "reviewCount": 31,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-3",
+    "artisanName": "Smt. Shanti Devi (National Awardee)",
+    "businessName": "Mithilanchal Shilp Gram",
+    "craftId": "madhubani-painting",
+    "craftName": "Madhubani (Mithila) Painting",
+    "state": "Bihar",
+    "pehchanCardNo": "PEH-393142",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 99341 88234",
+    "email": "shanti.mithila@gmail.com",
+    "address": "Ranti Village, Madhubani",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Master Artisan",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 52,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-4",
+    "artisanName": "Syed Basha",
+    "businessName": "Gombegala Mane Toy Guild",
+    "craftId": "channapatna-toys",
+    "craftName": "Channapatna Wooden Toys",
+    "state": "Karnataka",
+    "pehchanCardNo": "PEH-681193",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 98450 67890",
+    "email": "channapatna.toys@karnataka.in",
+    "address": "Bangalore-Mysore Highway Toy Market",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Master Artisan",
+    "experienceYears": 15,
+    "rating": 4.8,
+    "reviewCount": 46,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-5",
+    "artisanName": "Rajendra Baghel",
+    "businessName": "Kondagaon Ghadwa Shilp Trust",
+    "craftId": "bastar-dhokra-craft",
+    "craftName": "Bastar Dhokra Bronze Figurine",
+    "state": "Chhattisgarh",
+    "pehchanCardNo": "PEH-751992",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 97550 44321",
+    "email": "dhokra.bastar@tribal.gov.in",
+    "address": "Bhelvapadar Tribal Craft Colony",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Master Artisan",
+    "experienceYears": 15,
+    "rating": 5,
+    "reviewCount": 39,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-6",
+    "artisanName": "S. Murugesan (State Master Craftsman)",
+    "businessName": "Raja Serfoji Memorial Guild",
+    "craftId": "tanjore-painting",
+    "craftName": "Thanjavur (Tanjore) 22K Gold Painting",
+    "state": "Tamil Nadu",
+    "pehchanCardNo": "PEH-184251",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94431 22987",
+    "email": "tanjore.murugesan@gmail.com",
+    "address": "South Main Street, Palace Complex",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Master Artisan",
+    "experienceYears": 15,
+    "rating": 5,
+    "reviewCount": 35,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-1",
+    "artisanName": "Master Weaver Biren Basak (Padma Shri Awardee)",
+    "businessName": "Phulia Tangail & Jamdani Weavers Cooperative Society",
+    "craftId": "bengal-jamdani-weaving",
+    "craftName": "Bengal Jamdani Weaving",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-895978",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94340 56789",
+    "email": "phulia.jamdani@bengalcrafts.org",
+    "address": "Weavers Colony, Phulia Gram Panchayat, Santipur Block",
+    "verificationStatus": "verified",
+    "trustBadge": "UNESCO & GI Certified Master Guild",
+    "experienceYears": 15,
+    "rating": 5,
+    "reviewCount": 48,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-2",
+    "artisanName": "Subhas Paul",
+    "businessName": "Kalna Hooghly Heritage Handloom Union",
+    "craftId": "bengal-jamdani-weaving",
+    "craftName": "Bengal Jamdani Weaving",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-439771",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 98321 44556",
+    "email": "kalna.jamdani@gmail.com",
+    "address": "Dhatrigram Weavers Market, Kalna",
+    "verificationStatus": "verified",
+    "trustBadge": "State Awarded Master Weaver",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 31,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-3",
+    "artisanName": "Rashbehari Kumbhakar",
+    "businessName": "Panchmura Terracotta Sculptors Cooperative",
+    "craftId": "bankura-terracotta-horse",
+    "craftName": "Bankura Panchmura Terracotta Horse",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-778367",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 97321 88990",
+    "email": "artisan@craftsguild.in",
+    "address": "Kumbhakar Para, Panchmura",
+    "verificationStatus": "verified",
+    "trustBadge": "National Awardee Kumbhakar Guild",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 39,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-4",
+    "artisanName": "Amal Das",
+    "businessName": "Bishnupur Heritage Silk Emporium",
+    "craftId": "baluchari-saree-bengal",
+    "craftName": "Baluchari Silk Saree",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-416393",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94341 22334",
+    "email": "artisan@craftsguild.in",
+    "address": "Shankari Bazar, Bishnupur",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Registered Silk Master",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 33,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-5",
+    "artisanName": "Gambhir Singh Mura Guild",
+    "businessName": "Charida Chhau Craft Studio",
+    "craftId": "purulia-chhau-mask",
+    "craftName": "Purulia Chhau Mask",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-434596",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 97322 11445",
+    "email": "artisan@craftsguild.in",
+    "address": "Mask Street, Charida Village, Baghmundi",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Folk Artist",
+    "experienceYears": 15,
+    "rating": 4.8,
+    "reviewCount": 27,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-6",
+    "artisanName": "Sushobhan Ghosh",
+    "businessName": "Amar Kutir Leather Guild",
+    "craftId": "shantiniketan-leather-craft",
+    "craftName": "Shantiniketan Embossed Leather Goods",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-700123",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94342 99887",
+    "email": "artisan@craftsguild.in",
+    "address": "Amar Kutir Complex, Ballavpur",
+    "verificationStatus": "verified",
+    "trustBadge": "Visva-Bharati Associated Artisan Guild",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 34,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-7",
+    "artisanName": "Prabir Mondal",
+    "businessName": "Dhaniakhali Tant Silpi Cooperative",
+    "craftId": "dhaniakhali-saree-hooghly",
+    "craftName": "Dhaniakhali Saree & Jamdani",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-269631",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94348 77654",
+    "email": "artisan@craftsguild.in",
+    "address": "Station Road, Dhaniakhali",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Tagged Certified Cooperative",
+    "experienceYears": 15,
+    "rating": 4.8,
+    "reviewCount": 40,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-8",
+    "artisanName": "Anupam Sarkar",
+    "businessName": "Jiaganj Silk Heritage Guild",
+    "craftId": "murshidabad-silk-craft",
+    "craftName": "Murshidabad Pure Silk Saree",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-837247",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94343 11223",
+    "email": "artisan@craftsguild.in",
+    "address": "Silk Market, Jiaganj",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Silk Master",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 45,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-9",
+    "artisanName": "Anwar Chitrakar (President Awardee)",
+    "businessName": "Naya Patachitra Artisan Hub",
+    "craftId": "patachitra-pingla-medinipur",
+    "craftName": "Bengal Patachitra & Patter Gaan",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-893784",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 97328 66554",
+    "email": "artisan@craftsguild.in",
+    "address": "Naya Village, Pingla",
+    "verificationStatus": "verified",
+    "trustBadge": "National Awardee Chitrakar Guild",
+    "experienceYears": 15,
+    "rating": 5,
+    "reviewCount": 42,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-10",
+    "artisanName": "Sanatan Paul (Master Sculptor)",
+    "businessName": "Kumartuli Heritage Clay Studio",
+    "craftId": "kumartuli-clay-kalighat",
+    "craftName": "Kumartuli Clay Idol Sculpture & Kalighat Art",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-925205",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 98300 45678",
+    "email": "artisan@craftsguild.in",
+    "address": "Banamali Sarkar Street, Kumartuli",
+    "verificationStatus": "verified",
+    "trustBadge": "Master Clay Sculptor Guild",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 50,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-11",
+    "artisanName": "Pemba Lepcha",
+    "businessName": "Darjeeling Himalayan Craft Centre",
+    "craftId": "darjeeling-craft-heritage",
+    "craftName": "Darjeeling Lepcha Woodcraft & Tea Culture",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-637851",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 98320 66778",
+    "email": "artisan@craftsguild.in",
+    "address": "The Mall Road",
+    "verificationStatus": "verified",
+    "trustBadge": "Himalayan Master Guild",
+    "experienceYears": 15,
+    "rating": 4.8,
+    "reviewCount": 24,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-wb-12",
+    "artisanName": "Subal Mondal (Mouley Leader)",
+    "businessName": "Sundarbans Tribal Forest Produce Union",
+    "craftId": "sundarbans-honey-cane",
+    "craftName": "Sundarbans Wild Honey & Mangrove Cane",
+    "state": "West Bengal",
+    "pehchanCardNo": "PEH-492781",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94740 88991",
+    "email": "artisan@craftsguild.in",
+    "address": "Canning Forest Gate",
+    "verificationStatus": "verified",
+    "trustBadge": "GI Certified Forest Collective",
+    "experienceYears": 15,
+    "rating": 5,
+    "reviewCount": 68,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-7",
+    "artisanName": "Padma Shri Abdul Gafur Khatri",
+    "businessName": "Rogan Art Heritage Studio",
+    "craftId": "rogan-art-gujarat",
+    "craftName": "Rogan Art of Nirona",
+    "state": "Gujarat",
+    "pehchanCardNo": "PEH-870076",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94265 67890",
+    "email": "roganartnirona@gmail.com",
+    "address": "Khatri Chowk, Nirona Village, Nakhatrana Taluka",
+    "verificationStatus": "verified",
+    "trustBadge": "Researched Master Artisan Guild",
+    "experienceYears": 15,
+    "rating": 5,
+    "reviewCount": 28,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-8",
+    "artisanName": "Dr. Vasamalli K. (Tribal Elder)",
+    "businessName": "Shalom Ooty Toda Women's Society",
+    "craftId": "toda-embroidery-tn",
+    "craftName": "Toda Tribal Pugur Embroidery",
+    "state": "Tamil Nadu",
+    "pehchanCardNo": "PEH-472723",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94860 11223",
+    "email": "toda.crafts@ooty.in",
+    "address": "Mund Colony, Nilgiris High Hills",
+    "verificationStatus": "verified",
+    "trustBadge": "Verified Tribal Heritage Guild",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 20,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-9",
+    "artisanName": "Kiran Devi",
+    "businessName": "Mithila Sikki Gram Udyog",
+    "craftId": "sikki-grass-bihar",
+    "craftName": "Sikki Golden Grass Weaving",
+    "state": "Bihar",
+    "pehchanCardNo": "PEH-911383",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 98350 44556",
+    "email": "sikki.mithila@bihar.org",
+    "address": "Rampur Village, Darbhanga",
+    "verificationStatus": "verified",
+    "trustBadge": "Verified NGO Craft Collective",
+    "experienceYears": 15,
+    "rating": 4.8,
+    "reviewCount": 18,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-10",
+    "artisanName": "Minakshi Khati",
+    "businessName": "Himalayan Aipan Heritage Centre",
+    "craftId": "aipan-art-uttarakhand",
+    "craftName": "Aipan Ritual Folk Art",
+    "state": "Uttarakhand",
+    "pehchanCardNo": "PEH-781055",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94120 88990",
+    "email": "aipan.kumaon@uttarakhand.org",
+    "address": "Mall Road Cultural Hub",
+    "verificationStatus": "verified",
+    "trustBadge": "Verified Folk Heritage Collective",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 24,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-11",
+    "artisanName": "Satish Kumar",
+    "businessName": "Panipat Handloom Guild",
+    "craftId": "punja-durrie-haryana",
+    "craftName": "Punja Durrie Weaving",
+    "state": "Haryana",
+    "pehchanCardNo": "PEH-594386",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 98120 33445",
+    "email": "panipat.durrie@haryana.in",
+    "address": "GT Road Handloom Complex",
+    "verificationStatus": "verified",
+    "trustBadge": "Verified Artisan Guild",
+    "experienceYears": 15,
+    "rating": 4.8,
+    "reviewCount": 22,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  },
+  {
+    "id": "s-12",
+    "artisanName": "Bhabesh Kalita",
+    "businessName": "Nalbari Cane & Bamboo Collective",
+    "craftId": "assam-bamboo-craft",
+    "craftName": "Assam Bamboo & Japi Craft",
+    "state": "Assam",
+    "pehchanCardNo": "PEH-511436",
+    "aadhaarMasked": "XXXX-XXXX-8921",
+    "phone": "+91 94350 12349",
+    "email": "nalbari.bamboo@assam.org",
+    "address": "Sarthebari Craft Route",
+    "verificationStatus": "verified",
+    "trustBadge": "Verified Bamboo Guild",
+    "experienceYears": 15,
+    "rating": 4.9,
+    "reviewCount": 31,
+    "verificationDocuments": [
+      {
+        "type": "Pehchan Artisan ID",
+        "fileName": "pehchan_card.pdf",
+        "fileUrl": "",
+        "verified": true,
+        "uploadedAt": "2026-09-16T15:56:47.593Z"
+      }
+    ],
+    "createdAt": "2026-09-16T15:56:47.593Z",
+    "updatedAt": "2026-09-16T15:56:47.593Z"
+  }
+]
