@@ -752,6 +752,21 @@
         "reviewCount": 0,
         "onlineStoreUrl": "",
         "workshopVisits": "Direct artisan studio tours welcome by appointment."
+      },
+      {
+        "id": "s-1789575341427",
+        "name": "Client Artisan Guild",
+        "artisanName": "Test Artisan From Client",
+        "phone": "+91 99999 88888",
+        "email": "test@artisan.in",
+        "address": "Test Workshop Address",
+        "location": "Test Workshop Address, West Bengal",
+        "verified": false,
+        "badge": "Pending Verification",
+        "rating": 5,
+        "reviewCount": 0,
+        "onlineStoreUrl": "",
+        "workshopVisits": "Direct artisan studio tours welcome by appointment."
       }
     ],
     "tags": [

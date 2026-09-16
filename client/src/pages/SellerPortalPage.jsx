@@ -80,11 +80,25 @@ export default function SellerPortalPage({ onNavigateToCraft, onBack, previousPa
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.artisanName.trim()) {
+      alert('Please enter the Master Artisan Name.');
+      return;
+    }
     setSubmitting(true);
 
     try {
+      const finalBusinessName = formData.businessName.trim() || `${formData.artisanName.trim()}'s Master Guild`;
+      const finalPhone = formData.phone.trim() || '+91 98765 43210';
+      const finalEmail = formData.email.trim() || `${formData.artisanName.trim().toLowerCase().replace(/[^a-z0-9]/g, '')}@craftsguild.in`;
+      const finalAddress = formData.address.trim() || `${formData.state || 'India'} Artisan Cluster`;
+
       const payload = {
         ...formData,
+        artisanName: formData.artisanName.trim(),
+        businessName: finalBusinessName,
+        phone: finalPhone,
+        email: finalEmail,
+        address: finalAddress,
         simulatedDocs: JSON.stringify(simulatedFiles.map(f => ({
           type: f.type,
           fileName: f.name,

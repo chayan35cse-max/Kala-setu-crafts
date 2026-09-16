@@ -50,7 +50,7 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/reviews', reviewRoutes);
 
-// Visual Admin / Registry Dashboard endpoint
+// Visual Real-time Admin / Registry Dashboard endpoint
 app.get(['/admin', '/dashboard', '/api/sellers/view'], async (req, res) => {
   try {
     const sellers = await getAllSellers();
@@ -63,30 +63,43 @@ app.get(['/admin', '/dashboard', '/api/sellers/view'], async (req, res) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KalaSetu - National Artisan & Crafts Registry</title>
+  <title>KalaSetu - National Artisan & Crafts Live Registry</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
     .cinzel { font-family: 'Cinzel', serif; }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.7; }
+      100% { transform: scale(0.95); opacity: 1; }
+    }
+    .pulse-dot { animation: pulse-ring 2s infinite ease-in-out; }
   </style>
 </head>
 <body class="bg-stone-950 text-stone-100 min-h-screen">
   <!-- Top Navigation -->
-  <header class="border-b border-amber-900/30 bg-stone-900/80 backdrop-blur sticky top-0 z-50">
+  <header class="border-b border-amber-900/40 bg-stone-900/90 backdrop-blur sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <span class="text-2xl">🏛️</span>
         <div>
-          <h1 class="cinzel text-lg sm:text-xl font-bold text-amber-400">KalaSetu Registry Portal</h1>
+          <div class="flex items-center space-x-2">
+            <h1 class="cinzel text-lg sm:text-xl font-bold text-amber-400">KalaSetu Registry Portal</h1>
+            <span class="inline-flex items-center space-x-1 bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold">
+              <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full pulse-dot"></span>
+              <span>LIVE AUTO-SYNC</span>
+            </span>
+          </div>
           <p class="text-[10px] text-amber-200/60 uppercase tracking-widest">National Master Artisan & Crafts Database</p>
         </div>
       </div>
       <div class="flex items-center space-x-3 text-xs">
-        <a href="http://localhost:5173" target="_blank" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-lg transition-all shadow-md">
-          Open Web App (5173) ↗
+        <a href="http://localhost:5173" target="_blank" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-xl transition-all shadow-md flex items-center space-x-1">
+          <span>🎨 Open Web App (5173)</span>
+          <span>↗</span>
         </a>
-        <a href="/api/sellers" target="_blank" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-amber-300 font-mono rounded-lg border border-amber-500/20">
+        <a href="/api/sellers" target="_blank" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-amber-300 font-mono rounded-xl border border-amber-500/20">
           Raw JSON ↗
         </a>
       </div>
@@ -96,22 +109,22 @@ app.get(['/admin', '/dashboard', '/api/sellers/view'], async (req, res) => {
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-stone-900/60 border border-amber-900/20 p-5 rounded-2xl">
+      <div class="bg-stone-900/70 border border-amber-900/30 p-5 rounded-2xl shadow-lg">
         <p class="text-xs text-amber-400 font-bold uppercase tracking-wider">Registered Artisans</p>
-        <p class="text-3xl font-black text-amber-200 mt-2">${sellers.length}</p>
+        <p class="text-3xl font-black text-amber-200 mt-2" id="statSellers">${sellers.length}</p>
         <p class="text-xs text-stone-400 mt-1">Verified & Active Guilds</p>
       </div>
-      <div class="bg-stone-900/60 border border-amber-900/20 p-5 rounded-2xl">
+      <div class="bg-stone-900/70 border border-amber-900/30 p-5 rounded-2xl shadow-lg">
         <p class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Archived Crafts</p>
-        <p class="text-3xl font-black text-emerald-200 mt-2">${crafts.length}</p>
+        <p class="text-3xl font-black text-emerald-200 mt-2" id="statCrafts">${crafts.length}</p>
         <p class="text-xs text-stone-400 mt-1">GI Tagged & Folk Heritage</p>
       </div>
-      <div class="bg-stone-900/60 border border-amber-900/20 p-5 rounded-2xl">
+      <div class="bg-stone-900/70 border border-amber-900/30 p-5 rounded-2xl shadow-lg">
         <p class="text-xs text-blue-400 font-bold uppercase tracking-wider">Active Orders</p>
-        <p class="text-3xl font-black text-blue-200 mt-2">${orders.length}</p>
+        <p class="text-3xl font-black text-blue-200 mt-2" id="statOrders">${orders.length}</p>
         <p class="text-xs text-stone-400 mt-1">India Post Speed Post</p>
       </div>
-      <div class="bg-stone-900/60 border border-amber-900/20 p-5 rounded-2xl">
+      <div class="bg-stone-900/70 border border-amber-900/30 p-5 rounded-2xl shadow-lg">
         <p class="text-xs text-amber-400 font-bold uppercase tracking-wider">Storage Mode</p>
         <p class="text-lg font-bold text-amber-300 mt-3">${mongoose.connection.readyState === 1 ? '🟢 MongoDB Live' : '📁 Persistent Disk File'}</p>
         <p class="text-xs text-stone-400 mt-1">Auto-synced on disk</p>
@@ -119,72 +132,42 @@ app.get(['/admin', '/dashboard', '/api/sellers/view'], async (req, res) => {
     </div>
 
     <!-- Search & Filters -->
-    <div class="flex flex-col sm:flex-row gap-4 items-center justify-between bg-stone-900/40 p-4 rounded-2xl border border-stone-800">
-      <div class="w-full sm:w-80">
+    <div class="flex flex-col sm:flex-row gap-4 items-center justify-between bg-stone-900/50 p-4 rounded-2xl border border-stone-800">
+      <div class="w-full sm:w-96 relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-stone-500 text-sm">🔍</span>
         <input 
           id="searchInput"
           type="text" 
-          placeholder="Search artisan, craft, or district..." 
+          placeholder="Search artisan name, studio, craft, or state..." 
           onkeyup="filterTable()"
-          class="w-full bg-stone-950 border border-stone-700 text-stone-200 px-4 py-2 rounded-xl text-sm focus:outline-none focus:border-amber-500"
+          class="w-full bg-stone-950 border border-stone-700 text-stone-100 pl-9 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
         />
       </div>
-      <div class="text-xs text-stone-400">
-        Showing <span id="visibleCount" class="font-bold text-amber-400">${sellers.length}</span> artisans
+      <div class="flex items-center space-x-3 text-xs">
+        <span class="text-stone-400">Showing <strong id="visibleCount" class="text-amber-400">${sellers.length}</strong> artisans</span>
+        <button onclick="fetchLatestData()" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-amber-300 rounded-lg border border-amber-500/20 cursor-pointer">
+          ↻ Refresh Now
+        </button>
       </div>
     </div>
 
     <!-- Table of Registered Artisans -->
-    <div class="bg-stone-900/50 border border-stone-800 rounded-2xl overflow-hidden shadow-2xl">
+    <div class="bg-stone-900/60 border border-stone-800 rounded-2xl overflow-hidden shadow-2xl">
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm" id="artisanTable">
-          <thead class="bg-stone-900/90 text-amber-400 text-xs uppercase tracking-wider border-b border-stone-800">
+          <thead class="bg-stone-900 text-amber-400 text-xs uppercase tracking-wider border-b border-stone-800">
             <tr>
               <th class="p-4">Artisan & Studio</th>
               <th class="p-4">Craft Tradition</th>
               <th class="p-4">Region / State</th>
               <th class="p-4">Pehchan / Aadhaar</th>
               <th class="p-4">Contact Info</th>
-              <th class="p-4">Verification</th>
+              <th class="p-4">Verification Status</th>
+              <th class="p-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-stone-800/60">
-            ${sellers.map(s => `
-              <tr class="hover:bg-stone-800/30 transition-colors">
-                <td class="p-4">
-                  <div class="font-bold text-stone-100">${s.artisanName || 'Master Craftsman'}</div>
-                  <div class="text-xs text-amber-300/80 font-medium">${s.businessName || 'Guild Studio'}</div>
-                  <div class="text-[11px] text-stone-400 mt-0.5">${s.experienceYears || 15}+ years exp.</div>
-                </td>
-                <td class="p-4">
-                  <span class="inline-block px-2.5 py-1 bg-amber-950/60 text-amber-300 border border-amber-800/40 rounded-lg text-xs font-semibold">
-                    ${s.craftName || s.craftId}
-                  </span>
-                </td>
-                <td class="p-4">
-                  <div class="text-stone-200">${s.state || 'India'}</div>
-                  <div class="text-[11px] text-stone-400 max-w-[180px] truncate" title="${s.address || ''}">${s.address || 'Workshop Cluster'}</div>
-                </td>
-                <td class="p-4 font-mono text-xs">
-                  <div class="text-amber-200">${s.pehchanCardNo || 'PEH-PENDING'}</div>
-                  <div class="text-stone-400 text-[11px]">${s.aadhaarMasked || 'XXXX-XXXX-8921'}</div>
-                </td>
-                <td class="p-4 text-xs">
-                  <div class="text-stone-300">📞 ${s.phone || 'N/A'}</div>
-                  <div class="text-stone-400 text-[11px]">✉️ ${s.email || 'N/A'}</div>
-                </td>
-                <td class="p-4">
-                  <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-bold ${
-                    s.verificationStatus === 'verified' 
-                      ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/50' 
-                      : 'bg-amber-950/80 text-amber-400 border border-amber-800/50'
-                  }">
-                    <span>${s.verificationStatus === 'verified' ? '✓ Verified' : '⏳ Pending'}</span>
-                  </span>
-                  <div class="text-[10px] text-stone-400 mt-1">${s.trustBadge || 'Guild Member'}</div>
-                </td>
-              </tr>
-            `).join('')}
+          <tbody class="divide-y divide-stone-800/60" id="tableBody">
+            ${renderRows(sellers)}
           </tbody>
         </table>
       </div>
@@ -192,9 +175,69 @@ app.get(['/admin', '/dashboard', '/api/sellers/view'], async (req, res) => {
   </main>
 
   <script>
+    function renderRows(sellers) {
+      return sellers.map(s => \`
+        <tr class="hover:bg-stone-800/40 transition-colors" data-id="\${s.id}">
+          <td class="p-4">
+            <div class="font-bold text-stone-100 text-sm flex items-center space-x-2">
+              <span>\${s.artisanName || 'Master Craftsman'}</span>
+              \${isRecent(s.createdAt) ? '<span class="bg-amber-500 text-stone-950 font-black text-[9px] px-1.5 py-0.5 rounded uppercase">NEW</span>' : ''}
+            </div>
+            <div class="text-xs text-amber-300 font-medium mt-0.5">\${s.businessName || 'Guild Studio'}</div>
+            <div class="text-[11px] text-stone-400 mt-0.5">\${s.experienceYears || 15}+ years exp.</div>
+          </td>
+          <td class="p-4">
+            <span class="inline-block px-2.5 py-1 bg-amber-950/80 text-amber-300 border border-amber-800/40 rounded-lg text-xs font-semibold">
+              \${s.craftName || s.craftId}
+            </span>
+          </td>
+          <td class="p-4">
+            <div class="text-stone-200 font-medium">\${s.state || 'India'}</div>
+            <div class="text-[11px] text-stone-400 max-w-[180px] truncate" title="\${s.address || ''}">\${s.address || 'Workshop Cluster'}</div>
+          </td>
+          <td class="p-4 font-mono text-xs">
+            <div class="text-amber-200 font-semibold">\${s.pehchanCardNo || 'PEH-PENDING'}</div>
+            <div class="text-stone-400 text-[11px]">\${s.aadhaarMasked || 'XXXX-XXXX-8921'}</div>
+          </td>
+          <td class="p-4 text-xs">
+            <div class="text-stone-300">📞 \${s.phone || 'N/A'}</div>
+            <div class="text-stone-400 text-[11px] truncate max-w-[180px]">✉️ \${s.email || 'N/A'}</div>
+          </td>
+          <td class="p-4">
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-bold \${
+              s.verificationStatus === 'verified' 
+                ? 'bg-emerald-950 text-emerald-400 border border-emerald-800/60' 
+                : 'bg-amber-950 text-amber-400 border border-amber-800/60'
+            }">
+              <span>\${s.verificationStatus === 'verified' ? '✓ Verified' : '⏳ Pending'}</span>
+            </span>
+            <div class="text-[10px] text-stone-400 mt-1">\${s.trustBadge || 'Guild Member'}</div>
+          </td>
+          <td class="p-4 text-right">
+            \${s.verificationStatus !== 'verified' ? \`
+              <button 
+                onclick="verifyArtisan('\${s.id}')"
+                class="px-3 py-1 bg-emerald-600/30 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg text-xs font-bold transition-all cursor-pointer shadow"
+              >
+                ✓ Verify
+              </button>
+            \` : \`
+              <span class="text-emerald-400 text-xs font-semibold">Approved</span>
+            \`}
+          </td>
+        </tr>
+      \`).join('');
+    }
+
+    function isRecent(dateStr) {
+      if (!dateStr) return false;
+      const diff = Date.now() - new Date(dateStr).getTime();
+      return diff < 1000 * 60 * 30; // within 30 mins
+    }
+
     function filterTable() {
       const input = document.getElementById('searchInput').value.toLowerCase();
-      const rows = document.querySelectorAll('#artisanTable tbody tr');
+      const rows = document.querySelectorAll('#tableBody tr');
       let count = 0;
       rows.forEach(row => {
         const text = row.innerText.toLowerCase();
@@ -207,10 +250,98 @@ app.get(['/admin', '/dashboard', '/api/sellers/view'], async (req, res) => {
       });
       document.getElementById('visibleCount').innerText = count;
     }
+
+    async function verifyArtisan(id) {
+      try {
+        const res = await fetch(\`/api/sellers/\${id}/verify\`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'verified', badge: 'GI Certified Master Artisan' })
+        });
+        const data = await res.json();
+        if (data.success) {
+          fetchLatestData();
+        }
+      } catch (e) {
+        console.error('Verify error:', e);
+      }
+    }
+
+    async function fetchLatestData() {
+      try {
+        const res = await fetch('/api/sellers');
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('statSellers').innerText = data.count;
+          document.getElementById('visibleCount').innerText = data.count;
+          document.getElementById('tableBody').innerHTML = renderRows(data.data);
+          filterTable();
+        }
+      } catch (err) {
+        console.error('Live sync error:', err);
+      }
+    }
+
+    // Auto-sync polling every 2.5 seconds
+    setInterval(fetchLatestData, 2500);
   </script>
 </body>
 </html>
     `;
+
+    function renderRows(sellersList) {
+      return sellersList.map(s => `
+        <tr class="hover:bg-stone-800/40 transition-colors" data-id="${s.id}">
+          <td class="p-4">
+            <div class="font-bold text-stone-100 text-sm flex items-center space-x-2">
+              <span>${s.artisanName || 'Master Craftsman'}</span>
+            </div>
+            <div class="text-xs text-amber-300 font-medium mt-0.5">${s.businessName || 'Guild Studio'}</div>
+            <div class="text-[11px] text-stone-400 mt-0.5">${s.experienceYears || 15}+ years exp.</div>
+          </td>
+          <td class="p-4">
+            <span class="inline-block px-2.5 py-1 bg-amber-950/80 text-amber-300 border border-amber-800/40 rounded-lg text-xs font-semibold">
+              ${s.craftName || s.craftId}
+            </span>
+          </td>
+          <td class="p-4">
+            <div class="text-stone-200 font-medium">${s.state || 'India'}</div>
+            <div class="text-[11px] text-stone-400 max-w-[180px] truncate" title="${s.address || ''}">${s.address || 'Workshop Cluster'}</div>
+          </td>
+          <td class="p-4 font-mono text-xs">
+            <div class="text-amber-200 font-semibold">${s.pehchanCardNo || 'PEH-PENDING'}</div>
+            <div class="text-stone-400 text-[11px]">${s.aadhaarMasked || 'XXXX-XXXX-8921'}</div>
+          </td>
+          <td class="p-4 text-xs">
+            <div class="text-stone-300">📞 ${s.phone || 'N/A'}</div>
+            <div class="text-stone-400 text-[11px] truncate max-w-[180px]">✉️ ${s.email || 'N/A'}</div>
+          </td>
+          <td class="p-4">
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-bold ${
+              s.verificationStatus === 'verified' 
+                ? 'bg-emerald-950 text-emerald-400 border border-emerald-800/60' 
+                : 'bg-amber-950 text-amber-400 border border-amber-800/60'
+            }">
+              <span>${s.verificationStatus === 'verified' ? '✓ Verified' : '⏳ Pending'}</span>
+            </span>
+            <div class="text-[10px] text-stone-400 mt-1">${s.trustBadge || 'Guild Member'}</div>
+          </td>
+          <td class="p-4 text-right">
+            ${s.verificationStatus !== 'verified' ? `
+              <button 
+                onclick="verifyArtisan('${s.id}')"
+                class="px-3 py-1 bg-emerald-600/30 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 rounded-lg text-xs font-bold transition-all cursor-pointer shadow"
+              >
+                ✓ Verify
+              </button>
+            ` : `
+              <span class="text-emerald-400 text-xs font-semibold">Approved</span>
+            `}
+          </td>
+        </tr>
+      `).join('');
+    }
+
     res.send(html);
   } catch (err) {
     res.status(500).send('Error loading dashboard: ' + err.message);
